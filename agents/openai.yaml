@@ -1,7 +1,7 @@
 interface:
-  display_name: "H3 尾帧续写提示词"
-  short_description: "生成含中英提示词、指定段数和时长的工作流 JSON"
-  default_prompt: "Use $h3-tailchain-continuity to create a workflow-ready sequence.json with prompt_en, prompt_cn, my segment count, and per-segment durations without inventing story or scene content."
+  display_name: "H3 连续分段 JSON"
+  short_description: "输入段数、时长和场景，生成兼容 LoRA 与原生模式的连续 JSON"
+  default_prompt: "Use $h3-tailchain-continuity with my segment count, per-segment duration or duration list, and scene description to write a workflow-neutral sequence.json without asking me to choose LoRA, native, or a launcher."
 
 policy:
   allow_implicit_invocation: true
