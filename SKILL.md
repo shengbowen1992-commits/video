@@ -1,11 +1,11 @@
 ---
 name: h3-tailchain-continuity
-description: Create workflow-neutral MiniMax H3 identity-tailchain sequence JSON from only a segment count, per-segment duration or duration list, and scene description. Default to permanent-reference identity plus previous-tail continuity, and include both Ref2VA and I2V prompt fields so LoRA or native workflows can consume the same JSON without binding the skill to a renderer.
+description: Create workflow-neutral MiniMax H3 identity-tailchain sequence JSON from a segment count, durations, and scene description. Defaults to permanent-reference identity, previous-tail continuity, clear well-exposed faces, and reproducible per-clip seeds when quality consistency is requested, while remaining compatible with Ref2VA and I2V renderers.
 ---
 
 # H3 Tailchain Continuity Prompt Writer
 
-Write technically executable prompts for H3 segment chains and package them as one workflow-neutral `sequence.json`. Do not require the user to choose LoRA, native sampling, a launcher, model settings, reference-image paths, seeds, or sampling parameters. Those are renderer concerns. This skill controls continuity language and JSON packaging only; the user controls the scene and any explicitly supplied people, plot, actions, styling, dialogue, or camera intent.
+Write technically executable prompts for H3 segment chains and package them as one workflow-neutral `sequence.json`. Do not require the user to choose LoRA, native sampling, a launcher, model settings, reference-image paths, seeds, or sampling parameters. This skill may record deterministic seeds when quality consistency is requested, but it does not bind them to a renderer. It controls continuity language and JSON packaging only; the user controls the scene and any explicitly supplied people, plot, actions, styling, dialogue, or camera intent.
 
 ## Scope Boundary
 
@@ -14,6 +14,7 @@ Write technically executable prompts for H3 segment chains and package them as o
 - Preserve the user's requested action. Change only its temporal phrasing, geometry, pacing, and handoff when needed to prevent replay.
 - Do not render, queue, upload, or alter a workflow unless the user separately asks.
 - Default to a permanent identity reference plus previous-tail continuity semantic contract without binding it to a specific workflow implementation.
+- Unless the user explicitly requests a silhouette, obscured face, or deliberately dim treatment, default identity-critical faces to clean, bright, even exposure and clearly resolved detail without changing the requested time of day or mood.
 - Default to writing a UTF-8 `sequence.json` file, not a prose-only answer. A prompt-only response is allowed only when the user explicitly asks for one.
 
 ## Minimal Input Contract
@@ -24,7 +25,9 @@ Require only:
 - either one shared duration or an ordered duration list with one value per segment;
 - one scene description, which may include people, actions, setting, wardrobe, mood, camera, audio, or dialogue at whatever detail the user chooses.
 
-Do not ask the user for a launcher, LoRA/native choice, reference-image path, model, sampler, steps, resolution, seed, or continuity mode. The consuming workflow supplies the permanent identity image and previous tail at runtime. If no identity details are included in the scene, define a neutral persistent `<Subject 1>` from `<Picture 1>` and do not invent facial landmarks, wardrobe, or biography. If the scene contains fewer action beats than segments, extend only with forward motion, reaction, settling, or holds already implied by the scene; do not invent new plot events.
+Do not ask the user for a launcher, LoRA/native choice, reference-image path, model, sampler, steps, resolution, seed, or continuity mode. When the user prioritizes quality consistency or reproducible rendering but supplies no seed, choose and record deterministic per-clip seeds under the seed policy below instead of asking. The consuming workflow supplies the permanent identity image and previous tail at runtime. If no identity details are included in the scene, define a neutral persistent `<Subject 1>` from `<Picture 1>` and do not invent facial landmarks, wardrobe, or biography. If the scene contains fewer action beats than segments, extend only with forward motion, reaction, settling, or holds already implied by the scene; do not invent new plot events.
+
+When the request prioritizes brightness, facial clarity, seed selection, rendering, rerendering, or rendered-output QC, also read [references/clarity-exposure-and-seeds.md](references/clarity-exposure-and-seeds.md) and apply its quality gates. Do not load it for an unrelated prompt-only request.
 
 When revising an already rendered chain and an actual tail image is available, inspect it and rewrite the affected next clip from that real state. For initial JSON authoring, use the planned tail state from the preceding clip and keep the runtime reference contract explicit.
 
@@ -62,11 +65,53 @@ The default `prompt_en` identity/tail semantics are:
 - `<Picture 1>` is the permanent highest-priority facial identity and appearance reference in every clip.
 - `<Picture 2>` is the exact ending frame of the previous final/processed clip and controls the next opening pose, contact geometry, composition, wardrobe, lighting, spatial layout, and camera direction.
 - When the references conflict, `<Picture 1>` controls facial identity and `<Picture 2>` controls opening geometry.
+- Treat `<Picture 1>` as identity-only unless the user explicitly asks to reproduce its portrait composition. It must not control or reproduce the reference pose, crop, framing, background, lighting, camera angle, or standalone-photo composition.
 - Define the persistent lead as `<Subject 1>` from `<Picture 1>`. Repeat only identity landmarks explicitly supplied by the user or visibly available from an attached reference; otherwise use neutral identity-preservation wording.
 - Keep the face unobstructed and large enough to resolve. Prefer front or three-quarter medium/medium-close views at identity-critical moments; avoid prolonged profile-only, back-of-head, extreme-angle, or tiny-face framing when likeness is the priority.
 - Keep identity, wardrobe, and scene retention separate from motion instructions. Do not ask the tail reference to redefine the face.
 
 The consuming workflow may inject or bind these pictures differently, but the generated prompt fields must preserve the semantics above and must not name a particular launcher.
+
+## Reference-Face Takeover Prevention
+
+Prevent the permanent identity image from suddenly replacing the active scene with a standalone reference-like face:
+
+- Repeat this identity boundary in every Ref2VA clip: `<Picture 1> is used only for facial identity. Never reproduce its pose, crop, framing, background, lighting, camera angle, or standalone portrait composition.`
+- For Clip 02 onward, make `<Picture 2>` authoritative for the current scene, action, spatial relationship, camera scale, lighting, and composition. Continue from its geometry before introducing any new framing.
+- When facial clarity is requested, prefer a contextual medium-close or close two-shot that preserves the current environment, action, and subject relationship. Do not translate “clear face” into a detached portrait.
+- Avoid `face-only close-up`, `isolate the face`, `the other subject is completely outside frame`, `portrait shot`, or equivalent wording unless the user explicitly requests a standalone face shot and accepts reference-composition takeover risk.
+- When a close view is necessary, state what current-scene geometry remains visible, for example the existing shoulder line, contact point, screen-side relationship, or recognizable background element. Keep the active action continuous through the closer framing.
+- Do not describe the permanent reference image as a literal first frame in continuation prompts. In `prompt_i2v_en`, `<Picture 1>` remains the actual previous tail; the permanent identity image must not be relabeled as the I2V opening frame.
+- A seed change may remove one occurrence but does not repair ambiguous reference authority. Fix picture roles and framing language first, then use a fixed alternate seed only if needed.
+
+If a rendered clip shows only a reference-like face, reject it as an identity-reference takeover unless the user explicitly requested that composition. Do not propagate its tail into later clips.
+
+## Default Face Clarity and Exposure Contract
+
+Apply this contract to every clip unless it conflicts with an explicit artistic request:
+
+- Keep each identity-critical face unobstructed, in focus, and large enough to resolve. Prefer front or three-quarter medium/medium-close framing when the face matters; do not leave the lead tiny for most of a clip.
+- Preserve the requested environment and time of day while giving the face a clean, bright, soft key light appropriate to that environment. A night scene may remain visibly night while the face stays readable and naturally colored.
+- Keep facial exposure, white balance, skin tone, contrast, and focus stable across the clip and across the seam. Retain detail in both facial shadows and highlights; do not achieve brightness by clipping the skin.
+- Prefer controlled subject motion and one simple camera move. At identity-critical moments, avoid combining rapid head rotation, fast body movement, and strong camera motion.
+- State the quality target positively in both Ref2VA and I2V execution prompts. A reusable sentence is: `The face remains cleanly and evenly exposed with a soft frontal key light, natural skin tone, clearly resolved eyes and facial features, stable exposure and white balance, sharp focus, crisp motion edges, and controlled movement throughout the shot.`
+- Short technical exclusions such as `no crushed facial shadows, no blown facial highlights, no haze, no bloom, no ghost trails` are allowed, but they supplement rather than replace the positive visible target.
+- Do not treat extra sampling steps, bitrate, sharpening, or super-resolution as a substitute for a well-exposed, sharp generated face. Missing or motion-smeared facial detail must be corrected at generation time.
+
+For a 10-second clip, use one dominant transition and reserve the final 0.75-1.0 seconds for a low-velocity continuation or stable hold with the face visible, exposure settled, and motion edges clean. This is the handoff-quality interval for the next clip, not dead time.
+
+## Seed Policy
+
+A seed makes a result reproducible; it does not carry identity and does not guarantee brightness or quality.
+
+- For quality-consistent multi-clip work, default to one recorded fixed seed per clip, with a different seed for each clip. Do not use one identical seed for the whole chain unless the user explicitly requests that experiment.
+- If the user supplies one seed for a multi-clip chain, treat it as a base seed and derive a stable unique seed for every clip unless the user explicitly says to reuse the identical value. Record the resolved seed on every clip.
+- If the user supplies a complete ordered seed list, preserve it exactly. Require one valid seed per clip and do not truncate, pad, or reorder it.
+- When no seed is supplied and reproducibility or quality consistency is requested, choose one base seed, derive a deterministic unique per-clip list, save it in the clip objects, and report the list. Use a stable derivation such as `seed[i] = (base_seed + i * 10007) mod 2^63`, with zero-based `i`, resolving any collision before delivery.
+- Keep a clip's seed fixed while comparing prompt, workflow, or parameter changes. If composition and continuity are acceptable but exposure or sharpness fails, test a small bounded set of alternate seeds for that clip, select the visually accepted result, and then lock that seed.
+- Never change seeds of already accepted clips merely for variety. If rerendering a clip changes its accepted tail, all later clips derived from the old tail must be treated as stale and rerendered from the new actual tail.
+
+For prompt-only packages without a quality-consistency or reproducibility request, seeds may remain omitted so the JSON stays renderer-neutral.
 
 ## Multi-Subject Instance Continuity
 
@@ -143,6 +188,7 @@ Within `integrated_multimodal_description`:
 - use strictly increasing timestamps inside the duration;
 - describe physically observable paths and contact changes;
 - keep identity, wardrobe, screen positions, axis, and environment stable;
+- keep the current scene and relationship visible during close framing; never replace the continuation with a standalone identity-reference portrait;
 - avoid ending with a new action that has not visibly begun.
 
 ## Workflow JSON Contract
@@ -184,7 +230,8 @@ Rules:
 - Clip 02 and later must also contain `prompt_i2v_en`. This is the primary prompt used by the exact-first-frame continuation controller and a compatibility field in LoRA identity-lock mode.
 - For Clip 02 and later, retain a complete, nonempty `prompt_en` as the Ref2VA compatibility/fallback prompt; do not use a placeholder.
 - Put line breaks inside JSON strings as escaped `\n`. Write valid JSON with no comments, trailing commas, Markdown fences, or unresolved placeholders.
-- Add `seed` only when the user supplies one or requests per-clip seeds. It must be an integer from 0 through `2^63-1` exclusive.
+- Add `seed` when the user supplies one, requests per-clip seeds, or activates the quality-consistency/reproducibility seed policy. It must be an integer from 0 through `2^63-1` exclusive.
+- When the deterministic seed policy is active, add a valid `seed` to every clip; never create a partially seeded sequence. Different per-clip seeds are the default, while identical seeds are allowed only when explicitly requested.
 
 `prompt_en` follows the Ref2VA section order when Ref2VA formatting is needed:
 
@@ -224,6 +271,8 @@ Before delivery, run:
 python scripts/validate_sequence.py --require-cn C:\path\to\sequence.json
 ```
 
+When the deterministic seed policy is active, also pass `--require-seeds`.
+
 Resolve a working Python runtime available in the environment. Rewrite the JSON until validation succeeds.
 
 If the consuming workflow exposes a separate `duration_mode`, varying JSON durations require its JSON-controlled/per-clip option; a uniform override may replace the JSON values. Report this as a compatibility note, not as a workflow binding.
@@ -246,13 +295,15 @@ For higher reliability, prefer 5–7 seconds per action. When 10 seconds is requ
 Treat a seam as a short interval, not a single matching frame:
 
 - End the previous clip with 0.5–1.0 seconds of low-velocity, unfinished motion whose direction is explicit.
+- Keep the final 0.75-1.0 seconds cleanly exposed and sharp enough to condition the next clip. Avoid ending during a blink, rapid head turn, occlusion, strong shadow crossing, focus pull, or high-motion smear.
 - Start the next clip with the same subject positions, contact points, face direction, camera axis, focal scale, lighting, and motion vector. Continue that vector for at least 0.5 seconds before changing action.
 - Do not change sitting/standing state, embrace/contact state, screen side, camera distance, or scene geometry at the seam. Move those changes into the body of the next clip.
 - Extract the next reference from the actual `final_clip`, including any anchored output, rather than from a planned tail or raw source clip.
+- Treat the literal final tail as a quality gate. When rendering or QC is authorized, stop the chain if that tail is visibly underexposed, clipped, defocused, motion-smeared, or identity-damaged; rerender the affected clip instead of silently substituting an earlier prettier frame or propagating the bad tail.
 - `anchor_first_frame=true` only forces the first encoded frame to equal the previous tail. It does not prevent frame 2 from jumping. Never accept a seam solely because the 0.00-second frame matches.
 - After rendering, compare each boundary at `T-0.05`, `T+0.05`, and preferably `T+0.25` seconds. If the pose or camera jumps immediately after the anchor, rewrite and regenerate the next clip; do not label the seam continuous.
 
-When the user separately requests rendering or QC, inspect every before/after seam pair and every segment midpoint. Compare the identity reference against close, unobstructed midpoint faces, and report recognizable identity separately from pixel-level likeness. A completed controller or queue is insufficient: require the workflow's terminal completion evidence, the final MP4, `ffprobe`, and visual seam/identity evidence before calling the chain successful.
+When the user separately requests rendering or QC, inspect every clip at its opening, midpoint, and final handoff interval, plus every before/after seam pair. Compare the identity reference against close, unobstructed midpoint faces; check face exposure, shadow/highlight detail, focus, motion smear, and exposure drift separately from identity. A completed controller or queue is insufficient: require the workflow's terminal completion evidence, the final MP4, `ffprobe`, and visual seam/identity/exposure evidence before calling the chain successful. Automated luminance or blur scores may flag candidates, but visual face-region review is the acceptance gate.
 
 ## Delivery
 
@@ -270,7 +321,13 @@ Before delivery, verify:
 - the saved document parses as JSON and passes `scripts/validate_sequence.py`.
 - every clip includes a faithful `prompt_cn` translation of the prompt actually executed for that clip.
 - both `prompt_en` and `prompt_i2v_en` preserve the same scene action and ending state without naming a launcher.
+- the permanent identity reference is explicitly identity-only and cannot take over pose, crop, background, lighting, or standalone framing.
+- no unrequested `face-only`, isolated portrait, or other-subject-fully-out-of-frame instruction can cause a reference-like face insert.
+- every identity-critical clip carries the clear-face exposure contract unless the user explicitly requested a conflicting visual treatment.
+- when deterministic seeds are active, every clip has one recorded valid seed and the resolved ordered seed list is reported.
 - Ref2VA prompts keep permanent face identity and previous-tail geometry on separate picture references.
 - every persistent subject already visible in the previous tail keeps the same stable ID, instance count, and screen-side assignment; no existing subject is reintroduced as a new arrival.
 - the permanent identity image contains only the intended locked subject, or every additional visible subject is intentionally mapped and reported as a risk.
 - seam validation checks beyond the anchored first frame and does not hide a frame-2 jump.
+- the final handoff interval is visually sharp, evenly exposed, identity-safe, and suitable as the literal next tail; otherwise the chain stops for regeneration.
+- rendered QC rejects any unrequested standalone reference-like face and prevents that tail from entering the next clip.

@@ -40,7 +40,9 @@ def ordered(text: str, labels: tuple[str, ...]) -> bool:
     return True
 
 
-def validate_data(data: dict, require_cn: bool = False) -> tuple[int, float]:
+def validate_data(
+    data: dict, require_cn: bool = False, require_seeds: bool = False
+) -> tuple[int, float, int]:
     if data.get("version") != 3:
         fail("version must be 3")
     sets = data.get("sets")
@@ -54,6 +56,7 @@ def validate_data(data: dict, require_cn: bool = False) -> tuple[int, float]:
         fail("sets[0].clips must contain 1 to 32 clips")
 
     total = 0.0
+    seeds: list[int] = []
     for index, clip in enumerate(clips, start=1):
         if not isinstance(clip, dict):
             fail(f"clip {index:02d} must be an object")
@@ -75,10 +78,13 @@ def validate_data(data: dict, require_cn: bool = False) -> tuple[int, float]:
             fail(f"clip {index:02d} duration_seconds must be between 5 and 15")
         total += duration
 
+        if require_seeds and ("seed" not in clip or clip["seed"] is None):
+            fail(f"clip {index:02d} is missing seed")
         if "seed" in clip and clip["seed"] is not None:
             seed = int(clip["seed"])
             if not 0 <= seed < 2**63:
                 fail(f"clip {index:02d} seed must be in [0, 2^63)")
+            seeds.append(seed)
 
         if index >= 2:
             i2v = str(clip.get("prompt_i2v_en", "")).strip()
@@ -89,33 +95,48 @@ def validate_data(data: dict, require_cn: bool = False) -> tuple[int, float]:
             if not ordered(i2v, I2V_FIELDS):
                 fail(f"clip {index:02d} is missing ordered I2VA fields")
 
-    return len(clips), total
+    return len(clips), total, len(set(seeds))
 
 
-def validate(path: Path, require_cn: bool = False) -> tuple[int, float]:
+def validate(
+    path: Path, require_cn: bool = False, require_seeds: bool = False
+) -> tuple[int, float, int]:
     with path.open("r", encoding="utf-8-sig") as handle:
         data = json.load(handle)
-    return validate_data(data, require_cn=require_cn)
+    return validate_data(
+        data, require_cn=require_cn, require_seeds=require_seeds
+    )
 
 
 def main() -> int:
     arguments = list(sys.argv[1:])
     require_cn = False
+    require_seeds = False
     if "--require-cn" in arguments:
         arguments.remove("--require-cn")
         require_cn = True
+    if "--require-seeds" in arguments:
+        arguments.remove("--require-seeds")
+        require_seeds = True
     if len(arguments) != 1:
-        print("usage: validate_sequence.py [--require-cn] PATH_TO_SEQUENCE_JSON", file=sys.stderr)
+        print(
+            "usage: validate_sequence.py [--require-cn] [--require-seeds] "
+            "PATH_TO_SEQUENCE_JSON",
+            file=sys.stderr,
+        )
         return 2
     path = Path(arguments[0]).resolve()
     try:
-        count, total = validate(path, require_cn=require_cn)
+        count, total, unique_seeds = validate(
+            path, require_cn=require_cn, require_seeds=require_seeds
+        )
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"INVALID: {exc}", file=sys.stderr)
         return 1
     print(
         f"VALID: clips={count}, total_seconds={total:g}, "
-        f"prompt_cn_required={require_cn}, path={path}"
+        f"prompt_cn_required={require_cn}, seeds_required={require_seeds}, "
+        f"unique_seeds={unique_seeds}, path={path}"
     )
     return 0
 
