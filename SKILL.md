@@ -1,6 +1,6 @@
 ---
 name: h3-tailchain-continuity
-description: Create workflow-neutral MiniMax H3 identity-tailchain sequence JSON from a segment count, durations, and scene description. Defaults to permanent-reference identity, previous-tail continuity, clear well-exposed faces, and reproducible per-clip seeds when quality consistency is requested, while remaining compatible with Ref2VA and I2V renderers.
+description: Create workflow-neutral MiniMax H3 identity-tailchain sequence JSON from a segment count, durations, and scene description. Defaults to permanent-reference identity, previous-tail continuity, bright windowless artificial-lit minimalist interiors, clear well-exposed faces, and reproducible per-clip seeds when quality consistency is requested, while remaining compatible with Ref2VA and I2V renderers.
 ---
 
 # H3 Tailchain Continuity Prompt Writer
@@ -15,6 +15,7 @@ Write technically executable prompts for H3 segment chains and package them as o
 - Do not render, queue, upload, or alter a workflow unless the user separately asks.
 - Default to a permanent identity reference plus previous-tail continuity semantic contract without binding it to a specific workflow implementation.
 - Unless the user explicitly requests a silhouette, obscured face, or deliberately dim treatment, default identity-critical faces to clean, bright, even exposure and clearly resolved detail without changing the requested time of day or mood.
+- Unless the user explicitly overrides this production style, place every generated scene in a bright enclosed interior with no visible windows and no natural light. Use only bright, soft, even artificial lighting, and keep doors, walls, trim, and furniture light-colored, plain, uncluttered, and minimalist.
 - Default to writing a UTF-8 `sequence.json` file, not a prose-only answer. A prompt-only response is allowed only when the user explicitly asks for one.
 
 ## Minimal Input Contract
@@ -99,6 +100,23 @@ Apply this contract to every clip unless it conflicts with an explicit artistic 
 - Do not treat extra sampling steps, bitrate, sharpening, or super-resolution as a substitute for a well-exposed, sharp generated face. Missing or motion-smeared facial detail must be corrected at generation time.
 
 For a 10-second clip, use one dominant transition and reserve the final 0.75-1.0 seconds for a low-velocity continuation or stable hold with the face visible, exposure settled, and motion edges clean. This is the handoff-quality interval for the next clip, not dead time.
+
+## Bright Windowless Minimal-Interior Contract
+
+Apply this scene contract to every clip unless the user explicitly overrides it:
+
+- Use an enclosed interior with no visible windows, glass curtain walls, skylights, exterior openings, or daylight views. Do not introduce a window as background decoration.
+- Do not use sunlight, daylight, moonlight, window light, or any other natural-light motivation. Illuminate the scene only with bright, soft, even artificial sources such as diffused ceiling fixtures plus a soft frontal key/fill on identity-critical faces.
+- Keep the overall exposure bright and clean without clipped skin or flat overexposure. Avoid dark corners, heavy backlight, strong chiaroscuro, muddy brown grading, and deep crushed shadows.
+- Make doors, walls, trim, cabinets, tables, seating, and other visible furniture light-colored and restrained: warm white, off-white, light beige, or light neutral gray. Prefer plain surfaces, simple lines, sparse decoration, and an uncluttered minimalist layout.
+- Exclude dark wood dominance, ornate carved doors, visually heavy furniture, saturated feature walls, luxurious decorative clutter, and busy patterns unless the user explicitly requests one of them.
+- Preserve the same artificial-light direction, color temperature, palette, wall/door treatment, and furniture style across clip boundaries. A tail with a window, daylight spill, or dark heavy decor fails the handoff gate and must not be propagated.
+
+Repeat this exact sentence in every English execution prompt so the package can be validated deterministically:
+
+`The setting is an enclosed windowless interior with no visible windows and no natural light. It is illuminated only by bright, soft, even artificial lighting. Doors, walls, and furniture are light-colored, plain, and minimalist.`
+
+Put the positive environment and lighting description in `retention_analysis` and the visible fixture/key-light behavior in `detailed_description` or `integrated_multimodal_description`. Short exclusions such as `no windows, no daylight, no sunlight, no dark heavy furniture` may supplement the positive contract. If an actual previous tail violates this contract, do not make the window or light source disappear at frame 1; stop and rerender the first violating clip or request an explicit style override.
 
 ## Seed Policy
 
@@ -199,6 +217,11 @@ Create this exact outer structure:
 {
   "version": 3,
   "title": "user-supplied or neutral descriptive title",
+  "scene_style": {
+    "environment": "windowless_bright_minimal_interior",
+    "lighting": "bright_even_artificial_only",
+    "palette": "light_neutral_plain_minimal"
+  },
   "sets": [
     {
       "set_id": "filesystem-safe-stable-id",
@@ -222,6 +245,7 @@ The first `set` must contain 1–32 clips. Preserve the user's requested segment
 Rules:
 
 - Number `clip_id` consecutively with two digits.
+- Unless explicitly overridden by the user, include the exact `scene_style` object shown above and repeat the canonical bright-windowless-minimal sentence in every `prompt_en` and `prompt_i2v_en` execution prompt.
 - Keep `duration_seconds` between 5 and 15 inclusive.
 - Use the normalized ordered duration list, so each clip may have a different `duration_seconds` value.
 - `prompt_en` is mandatory for every clip because the workflow validator requires it.
@@ -268,7 +292,7 @@ For dual-reference Ref2VA continuation, keep `<Picture 1>` associated with perma
 Before delivery, run:
 
 ```powershell
-python scripts/validate_sequence.py --require-cn C:\path\to\sequence.json
+python scripts/validate_sequence.py --require-cn --require-bright-minimal-interior C:\path\to\sequence.json
 ```
 
 When the deterministic seed policy is active, also pass `--require-seeds`.
@@ -324,6 +348,8 @@ Before delivery, verify:
 - the permanent identity reference is explicitly identity-only and cannot take over pose, crop, background, lighting, or standalone framing.
 - no unrequested `face-only`, isolated portrait, or other-subject-fully-out-of-frame instruction can cause a reference-like face insert.
 - every identity-critical clip carries the clear-face exposure contract unless the user explicitly requested a conflicting visual treatment.
+- every non-overridden clip carries the canonical windowless, artificial-light-only, light-colored minimalist-interior contract; `scene_style` records the same policy and the validation flag passes.
+- no actual or planned handoff tail contains a visible window, natural-light spill, dark wall/door treatment, or heavy ornate furniture that would be propagated into the next clip.
 - when deterministic seeds are active, every clip has one recorded valid seed and the resolved ordered seed list is reported.
 - Ref2VA prompts keep permanent face identity and previous-tail geometry on separate picture references.
 - every persistent subject already visible in the previous tail keeps the same stable ID, instance count, and screen-side assignment; no existing subject is reintroduced as a new arrival.

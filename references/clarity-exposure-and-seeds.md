@@ -61,7 +61,23 @@ Put the clarity and exposure target where H3 uses it:
 
 Repeat the essential clarity/exposure sentence in every clip. Do not assume the first clip's lighting instruction will survive a long chain.
 
-Use lighting that fits the requested scene. For night or dim interiors, retain the dark environment but add a motivated soft key or practical light on the face; do not silently turn the scene into daylight. Prefer `cleanly and evenly exposed face with retained highlight and shadow detail` over vague words such as `cinematic`, which can encourage crushed shadows.
+Within the default production style, preserve the requested mood through artificial-light color and fixture choice while keeping the room and face bright; never introduce daylight to imply time of day. When the user explicitly overrides the bright minimal-interior style for a night or dim interior, retain that environment but add a motivated soft key or practical light on the face rather than silently turning it into daylight. Prefer `cleanly and evenly exposed face with retained highlight and shadow detail` over vague words such as `cinematic`, which can encourage crushed shadows.
+
+## Bright Windowless Minimal-Interior Gate
+
+Unless the user explicitly overrides the production style, treat the following as a package-level invariant rather than an optional mood suggestion:
+
+- every scene is an enclosed interior with no visible windows, skylights, glass exterior walls, or daylight openings;
+- lighting comes only from bright, soft, even artificial fixtures and face-oriented key/fill sources, never sunlight, daylight, moonlight, or window light;
+- doors, walls, trim, cabinets, and furniture use warm white, off-white, light beige, or light neutral gray, with plain surfaces, simple lines, sparse decoration, and an uncluttered layout;
+- dark wood dominance, ornate doors, heavy furniture, saturated walls, deep shadowy corners, and busy decorative patterns are excluded unless explicitly requested;
+- the artificial-light direction, color temperature, exposure, light neutral palette, and minimalist furnishing style remain stable across every seam.
+
+Every English execution prompt must contain this exact canonical sentence:
+
+`The setting is an enclosed windowless interior with no visible windows and no natural light. It is illuminated only by bright, soft, even artificial lighting. Doors, walls, and furniture are light-colored, plain, and minimalist.`
+
+Record the policy in the root `scene_style` object and validate it with `--require-bright-minimal-interior`. During visual QC, reject a clip before continuation when a window, daylight spill, dark heavy decor, or ornate furniture appears. Do not hide a violating literal tail by describing a sudden replacement background in the next prompt; rerender the first bad clip or obtain an explicit user override.
 
 ## Motion and Framing
 
@@ -101,6 +117,7 @@ When rendering or QC is authorized, inspect each clip at minimum at the opening,
 - strong haze, bloom, ghost trails, double edges, or frame-to-frame exposure pumping;
 - a final tail that is worse than the clip midpoint and unsuitable to seed the next clip.
 - an unrequested standalone face or portrait that reproduces the permanent reference's crop, pose, background, or lighting instead of the active scene.
+- a visible window, daylight or sunlight contribution, dark/heavy wall or furniture treatment, or ornate/busy decor when the bright minimal-interior contract is active.
 
 Use face-region measurements when available. Compare luminance and sharpness against the identity reference and the first accepted clip rather than relying on one universal threshold. Automated scores are triage signals; accept only after visual inspection of the decoded face and the seam interval.
 

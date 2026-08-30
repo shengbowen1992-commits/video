@@ -25,6 +25,16 @@ REF_FIELDS = (
     "overall_soundscape:",
     "non_diegetic_music:",
 )
+BRIGHT_MINIMAL_SCENE_STYLE = {
+    "environment": "windowless_bright_minimal_interior",
+    "lighting": "bright_even_artificial_only",
+    "palette": "light_neutral_plain_minimal",
+}
+BRIGHT_MINIMAL_PROMPT_SENTENCE = (
+    "The setting is an enclosed windowless interior with no visible windows and "
+    "no natural light. It is illuminated only by bright, soft, even artificial "
+    "lighting. Doors, walls, and furniture are light-colored, plain, and minimalist."
+)
 
 
 def fail(message: str) -> None:
@@ -40,8 +50,20 @@ def ordered(text: str, labels: tuple[str, ...]) -> bool:
     return True
 
 
+def normalized_text(text: str) -> str:
+    return " ".join(text.split()).casefold()
+
+
+def require_bright_minimal_sentence(text: str, label: str) -> None:
+    if normalized_text(BRIGHT_MINIMAL_PROMPT_SENTENCE) not in normalized_text(text):
+        fail(f"{label} is missing the canonical bright minimal-interior sentence")
+
+
 def validate_data(
-    data: dict, require_cn: bool = False, require_seeds: bool = False
+    data: dict,
+    require_cn: bool = False,
+    require_seeds: bool = False,
+    require_bright_minimal_interior: bool = False,
 ) -> tuple[int, float, int]:
     if data.get("version") != 3:
         fail("version must be 3")
@@ -54,6 +76,13 @@ def validate_data(
     clips = first_set.get("clips")
     if not isinstance(clips, list) or not 1 <= len(clips) <= 32:
         fail("sets[0].clips must contain 1 to 32 clips")
+    if require_bright_minimal_interior:
+        scene_style = data.get("scene_style")
+        if scene_style != BRIGHT_MINIMAL_SCENE_STYLE:
+            fail(
+                "scene_style must declare the windowless bright artificial-lit "
+                "light-neutral minimalist contract"
+            )
 
     total = 0.0
     seeds: list[int] = []
@@ -68,6 +97,8 @@ def validate_data(
             fail(f"clip {index:02d} is missing prompt_en")
         if not ordered(prompt_en, REF_FIELDS):
             fail(f"clip {index:02d} is missing ordered Ref2VA fields in prompt_en")
+        if require_bright_minimal_interior:
+            require_bright_minimal_sentence(prompt_en, f"clip {index:02d} prompt_en")
         if require_cn and not str(clip.get("prompt_cn", "")).strip():
             fail(f"clip {index:02d} is missing prompt_cn")
         try:
@@ -94,17 +125,27 @@ def validate_data(
                 fail(f"clip {index:02d} has an invalid I2VA first line")
             if not ordered(i2v, I2V_FIELDS):
                 fail(f"clip {index:02d} is missing ordered I2VA fields")
+            if require_bright_minimal_interior:
+                require_bright_minimal_sentence(
+                    i2v, f"clip {index:02d} prompt_i2v_en"
+                )
 
     return len(clips), total, len(set(seeds))
 
 
 def validate(
-    path: Path, require_cn: bool = False, require_seeds: bool = False
+    path: Path,
+    require_cn: bool = False,
+    require_seeds: bool = False,
+    require_bright_minimal_interior: bool = False,
 ) -> tuple[int, float, int]:
     with path.open("r", encoding="utf-8-sig") as handle:
         data = json.load(handle)
     return validate_data(
-        data, require_cn=require_cn, require_seeds=require_seeds
+        data,
+        require_cn=require_cn,
+        require_seeds=require_seeds,
+        require_bright_minimal_interior=require_bright_minimal_interior,
     )
 
 
@@ -112,23 +153,30 @@ def main() -> int:
     arguments = list(sys.argv[1:])
     require_cn = False
     require_seeds = False
+    require_bright_minimal_interior = False
     if "--require-cn" in arguments:
         arguments.remove("--require-cn")
         require_cn = True
     if "--require-seeds" in arguments:
         arguments.remove("--require-seeds")
         require_seeds = True
+    if "--require-bright-minimal-interior" in arguments:
+        arguments.remove("--require-bright-minimal-interior")
+        require_bright_minimal_interior = True
     if len(arguments) != 1:
         print(
             "usage: validate_sequence.py [--require-cn] [--require-seeds] "
-            "PATH_TO_SEQUENCE_JSON",
+            "[--require-bright-minimal-interior] PATH_TO_SEQUENCE_JSON",
             file=sys.stderr,
         )
         return 2
     path = Path(arguments[0]).resolve()
     try:
         count, total, unique_seeds = validate(
-            path, require_cn=require_cn, require_seeds=require_seeds
+            path,
+            require_cn=require_cn,
+            require_seeds=require_seeds,
+            require_bright_minimal_interior=require_bright_minimal_interior,
         )
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"INVALID: {exc}", file=sys.stderr)
@@ -136,6 +184,7 @@ def main() -> int:
     print(
         f"VALID: clips={count}, total_seconds={total:g}, "
         f"prompt_cn_required={require_cn}, seeds_required={require_seeds}, "
+        f"bright_minimal_interior_required={require_bright_minimal_interior}, "
         f"unique_seeds={unique_seeds}, path={path}"
     )
     return 0
