@@ -68,6 +68,21 @@ The default `prompt_en` identity/tail semantics are:
 
 The consuming workflow may inject or bind these pictures differently, but the generated prompt fields must preserve the semantics above and must not name a particular launcher.
 
+## Multi-Subject Instance Continuity
+
+Prevent duplicate people or objects when the previous tail already contains more than the permanently locked lead:
+
+- Assign every persistent visible person or important object a stable `<Subject N>` ID. For Clip 02 onward, state that each such subject is the same existing instance already visible in `<Picture 2>`.
+- Never reintroduce an existing tail subject with indefinite wording such as `a person enters`, `another person approaches`, or `a new vehicle appears` unless the user explicitly requests an additional instance. Rewrite it as the same subject continuing from the current tail position.
+- When the requested count is unambiguous, state the permitted count positively and explicitly, for example: `Exactly one instance of <Subject 2> remains in the shot throughout this clip.` A short technical exclusion such as `no additional people` or `no duplicate subjects` is allowed because extra-subject suppression does not replay a completed story action.
+- Keep reference authority separate: `<Picture 1>` controls only the intended permanent identity; `<Picture 2>` carries the current positions, appearance, and contact geometry of secondary subjects unless the user supplies separate identity references for them.
+- A single-person identity reference should contain only the intended locked subject. If it also contains an unintended person, crop or replace it when asset editing is authorized; otherwise label every visible person and flag the duplication risk rather than silently treating the extra person as background.
+- Preserve the exact count and screen-side assignment across the seam. Do not move an existing subject to a distant new position by restaging the subject; describe one continuous path from the tail position or insert a bridge segment.
+- For an intentional entrance or exit, specify which stable subject moves, its visible path, and the exact before/after count. Do not combine an existing tail instance with a separately worded arrival of the same subject.
+- `anchor_first_frame=true` cannot solve duplicate-instance drift. It matches only the encoded first frame; the prompt and Ref2VA subject mapping must keep the same instance count after frame 1.
+
+Place these constraints where they affect model interpretation: map stable subjects in `subject_definitions`, preserve identity/count/position in `retention_analysis`, and describe only forward continuation from the tail in `detailed_description`. Apply the same instance mapping to `prompt_i2v_en` without inventing a second copy of any subject.
+
 ## Continuity Method
 
 Before drafting, form a compact state vector from the preceding planned tail, or from the actual tail when one exists:
@@ -256,4 +271,6 @@ Before delivery, verify:
 - every clip includes a faithful `prompt_cn` translation of the prompt actually executed for that clip.
 - both `prompt_en` and `prompt_i2v_en` preserve the same scene action and ending state without naming a launcher.
 - Ref2VA prompts keep permanent face identity and previous-tail geometry on separate picture references.
+- every persistent subject already visible in the previous tail keeps the same stable ID, instance count, and screen-side assignment; no existing subject is reintroduced as a new arrival.
+- the permanent identity image contains only the intended locked subject, or every additional visible subject is intentionally mapped and reported as a risk.
 - seam validation checks beyond the anchored first frame and does not hide a frame-2 jump.
