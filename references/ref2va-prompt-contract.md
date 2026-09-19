@@ -100,6 +100,31 @@ Summary establishes the overall task; it does not override other sections or enf
 
 Put 1–2 style-setting sentences before `[Shot 1]`, followed by concise global constraints as needed. Do not invent a seventh `global_rules` field. Repeat only the essential requirement at the moment it matters, rather than copying a long rule block into every section. Check conflicts between global rules and local action. These are conditioning instructions, not a parser priority system or a guarantee of generated behavior.
 
+## Global Invariants and Per-Shot State Handoffs
+
+Use three layers when the user wants the same characters and appearances while the story keeps moving:
+
+1. `subject_definitions` identifies each subject, its actual source, and the appearance features available from that source. Do not invent unseen footwear, hidden clothing, or body measurements.
+2. `retention_analysis` specifies which referenced identity and appearance features remain stable across the applicable shots. Define the role narrowly enough that its preservation marker is truthful.
+3. `detailed_description` starts with style, then a concise block of global invariants before `[Shot 1]`. Each later shot states the concrete preceding state it inherits before describing its new action. Give this section the main descriptive space; keep the other fields complete within their own responsibilities, not empty or artificially minimal.
+
+Separate stable attributes from changing story state. Facial identity, apparent age, build, height, body proportions, hair length/color/style, and garment identity can remain stable. Body pose, expression, hair movement, fabric folds, hand positions, contacts, object ownership, and clothing arrangement can evolve through the requested actions. A camera cut alone does not cause those changes. Do not interpret “same body shape/posture” as freezing all motion; distinguish habitual posture and proportions from the current acting pose.
+
+When the user explicitly requests a clothing or styling change, preserve the same relevant garment/person before and after the change and describe a continuous transition. Carry the resulting state forward; do not add a conflicting “all clothing stays unchanged” rule. If a reference definition includes an attribute that intentionally changes, use a scoped `partially_preserved` entry or explicitly limit the retained role to invariant features. Never label the entire defined appearance `fully_preserved` while changing part of it.
+
+Build a small working state ledger for each cut: subject locations in world space, body orientation, active motion, which hand holds what, contact points, garment state, and completed actions. For each new shot, inherit only the details that matter for its visible continuity, then describe the next change. Do not copy the full ledger or appearance description into every shot. Screen-left/right is preserved for an unchanged camera axis; if the user requests a different view, preserve world-space positions and describe their projection into that view instead of accidentally moving the subjects.
+
+Example of the placement, not a required scene or a complete prompt:
+
+```text
+detailed_description:
+Live-action with soft, even artificial lighting. The same two people retain their defined facial identities, builds, hairstyles, and garments throughout. Their poses evolve naturally through the requested actions. Each cut shows the same continuing scene state; completed actions remain completed.
+[Shot 1] <Subject 1> lifts the existing cup in her right hand to chest height while <Subject 2> stays seated opposite her. The shot ends with the cup still in her right hand.
+[Shot 2] At 00:04.000, the camera cuts to a closer view from the same side. <Subject 1> still holds the same cup in her right hand at chest height, and <Subject 2> remains seated opposite her. She then lowers the cup onto the table and releases it.
+```
+
+Here the opening states the global rule, while Shot 2 gives the actual hand/object/position handoff. Do not merely append “keep continuity” to every shot or repeatedly restage the characters. When shots are generated separately, retain identity references and use the preceding accepted result/tail as supported by the renderer; never claim that text alone proves visual continuity. Do not add a cut or new action solely to demonstrate this method.
+
 ## Shots, Timing, and Description Detail
 
 ```text
@@ -184,7 +209,7 @@ Perform this review in addition to the repository's JSON validator. Do not claim
 1. Six exact headings occur once and in order; no empty required section, accidental Markdown marker, escaped label, or unresolved placeholder remains. `N/A` is used only where appropriate.
 2. The summary is a brief task paragraph with accurate task types and no new labels. Global camera/performance rules appear in the detailed description, not only in the summary.
 3. All subjects and assets resolve; each separately defined reference has a valid retention marker and scope. Claims of preservation match the features actually defined. No speaker IDs appear in retention entries.
-4. The detailed description establishes style before the opening shot, grounded composition/action/camera/sound for every shot, and the actual effect of each reference. It does not add unrequested plot to meet a length target.
+4. The detailed description establishes style and global invariants before the opening shot, grounded composition/action/camera/sound for every shot, and the actual effect of each reference. Later shots inherit concrete prior states before new action; stable appearance does not freeze poses, undo completed actions, or contradict requested clothing changes. Avoid repeating the full global block in each shot. Do not add unrequested plot to meet a length target.
 5. The first shot has no heading time; later cuts use exact cut-in notation, consecutive numbering, and increasing in-range times. Action durations, dialogue, clip duration, and the final state agree; there is no cut at the endpoint.
 6. Speaker IDs, lip activity, original dialogue, language tags, and any cross-cut audio are consistent. Soundscape and score do not contradict the shot audio or duplicate dialogue.
 7. In a chain, stable identity labels, previous-tail geometry, subject count, and forward motion survive the seam. Separate identity inputs never silently become tail inputs. Runtime support is distinguished from prompt intent.
