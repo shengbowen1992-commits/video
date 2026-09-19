@@ -55,9 +55,11 @@ For continuation clips, the actual tail carries geometry and lighting. Preserve 
 
 Put the clarity and exposure target where H3 uses it:
 
-- `subject_definitions`: keep the face unobstructed and identity features resolvable.
-- `retention_analysis`: preserve face exposure, natural skin tone, focus, white balance, framing scale, and lighting direction.
-- `detailed_description` or `integrated_multimodal_description`: describe the visible key light, controlled movement, simple camera behavior, and stable final handoff interval.
+- `subject_definitions`: identify the referenced subject and the appearance features supplied by its actual source; do not invent source features to express a desired quality target.
+- `retention_analysis`: for each defined reference, identify which actual exposure, skin tone, focus, white balance, opening framing, or lighting features are retained, using the appropriate relationship marker. Newly requested lighting is not automatically a preserved reference attribute.
+- `detailed_description` or `integrated_multimodal_description`: put the global clarity/exposure target here, then describe the visible key light, controlled movement, simple camera behavior, and stable final handoff interval. Keep scene-wide constraints out of `summary` and out of unrelated retention entries.
+
+For the complete section-placement rules, read [ref2va-prompt-contract.md](ref2va-prompt-contract.md).
 
 Repeat the essential clarity/exposure sentence in every clip. Do not assume the first clip's lighting instruction will survive a long chain.
 

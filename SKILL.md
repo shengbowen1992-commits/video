@@ -1,6 +1,6 @@
 ---
 name: h3-tailchain-continuity
-description: Create workflow-neutral MiniMax H3 identity-tailchain sequence JSON from a segment count, durations, and scene description. Defaults to permanent-reference identity, previous-tail continuity, bright windowless artificial-lit minimalist interiors, clear well-exposed faces, and reproducible per-clip seeds when quality consistency is requested, while remaining compatible with Ref2VA and I2V renderers.
+description: Write and revise MiniMax H3 Ref2VA prompts and workflow-neutral identity-tailchain sequence JSON from durations, references, and a scene description. Use for six-section prompt formatting, reference retention, global constraints, audiovisual shot timing, and Ref2VA/I2V continuity. Defaults to permanent-reference identity, previous-tail continuity, bright windowless minimalist interiors, clear faces, and reproducible per-clip seeds when quality consistency is requested.
 ---
 
 # H3 Tailchain Continuity Prompt Writer
@@ -17,6 +17,15 @@ Write technically executable prompts for H3 segment chains and package them as o
 - Unless the user explicitly requests a silhouette, obscured face, or deliberately dim treatment, default identity-critical faces to clean, bright, even exposure and clearly resolved detail without changing the requested time of day or mood.
 - Unless the user explicitly overrides this production style, place every generated scene in a bright enclosed interior with no visible windows and no natural light. Use only bright, soft, even artificial lighting, and keep doors, walls, trim, and furniture light-colored, plain, uncluttered, and minimalist.
 - Default to writing a UTF-8 `sequence.json` file, not a prose-only answer. A prompt-only response is allowed only when the user explicitly asks for one.
+
+## Ref2VA Authoring Route
+
+Before writing or revising any Ref2VA execution prompt, read [references/ref2va-prompt-contract.md](references/ref2va-prompt-contract.md). It defines section responsibilities, global-constraint placement, reference and speaker labels, retention markers, cut-time syntax, sound layers, an original complete example, and the pre-delivery review.
+
+- For an explicit single-prompt request, output the six-section prompt without requiring a segment chain or JSON wrapper. For a chain, apply the same contract independently to every `prompt_en` and retain this skill's JSON/I2VA packaging rules.
+- For a format-only edit, preserve the user's text, language, meaning, reference mapping, and timing. Normalize only authorized syntax; report missing semantic material instead of inventing it. Follow the reference's format-only procedure, including restricted-content inspection when requested.
+- Official format requirements, upstream writing recommendations, and this repository's production defaults are different. The 5–15-second sequence limit, windowless-interior policy, and identity/tail layout are repository contracts, not universal H3 syntax. Explicit user scene/style choices override the corresponding defaults.
+- The default picture layout below assumes one permanent identity image and one tail image. When the user supplies multiple independent identities, reserve a distinct label for each image and a separate label for the tail; apply the reference's multi-identity mapping instead of assigning two incompatible roles to `<Picture 2>`.
 
 ## Minimal Input Contract
 
@@ -116,7 +125,7 @@ Repeat this exact sentence in every English execution prompt so the package can 
 
 `The setting is an enclosed windowless interior with no visible windows and no natural light. It is illuminated only by bright, soft, even artificial lighting. Doors, walls, and furniture are light-colored, plain, and minimalist.`
 
-Put the positive environment and lighting description in `retention_analysis` and the visible fixture/key-light behavior in `detailed_description` or `integrated_multimodal_description`. Short exclusions such as `no windows, no daylight, no sunlight, no dark heavy furniture` may supplement the positive contract. If an actual previous tail violates this contract, do not make the window or light source disappear at frame 1; stop and rerender the first violating clip or request an explicit style override.
+Put the global environment and lighting description, including the canonical sentence, at the opening of `detailed_description` or inside `integrated_multimodal_description`, then show the visible fixture/key-light behavior in the shot. Use `retention_analysis` only for the actual environment or lighting preserved from a defined reference/tail, with its reference label and relationship marker; do not use it as a bucket for newly requested scene rules. Short exclusions such as `no windows, no daylight, no sunlight, no dark heavy furniture` may supplement the positive contract. If an actual previous tail violates this contract, do not make the window or light source disappear at frame 1; stop and rerender the first violating clip or request an explicit style override.
 
 ## Seed Policy
 
@@ -144,7 +153,7 @@ Prevent duplicate people or objects when the previous tail already contains more
 - For an intentional entrance or exit, specify which stable subject moves, its visible path, and the exact before/after count. Do not combine an existing tail instance with a separately worded arrival of the same subject.
 - `anchor_first_frame=true` cannot solve duplicate-instance drift. It matches only the encoded first frame; the prompt and Ref2VA subject mapping must keep the same instance count after frame 1.
 
-Place these constraints where they affect model interpretation: map stable subjects in `subject_definitions`, preserve identity/count/position in `retention_analysis`, and describe only forward continuation from the tail in `detailed_description`. Apply the same instance mapping to `prompt_i2v_en` without inventing a second copy of any subject.
+Place these constraints where they affect model interpretation: map stable subjects in `subject_definitions`, preserve referenced identity/count/opening position in `retention_analysis`, and put the requested global instance count plus forward continuation from the tail in `detailed_description`. Do not mark a planned entrance or movement as a loss of identity retention. Apply the same instance mapping to `prompt_i2v_en` without inventing a second copy of any subject.
 
 ## Continuity Method
 
@@ -257,7 +266,7 @@ Rules:
 - Add `seed` when the user supplies one, requests per-clip seeds, or activates the quality-consistency/reproducibility seed policy. It must be an integer from 0 through `2^63-1` exclusive.
 - When the deterministic seed policy is active, add a valid `seed` to every clip; never create a partially seeded sequence. Different per-clip seeds are the default, while identical seeds are allowed only when explicitly requested.
 
-`prompt_en` follows the Ref2VA section order when Ref2VA formatting is needed:
+Every `prompt_en` uses these six plain field headings, with ASCII colons and no Markdown heading prefixes:
 
 ```text
 subject_definitions:
@@ -268,15 +277,7 @@ overall_soundscape:
 non_diegetic_music:
 ```
 
-Every `prompt_en` must follow the official H3 Ref2VA contract rather than merely describing the plot:
-
-- keep the six sections above in exactly that order;
-- write the six section bodies in English except exact dialogue, lyrics, and visible scene text;
-- use stable `<Subject N>`, `<Picture N>`, `<Video N>`, and `<Audio N>` labels;
-- use stable `(S1)`, `(S2)`, and later speaker IDs and preserve exact dialogue inside `<d>[Language] ...</d>`;
-- put `[Shot 1]` at the opening without a timestamp and give later cuts strictly increasing timestamps inside the clip duration;
-- describe camera motion naturally with motion type and meaningful speed or amplitude;
-- keep ambience and physical sounds in `overall_soundscape`, and audience-only score in `non_diegetic_music`.
+Apply the full [Ref2VA prompt contract](references/ref2va-prompt-contract.md), not just the headings. In particular, keep `summary` to one short task paragraph; give each separately tracked reference its retention marker; place global filming/performance rules before `[Shot 1]` in `detailed_description`; use `[Shot N] At MM:SS.mmm, ...` for later cuts; and keep dialogue, ambience, and score in their proper fields. No field provides an absolute obedience guarantee.
 
 For dual-reference Ref2VA continuation, keep `<Picture 1>` associated with permanent identity and `<Picture 2>` associated with the previous tail. Describe the next clip's first 0.5–1.0 seconds from the exact tail geometry before introducing a new transition.
 
@@ -296,6 +297,8 @@ python scripts/validate_sequence.py --require-cn --require-bright-minimal-interi
 ```
 
 When the deterministic seed policy is active, also pass `--require-seeds`.
+
+Use `--require-bright-minimal-interior` only while that default production style is active; omit it when the user explicitly overrides the style. This validator checks the JSON package and selected textual contracts, not full Ref2VA semantics, retention completeness, language, dialogue attribution, or shot timing. Also complete the manual pre-delivery review in the Ref2VA reference; a `VALID` result alone does not establish prompt quality or rendered compliance.
 
 Resolve a working Python runtime available in the environment. Rewrite the JSON until validation succeeds.
 
