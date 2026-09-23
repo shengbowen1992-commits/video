@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "H3 dynamic-series story_segments.json envelope",
+  "description": "Envelope only. Prompt authoring follows ref2va-prompt-contract.md; consecutive ids require validate_story_segments.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["global_prompt", "segments"],
+  "properties": {
+    "global_prompt": {"type": "string", "const": ""},
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/segment"}
+    }
+  },
+  "$defs": {
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "raw_prompt", "prompt"],
+      "properties": {
+        "id": {"type": "integer", "minimum": 1},
+        "title": {"type": "string", "pattern": "\\S"},
+        "raw_prompt": {"type": "boolean", "const": true},
+        "prompt": {"type": "string", "pattern": "\\S"},
+        "seed": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807}
+      }
+    }
+  }
+}

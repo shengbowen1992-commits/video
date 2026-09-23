@@ -1,11 +1,11 @@
 ---
 name: h3-tailchain-continuity
-description: Write and revise MiniMax H3 Ref2VA prompts and workflow-neutral identity-tailchain sequence JSON from durations, references, and a scene description. Use for six-section prompt formatting, reference retention, global constraints, audiovisual shot timing, and Ref2VA/I2V continuity. Defaults to permanent-reference identity, previous-tail continuity, bright windowless minimalist interiors, clear faces, and reproducible per-clip seeds when quality consistency is requested.
+description: Write and revise MiniMax H3 Ref2VA prompts and dynamic multi-segment story_segments.json files from durations, references, and a scene description, with legacy sequence.json compatibility. Use for six-section prompt formatting, reference retention, global constraints, audiovisual shot timing, and Ref2VA/I2V continuity. Defaults to permanent-reference identity, previous-tail continuity, bright windowless minimalist interiors, clear faces, and reproducible per-clip seeds when quality consistency is requested.
 ---
 
 # H3 Tailchain Continuity Prompt Writer
 
-Write technically executable prompts for H3 segment chains and package them as one workflow-neutral `sequence.json`. Do not require the user to choose LoRA, native sampling, a launcher, model settings, reference-image paths, seeds, or sampling parameters. This skill may record deterministic seeds when quality consistency is requested, but it does not bind them to a renderer. It controls continuity language and JSON packaging only; the user controls the scene and any explicitly supplied people, plot, actions, styling, dialogue, or camera intent.
+Write technically executable prompts for H3 segment chains and package them as `story_segments.json` by default. Retain `sequence.json` for an explicitly requested legacy controller or Ref2VA/I2VA dual-prompt package. Do not require the user to choose LoRA, native sampling, a launcher, model settings, reference-image paths, seeds, or sampling parameters. This skill may record deterministic seeds when quality consistency is requested, but it does not bind them to a renderer. It controls continuity language and JSON packaging only; the user controls the scene and any explicitly supplied people, plot, actions, styling, dialogue, or camera intent.
 
 ## Scope Boundary
 
@@ -16,23 +16,35 @@ Write technically executable prompts for H3 segment chains and package them as o
 - Default to a permanent identity reference plus previous-tail continuity semantic contract without binding it to a specific workflow implementation.
 - Unless the user explicitly requests a silhouette, obscured face, or deliberately dim treatment, default identity-critical faces to clean, bright, even exposure and clearly resolved detail without changing the requested time of day or mood.
 - Unless the user explicitly overrides this production style, place every generated scene in a bright enclosed interior with no visible windows and no natural light. Use only bright, soft, even artificial lighting, and keep doors, walls, trim, and furniture light-colored, plain, uncluttered, and minimalist.
-- Default to writing a UTF-8 `sequence.json` file, not a prose-only answer. A prompt-only response is allowed only when the user explicitly asks for one.
+- Default to writing a UTF-8 `story_segments.json` file, not a prose-only answer. A prompt-only response is allowed only when the user explicitly asks for one.
+
+## Output File Format: Select Before Authoring
+
+For a new multi-segment chain, read [references/story-segments-json.md](references/story-segments-json.md) and use the dynamic-series envelope: `global_prompt` plus `segments`, with consecutive integer `id`, `title`, `raw_prompt: true`, and one complete `prompt` string per segment. Support the requested positive segment count, including 4, 6, and more; this envelope has no fixed segment-count maximum.
+
+This changes the delivered file format, not the prompt-writing standard. Apply the existing six-section Ref2VA contract, style, speech, shot timing, retention, and continuity requirements to every `prompt`. Do not flatten the six sections into separate JSON properties, substitute a plot summary, or introduce new scene requirements for packaging. A format-only repackaging preserves the supplied prompt strings exactly.
+
+For the current dynamic-series input binding, `<Picture 1>` and `<Picture 2>` remain their assigned identity references. From segment 2 onward, `<Video 1>` is the immediately preceding segment's tail video; its number does not increase with segment `id`. Do not invent character identities, genders, or a cast count from these input slots. In the shared continuity guidance below, use this resolved previous-tail reference wherever a legacy example calls the tail `<Picture 2>`; do not relabel an identity image as a tail or mechanically replace tags in existing user text. Video reference conditioning does not guarantee literal first-frame equality.
+
+Only use the sections marked **Legacy** below when the user requests `sequence.json`, the existing `version: 3` controller, or a Ref2VA/I2VA dual-prompt package. That profile retains its `sets/clips`, translations, duration fields, 1–32-clip limit, and image-tail mapping. Its packaging-only requirements do not add `prompt_en`, `prompt_cn`, `prompt_i2v_en`, `scene_style`, or duration fields to `story_segments.json`. Preserve the existing prompt-level style policy within the actual execution text.
+
+For a format-only request, do not silently convert reference roles, language, or timing to make a different renderer compatible. Report a binding or duration mismatch separately. Do not render or modify runtime configuration merely to produce either file.
 
 ## Ref2VA Authoring Route
 
 Before writing or revising any Ref2VA execution prompt, read [references/ref2va-prompt-contract.md](references/ref2va-prompt-contract.md). It defines section responsibilities, global-constraint placement, reference and speaker labels, retention markers, cut-time syntax, sound layers, an original complete example, and the pre-delivery review.
 
-- For an explicit single-prompt request, output the six-section prompt without requiring a segment chain or JSON wrapper. For a chain, apply the same contract independently to every `prompt_en` and retain this skill's JSON/I2VA packaging rules.
+- For an explicit single-prompt request, output the six-section prompt without requiring a segment chain or JSON wrapper. For a chain, apply the same contract independently to every `prompt` (dynamic series) or `prompt_en` (legacy sequence), using only the selected profile's outer fields.
 - For shot-to-shot character continuity, use the reference's three-layer method: define identities, retain referenced appearance, then put global invariants before `[Shot 1]` and concrete state handoffs inside subsequent shots. Stable build/hair/wardrobe identity does not freeze acting poses or reverse clothing changes explicitly required by the story.
 - For a format-only edit, preserve the user's text, language, meaning, reference mapping, and timing. Normalize only authorized syntax; report missing semantic material instead of inventing it. Follow the reference's format-only procedure, including restricted-content inspection when requested.
 - Official format requirements, upstream writing recommendations, and this repository's production defaults are different. The 5–15-second sequence limit, windowless-interior policy, and identity/tail layout are repository contracts, not universal H3 syntax. Explicit user scene/style choices override the corresponding defaults.
-- The default picture layout below assumes one permanent identity image and one tail image. When the user supplies multiple independent identities, reserve a distinct label for each image and a separate label for the tail; apply the reference's multi-identity mapping instead of assigning two incompatible roles to `<Picture 2>`.
+- The legacy picture layout below assumes one permanent identity image and one tail image. The dynamic-series mapping is defined above. When the user supplies multiple independent identities, reserve a distinct label for each image and a separate label for the tail; apply the reference's multi-identity mapping instead of assigning two incompatible roles to `<Picture 2>`.
 
 ## Minimal Input Contract
 
 Require only:
 
-- requested segment count from 1 through 32;
+- requested positive segment count (the legacy `sequence.json` profile supports 1 through 32);
 - either one shared duration or an ordered duration list with one value per segment;
 - one scene description, which may include people, actions, setting, wardrobe, mood, camera, audio, or dialogue at whatever detail the user chooses.
 
@@ -62,9 +74,11 @@ Normalize timing as follows:
 - If neither count nor durations are supplied, infer the count from the user's explicit segment plan and default each segment to 10 seconds. State that default in the handoff.
 - Derive total duration as the sum of normalized clip durations; do not force the result to a round minute.
 
-## Default Workflow-Neutral Contract
+For dynamic-series delivery, durations remain a planning/runtime requirement, not extra story JSON fields. The current Runner uses one shared `segment_duration_seconds` in its separate project configuration; a varying duration list needs explicit consumer support and must not be silently flattened or added as ignored fields. Refer to the selected output contract before promising runtime support.
 
-Always produce both contracts in the same JSON:
+## Legacy Workflow-Neutral Contract
+
+For the legacy `sequence.json` profile only, produce both contracts in the same JSON:
 
 - `prompt_en` is a complete Ref2VA prompt. Clip 01 establishes the permanent identity from `<Picture 1>`. Clip 02 onward describe `<Picture 1>` as permanent identity and `<Picture 2>` as the previous actual tail.
 - `prompt_i2v_en` is included for Clip 02 onward and treats `<Picture 1>` as the previous tail used as the literal 0.00-second frame.
@@ -88,7 +102,7 @@ The consuming workflow may inject or bind these pictures differently, but the ge
 Prevent the permanent identity image from suddenly replacing the active scene with a standalone reference-like face:
 
 - Repeat this identity boundary in every Ref2VA clip: `<Picture 1> is used only for facial identity. Never reproduce its pose, crop, framing, background, lighting, camera angle, or standalone portrait composition.`
-- For Clip 02 onward, make `<Picture 2>` authoritative for the current scene, action, spatial relationship, camera scale, lighting, and composition. Continue from its geometry before introducing any new framing.
+- For Clip 02 onward, make the resolved previous-tail reference authoritative for the current scene, action, spatial relationship, camera scale, lighting, and composition. Continue from its geometry before introducing any new framing.
 - When facial clarity is requested, prefer a contextual medium-close or close two-shot that preserves the current environment, action, and subject relationship. Do not translate “clear face” into a detached portrait.
 - Avoid `face-only close-up`, `isolate the face`, `the other subject is completely outside frame`, `portrait shot`, or equivalent wording unless the user explicitly requests a standalone face shot and accepts reference-composition takeover risk.
 - When a close view is necessary, state what current-scene geometry remains visible, for example the existing shoulder line, contact point, screen-side relationship, or recognizable background element. Keep the active action continuous through the closer framing.
@@ -105,7 +119,7 @@ Apply this contract to every clip unless it conflicts with an explicit artistic 
 - Preserve the requested environment and time of day while giving the face a clean, bright, soft key light appropriate to that environment. A night scene may remain visibly night while the face stays readable and naturally colored.
 - Keep facial exposure, white balance, skin tone, contrast, and focus stable across the clip and across the seam. Retain detail in both facial shadows and highlights; do not achieve brightness by clipping the skin.
 - Prefer controlled subject motion and one simple camera move. At identity-critical moments, avoid combining rapid head rotation, fast body movement, and strong camera motion.
-- State the quality target positively in both Ref2VA and I2V execution prompts. A reusable sentence is: `The face remains cleanly and evenly exposed with a soft frontal key light, natural skin tone, clearly resolved eyes and facial features, stable exposure and white balance, sharp focus, crisp motion edges, and controlled movement throughout the shot.`
+- State the quality target positively in each execution prompt of the selected profile (both Ref2VA and I2V for a legacy dual-prompt package). A reusable sentence is: `The face remains cleanly and evenly exposed with a soft frontal key light, natural skin tone, clearly resolved eyes and facial features, stable exposure and white balance, sharp focus, crisp motion edges, and controlled movement throughout the shot.`
 - Short technical exclusions such as `no crushed facial shadows, no blown facial highlights, no haze, no bloom, no ghost trails` are allowed, but they supplement rather than replace the positive visible target.
 - Do not treat extra sampling steps, bitrate, sharpening, or super-resolution as a substitute for a well-exposed, sharp generated face. Missing or motion-smeared facial detail must be corrected at generation time.
 
@@ -145,16 +159,16 @@ For prompt-only packages without a quality-consistency or reproducibility reques
 
 Prevent duplicate people or objects when the previous tail already contains more than the permanently locked lead:
 
-- Assign every persistent visible person or important object a stable `<Subject N>` ID. For Clip 02 onward, state that each such subject is the same existing instance already visible in `<Picture 2>`.
+- Assign every persistent visible person or important object a stable `<Subject N>` ID. For Clip 02 onward, state that each such subject is the same existing instance already visible in the resolved previous-tail reference.
 - Never reintroduce an existing tail subject with indefinite wording such as `a person enters`, `another person approaches`, or `a new vehicle appears` unless the user explicitly requests an additional instance. Rewrite it as the same subject continuing from the current tail position.
 - When the requested count is unambiguous, state the permitted count positively and explicitly, for example: `Exactly one instance of <Subject 2> remains in the shot throughout this clip.` A short technical exclusion such as `no additional people` or `no duplicate subjects` is allowed because extra-subject suppression does not replay a completed story action.
-- Keep reference authority separate: `<Picture 1>` controls only the intended permanent identity; `<Picture 2>` carries the current positions, appearance, and contact geometry of secondary subjects unless the user supplies separate identity references for them.
+- Keep reference authority separate: permanent identity images control only their assigned identities; the previous-tail reference carries current positions, appearance, and contact geometry. Preserve any separate identity references supplied for secondary subjects.
 - A single-person identity reference should contain only the intended locked subject. If it also contains an unintended person, crop or replace it when asset editing is authorized; otherwise label every visible person and flag the duplication risk rather than silently treating the extra person as background.
 - Preserve the exact count and screen-side assignment across the seam. Do not move an existing subject to a distant new position by restaging the subject; describe one continuous path from the tail position or insert a bridge segment.
 - For an intentional entrance or exit, specify which stable subject moves, its visible path, and the exact before/after count. Do not combine an existing tail instance with a separately worded arrival of the same subject.
 - `anchor_first_frame=true` cannot solve duplicate-instance drift. It matches only the encoded first frame; the prompt and Ref2VA subject mapping must keep the same instance count after frame 1.
 
-Place these constraints where they affect model interpretation: map stable subjects in `subject_definitions`, preserve referenced identity/count/opening position in `retention_analysis`, and put the requested global instance count plus forward continuation from the tail in `detailed_description`. Do not mark a planned entrance or movement as a loss of identity retention. Apply the same instance mapping to `prompt_i2v_en` without inventing a second copy of any subject.
+Place these constraints where they affect model interpretation: map stable subjects in `subject_definitions`, preserve referenced identity/count/opening position in `retention_analysis`, and put the requested global instance count plus forward continuation from the tail in `detailed_description`. Do not mark a planned entrance or movement as a loss of identity retention. In a legacy dual-prompt package, apply the same instance mapping to `prompt_i2v_en` without inventing a second copy of any subject.
 
 ## Continuity Method
 
@@ -189,7 +203,7 @@ H3 can reactivate a concept even when it appears inside a negation. Replace sema
 
 Use negative wording only for short technical exclusions that do not repeat the completed semantic action, for example cuts, text, watermarks, anatomy defects, or extra subjects when relevant.
 
-## H3 I2VA Output Contract
+## Legacy H3 I2VA Output Contract
 
 For an exact-first-frame I2V continuation, start exactly with:
 
@@ -219,9 +233,9 @@ Within `integrated_multimodal_description`:
 - keep the current scene and relationship visible during close framing; never replace the continuation with a standalone identity-reference portrait;
 - avoid ending with a new action that has not visibly begun.
 
-## Workflow JSON Contract
+## Legacy Workflow JSON Contract
 
-Create this exact outer structure:
+For the legacy profile only, create this exact outer structure:
 
 ```json
 {
@@ -335,7 +349,7 @@ When the user separately requests rendering or QC, inspect every clip at its ope
 
 ## Delivery
 
-Write the finished JSON to the user-specified directory. If no directory is supplied, create a clearly named project folder under the active video workspace and save it as `sequence.json`. Return the clickable file path, clip count, ordered duration list, total duration, validation result, and concise risk flags only when ambiguity remains. State that the JSON is workflow-neutral and contains both Ref2VA and I2V continuation fields. Do not ask the user to choose LoRA/native or a launcher, and do not paste the full JSON into chat unless the user asks to preview it.
+Write the finished JSON to the user-specified directory. If no directory is supplied, create a clearly named project folder under the active video workspace. Default to `story_segments.json` and run `python scripts/validate_story_segments.py PATH_TO_JSON`; this checks only the envelope, not prompt content or render quality. For an explicitly selected legacy profile, save `sequence.json` and use its validator and compatibility notes above. Return the clickable file path, segment count, planned ordered durations and total, and the accurately scoped validation result. Runtime timing must be supplied separately for dynamic-series files. Do not ask the user to choose LoRA/native or a launcher, and do not paste the full JSON into chat unless the user asks to preview it.
 
 Before delivery, verify:
 
@@ -346,16 +360,16 @@ Before delivery, verify:
 - there is only one dominant transition;
 - the ending can serve as an unambiguous next first frame;
 - no story or scene content was added beyond the user's request.
-- the saved document parses as JSON and passes `scripts/validate_sequence.py`.
-- every clip includes a faithful `prompt_cn` translation of the prompt actually executed for that clip.
-- both `prompt_en` and `prompt_i2v_en` preserve the same scene action and ending state without naming a launcher.
+- the saved document parses as JSON and passes the selected profile's validator; dynamic-series packaging does not change the prompt strings.
+- for a legacy package, every clip includes a faithful `prompt_cn` translation of the prompt actually executed for that clip.
+- for a legacy package, both `prompt_en` and `prompt_i2v_en` preserve the same scene action and ending state without naming a launcher.
 - the permanent identity reference is explicitly identity-only and cannot take over pose, crop, background, lighting, or standalone framing.
 - no unrequested `face-only`, isolated portrait, or other-subject-fully-out-of-frame instruction can cause a reference-like face insert.
 - every identity-critical clip carries the clear-face exposure contract unless the user explicitly requested a conflicting visual treatment.
-- every non-overridden clip carries the canonical windowless, artificial-light-only, light-colored minimalist-interior contract; `scene_style` records the same policy and the validation flag passes.
+- every non-overridden clip carries the canonical windowless, artificial-light-only, light-colored minimalist-interior contract; in a legacy package, `scene_style` also records the same policy and the corresponding validation flag passes.
 - no actual or planned handoff tail contains a visible window, natural-light spill, dark wall/door treatment, or heavy ornate furniture that would be propagated into the next clip.
 - when deterministic seeds are active, every clip has one recorded valid seed and the resolved ordered seed list is reported.
-- Ref2VA prompts keep permanent face identity and previous-tail geometry on separate picture references.
+- Ref2VA prompts keep permanent face identity and previous-tail geometry on separate, correctly typed references; dynamic-series continuations use `<Video 1>` without incrementing its number.
 - every persistent subject already visible in the previous tail keeps the same stable ID, instance count, and screen-side assignment; no existing subject is reintroduced as a new arrival.
 - the permanent identity image contains only the intended locked subject, or every additional visible subject is intentionally mapped and reported as a risk.
 - seam validation checks beyond the anchored first frame and does not hide a frame-2 jump.

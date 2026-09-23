@@ -1,6 +1,6 @@
 # Ref2VA Prompt Contract
 
-Read this before authoring or revising a Ref2VA prompt. Use it for a standalone prompt or each `prompt_en` in a chain. This guide governs prompt text; it does not enable unsupported image, video, audio, or duration inputs in a renderer.
+Read this before authoring or revising a Ref2VA prompt. Use it for a standalone prompt, each `prompt` in `story_segments.json`, or each `prompt_en` in a legacy chain. The outer file format does not change the six-field requirements below. This guide governs prompt text; it does not enable unsupported image, video, audio, or duration inputs in a renderer.
 
 ## Sources and Rule Strength
 
@@ -157,14 +157,15 @@ Live-action with soft, even artificial lighting. Keep the camera fixed within ea
 
 ## Tailchains and Multiple Independent Identities
 
-The parent skill's default map is one permanent identity image plus a previous-tail image. Keep these roles explicit; never promise exact first-frame equality from a Ref2VA text instruction alone. An actual I2VA workflow is the separate literal-first-frame contract.
+The parent skill's legacy map uses one permanent identity image plus a previous-tail image. Its dynamic-series profile uses assigned identity images plus the immediately preceding tail video as `<Video 1>`. Keep these roles explicit; never promise exact first-frame equality from a Ref2VA text instruction alone. An actual I2VA workflow is the separate literal-first-frame contract.
 
 | Situation | Explicit picture mapping |
 | --- | --- |
-| Default clip 01 | `<Subject 1>` gets identity from `<Picture 1>`; no fictitious previous tail |
-| Default clip 02+ | `<Subject 1>` keeps identity from `<Picture 1>`; standalone `<Picture 2>` anchors the opening from the previous accepted tail |
+| Legacy clip 01 | `<Subject 1>` gets identity from `<Picture 1>`; no fictitious previous tail |
+| Legacy clip 02+ | `<Subject 1>` keeps identity from `<Picture 1>`; standalone `<Picture 2>` anchors the opening from the previous accepted tail |
 | Two independent identity images, first clip | `<Subject 1>` gets identity from `<Picture 1>`; `<Subject 2>` gets identity from `<Picture 2>` |
 | Two independent identities plus previous tail | Keep those two identity mappings; use a separate `<Picture 3>` for the previous-tail opening |
+| Dynamic series with two identity images and tail video | Keep `<Picture 1>` and `<Picture 2>` assigned to their identities; segment 1 has no preceding video, and segment 2 onward always use `<Video 1>` for the immediately preceding tail video |
 
 This table describes a contract, not evidence that a particular node accepts three images. If generation is requested, verify input support and binding; do not overwrite the second identity image with a tail. For text-only authoring, state the required mapping without demanding local file paths. Apply the parent skill's identity-versus-geometry authority and instance-continuity rules to the resolved labels. For `prompt_i2v_en`, `<Picture 1>` is still the actual previous tail; do not copy Ref2VA numbering into I2VA blindly.
 
