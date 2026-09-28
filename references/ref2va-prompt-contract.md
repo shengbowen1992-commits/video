@@ -146,6 +146,8 @@ Live-action with soft, even artificial lighting. Keep the camera fixed within ea
 
 ## Speech, Visible Text, and Sound Layers
 
+Apply [H3 sound authoring](h3-sound-prompt-standard.md) by default: global style and continuous ambience belong in `overall_soundscape`, while triggers, texture, dynamics, pauses and precise sound handoffs belong in each Shot. Keep the exact dialogue, speaker and audio-reference syntax below.
+
 - Assign `(S1)`, `(S2)`, etc. in the order of actual vocal events in the target clip; retain each ID throughout it. Non-speaking subjects do not need a speaker ID. Subject IDs and speaker IDs are independent.
 - At each actual vocal event write the identified source, delivery, and action outside `<d>`, and only `[Language]` plus spoken/sung words inside it: `<Subject 2> (S1) says softly: <d>[Chinese] 你好。</d>`.
 - Preserve user-provided words and punctuation. For transcription/reperformance from reference audio, follow the upstream convention of basic punctuation and `[unclear]` for unintelligible words; never guess the missing words. A timbre-only reference does not supply the target dialogue.
@@ -216,6 +218,6 @@ Perform this review in addition to the repository's JSON validator. Do not claim
 3. All subjects and assets resolve; each separately defined reference has a valid retention marker and scope. Claims of preservation match the features actually defined. No speaker IDs appear in retention entries.
 4. The detailed description establishes style and global invariants before the opening shot, grounded composition/action/camera/sound for every shot, and the actual effect of each reference. Later shots inherit concrete prior states before new action; stable appearance does not freeze poses, undo completed actions, or contradict requested clothing changes. Avoid repeating the full global block in each shot. Do not add unrequested plot to meet a length target.
 5. The first shot has no heading time; later cuts use exact cut-in notation, consecutive numbering, and increasing in-range times. Action durations, dialogue, clip duration, and the final state agree; there is no cut at the endpoint.
-6. Speaker IDs, lip activity, original dialogue, language tags, and any cross-cut audio are consistent. Soundscape and score do not contradict the shot audio or duplicate dialogue.
+6. Speaker IDs, lip activity, original dialogue, language tags, and any cross-cut audio are consistent. Shot-specific sound identifies its source, trigger and relevant dynamics/spacing; natural vocal reactions do not mechanically repeat once per movement. Soundscape and score do not contradict the shot audio or duplicate dialogue. Respect deliberate rhythmic sounds, silence and actual audio bindings.
 7. In a chain, stable identity labels, previous-tail geometry, subject count, and forward motion survive the seam. Separate identity inputs never silently become tail inputs. Runtime support is distinguished from prompt intent.
 8. Explicit user requirements take precedence over local defaults. For a limited format-only edit, report remaining authoring deviations rather than claiming full compliance. Prompt validation does not prove rendered identity, lip sync, or continuity.

@@ -1,6 +1,6 @@
 ---
 name: h3-tailchain-continuity
-description: Write and revise MiniMax H3 Ref2VA prompts and dynamic multi-segment story_segments.json files from durations, references, and a scene description, with legacy sequence.json compatibility. Use for V18 motion-intensity requests (大幅度, 激情, 激烈, 高频, 更猛), six-section prompt formatting, reference retention, global constraints, audiovisual shot timing, and Ref2VA/I2V continuity. Defaults to permanent-reference identity, previous-tail continuity, bright windowless minimalist interiors, clear faces, and reproducible per-clip seeds when quality consistency is requested.
+description: Write and revise MiniMax H3 Ref2VA prompts and dynamic multi-segment story_segments.json files from durations, references, and a scene description, with legacy sequence.json compatibility. Use for V18 motion-intensity requests (大幅度, 激情, 激烈, 高频, 更猛), six-section prompt formatting, reference retention, global constraints, two-layer sound design, audiovisual shot timing, and Ref2VA/I2V continuity. Defaults to permanent-reference identity, previous-tail continuity, bright windowless minimalist interiors, clear faces, and reproducible per-clip seeds when quality consistency is requested.
 ---
 
 # H3 Tailchain Continuity Prompt Writer
@@ -12,6 +12,12 @@ Write technically executable prompts for H3 segment chains and package them as `
 When a video action request includes 大幅度, 激情, 激烈, 高频, 动作快一点, 更猛, 更有力, or equivalent physical-performance intent, read [references/v18-motion-intensity.md](references/v18-motion-intensity.md) and apply its V18 Motion Intensity Contract automatically. Interpret meaning, scope, negation, and explicit overrides; do not require the user to name V18. Keep playback at normal real-time 1× while translating the requested intensity into actual movement frequency, amplitude, and the established physical path.
 
 Place the contract once in each affected execution prompt, not once per Shot or only in an outer JSON field. Adapt anatomical/path language to the existing action. For requested cyclic motion, preserve cycle phase at seams: the anti-replay and low-velocity handoff defaults below must not suppress natural return strokes or sustained high cadence. Follow the reference for exact placement, intensity levels, and review checks.
+
+## H3 Sound Authoring Standard
+
+Before authoring or revising H3 execution prompts, read [references/h3-sound-prompt-standard.md](references/h3-sound-prompt-standard.md) and apply its two-layer sound structure by default. Put overall sound style, continuous ambience and natural variation in `overall_soundscape`; put identified vocal reactions, action-triggered sounds, dynamics, pauses and cross-cut timing in the corresponding Shot. Audience-only music stays in `non_diegetic_music` and remains `N/A` when not requested.
+
+Use the selected mode's existing fields and actual audio bindings. Preserve exact dialogue, silence requests and format-only source text; templates do not authorize new voices, music or reference inputs. Apply the standard inside each complete execution prompt, not only in an unused outer `global_prompt`. With V18, sustain the requested physical cadence while allowing natural vocal spacing rather than one vocal response per movement. Prompt validation does not replace listening to rendered audio.
 
 ## Scope Boundary
 
