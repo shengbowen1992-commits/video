@@ -1,11 +1,17 @@
 ---
 name: h3-tailchain-continuity
-description: Write and revise MiniMax H3 Ref2VA prompts and dynamic multi-segment story_segments.json files from durations, references, and a scene description, with legacy sequence.json compatibility. Use for six-section prompt formatting, reference retention, global constraints, audiovisual shot timing, and Ref2VA/I2V continuity. Defaults to permanent-reference identity, previous-tail continuity, bright windowless minimalist interiors, clear faces, and reproducible per-clip seeds when quality consistency is requested.
+description: Write and revise MiniMax H3 Ref2VA prompts and dynamic multi-segment story_segments.json files from durations, references, and a scene description, with legacy sequence.json compatibility. Use for V18 motion-intensity requests (大幅度, 激情, 激烈, 高频, 更猛), six-section prompt formatting, reference retention, global constraints, audiovisual shot timing, and Ref2VA/I2V continuity. Defaults to permanent-reference identity, previous-tail continuity, bright windowless minimalist interiors, clear faces, and reproducible per-clip seeds when quality consistency is requested.
 ---
 
 # H3 Tailchain Continuity Prompt Writer
 
 Write technically executable prompts for H3 segment chains and package them as `story_segments.json` by default. Retain `sequence.json` for an explicitly requested legacy controller or Ref2VA/I2VA dual-prompt package. Do not require the user to choose LoRA, native sampling, a launcher, model settings, reference-image paths, seeds, or sampling parameters. This skill may record deterministic seeds when quality consistency is requested, but it does not bind them to a renderer. It controls continuity language and JSON packaging only; the user controls the scene and any explicitly supplied people, plot, actions, styling, dialogue, or camera intent.
+
+## V18 Motion Intensity Routing
+
+When a video action request includes 大幅度, 激情, 激烈, 高频, 动作快一点, 更猛, 更有力, or equivalent physical-performance intent, read [references/v18-motion-intensity.md](references/v18-motion-intensity.md) and apply its V18 Motion Intensity Contract automatically. Interpret meaning, scope, negation, and explicit overrides; do not require the user to name V18. Keep playback at normal real-time 1× while translating the requested intensity into actual movement frequency, amplitude, and the established physical path.
+
+Place the contract once in each affected execution prompt, not once per Shot or only in an outer JSON field. Adapt anatomical/path language to the existing action. For requested cyclic motion, preserve cycle phase at seams: the anti-replay and low-velocity handoff defaults below must not suppress natural return strokes or sustained high cadence. Follow the reference for exact placement, intensity levels, and review checks.
 
 ## Scope Boundary
 
@@ -123,7 +129,7 @@ Apply this contract to every clip unless it conflicts with an explicit artistic 
 - Short technical exclusions such as `no crushed facial shadows, no blown facial highlights, no haze, no bloom, no ghost trails` are allowed, but they supplement rather than replace the positive visible target.
 - Do not treat extra sampling steps, bitrate, sharpening, or super-resolution as a substitute for a well-exposed, sharp generated face. Missing or motion-smeared facial detail must be corrected at generation time.
 
-For a 10-second clip, use one dominant transition and reserve the final 0.75-1.0 seconds for a low-velocity continuation or stable hold with the face visible, exposure settled, and motion edges clean. This is the handoff-quality interval for the next clip, not dead time.
+For a non-cyclic 10-second transition clip, use one dominant transition and reserve the final 0.75-1.0 seconds for a low-velocity continuation or stable hold with the face visible, exposure settled, and motion edges clean. This is the handoff-quality interval for the next clip, not dead time.
 
 ## Bright Windowless Minimal-Interior Contract
 
@@ -181,12 +187,12 @@ Before drafting, form a compact state vector from the preceding planned tail, or
 5. camera framing, axis, movement, scene geometry, and lighting;
 6. which action has already completed and must leave the active vocabulary.
 
-Then design a forward-only path:
+For a one-time transition, design a forward-only path. For user-requested cyclic movement, preserve phase and the current trajectory through natural return strokes instead; do not force a monotonic path across whole cycles:
 
 - At 0.00 seconds, preserve the state vector exactly.
 - Within the first 0.25 seconds, continue the visible trajectory; do not pause to re-establish the pose.
-- For the first 1–2 seconds, describe one monotonic geometric change, such as distance continuously increasing, an elbow angle continuously opening, a hand sliding along one path, or shoulders rotating in one direction.
-- Give a 10-second segment one dominant transition. A quiet settling phase is allowed after it, but a reverse transition is not.
+- For a one-time transition, describe one monotonic geometric change in the first 1–2 seconds, such as distance continuously increasing, an elbow angle continuously opening, a hand sliding along one path, or shoulders rotating in one direction.
+- Give a one-time transition segment one dominant transition, optionally followed by settling without reversal. A requested cyclic segment instead sustains its established movement without replaying an earlier story transition.
 - Keep camera motion simple and subordinate to subject motion. Prefer one unbroken shot at a stable axis for a seam-critical continuation.
 - End in a stable state, or in one clearly unfinished trajectory whose direction the next segment can continue.
 
@@ -328,17 +334,17 @@ segment N start state -> one dominant transition -> segment N tail target
 segment N+1 start state -> next dominant transition -> segment N+1 tail target
 ```
 
-Do not let adjacent segments own the same action. The prior segment owns completion; the next segment starts from the resulting geometry. When the actual render differs from the planned tail, discard the stale next prompt and rewrite it from the real tail image.
+Do not let adjacent segments replay the same completed story transition. The prior segment owns completion; the next segment starts from the resulting geometry. A sustained cyclic action may span segments while continuing its current cycle phase. When the actual render differs from the planned tail, discard the stale next prompt and rewrite it from the real tail image.
 
-For higher reliability, prefer 5–7 seconds per action. When 10 seconds is required, allocate early seconds to the transition and remaining seconds to a non-reversing settle or hold.
+For one-time transitions, prefer 5–7 seconds per action when duration is not fixed. When 10 seconds is required, allocate early seconds to the transition and remaining seconds to a non-reversing settle or hold. For requested sustained cyclic motion, maintain the requested cadence through the segment and handoff instead of inserting a settle or hold.
 
 ## Strong Head-Tail Linkage
 
 Treat a seam as a short interval, not a single matching frame:
 
-- End the previous clip with 0.5–1.0 seconds of low-velocity, unfinished motion whose direction is explicit.
+- For one-time transitions, end the previous clip with 0.5–1.0 seconds of low-velocity, unfinished motion whose direction is explicit. For requested sustained cyclic motion, continue its cadence and cycle phase with a clear usable tail instead of forcing deceleration.
 - Keep the final 0.75-1.0 seconds cleanly exposed and sharp enough to condition the next clip. Avoid ending during a blink, rapid head turn, occlusion, strong shadow crossing, focus pull, or high-motion smear.
-- Start the next clip with the same subject positions, contact points, face direction, camera axis, focal scale, lighting, and motion vector. Continue that vector for at least 0.5 seconds before changing action.
+- Start the next clip with the same subject positions, contact points, face direction, camera axis, focal scale, lighting, and motion vector. For a one-time transition, continue that vector for at least 0.5 seconds before changing action. For cyclic motion, continue from the inherited phase and allow the next natural return stroke without resetting the cycle.
 - Do not change sitting/standing state, embrace/contact state, screen side, camera distance, or scene geometry at the seam. Move those changes into the body of the next clip.
 - Extract the next reference from the actual `final_clip`, including any anchored output, rather than from a planned tail or raw source clip.
 - Treat the literal final tail as a quality gate. When rendering or QC is authorized, stop the chain if that tail is visibly underexposed, clipped, defocused, motion-smeared, or identity-damaged; rerender the affected clip instead of silently substituting an earlier prettier frame or propagating the bad tail.
@@ -355,9 +361,9 @@ Before delivery, verify:
 
 - a revision prompt begins from the actual tail when one exists; an initial package uses the preceding planned tail state without claiming it was visually verified;
 - no quarantined completed-action term remains, including in negatives;
-- the first two seconds contain a single explicit motion direction;
-- no forward motion is followed by its inverse;
-- there is only one dominant transition;
+- the opening continues the inherited trajectory; one-time transitions keep a single direction, while requested cyclic actions preserve phase through natural return strokes;
+- no completed story transition is replayed or undone; natural return strokes within a requested movement cycle are allowed;
+- there is only one dominant transition or sustained action cycle, according to the requested action;
 - the ending can serve as an unambiguous next first frame;
 - no story or scene content was added beyond the user's request.
 - the saved document parses as JSON and passes the selected profile's validator; dynamic-series packaging does not change the prompt strings.

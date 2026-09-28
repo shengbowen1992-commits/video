@@ -100,6 +100,8 @@ Summary establishes the overall task; it does not override other sections or enf
 
 Put 1–2 style-setting sentences before `[Shot 1]`, followed by concise global constraints as needed. Do not invent a seventh `global_rules` field. Repeat only the essential requirement at the moment it matters, rather than copying a long rule block into every section. Check conflicts between global rules and local action. These are conditioning instructions, not a parser priority system or a guarantee of generated behavior.
 
+For physical-performance requests such as 大幅度, 激情, 激烈, 高频, or 更猛, apply [V18 motion intensity](v18-motion-intensity.md). Put its applicable contract before `[Shot 1]` in every affected execution prompt; keep the full block out of individual Shot repetitions and the unused outer `global_prompt`.
+
 ## Global Invariants and Per-Shot State Handoffs
 
 Use three layers when the user wants the same characters and appearances while the story keeps moving:

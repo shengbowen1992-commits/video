@@ -89,7 +89,7 @@ When facial clarity is the priority:
 - keep one dominant subject transition per clip;
 - avoid rapid head turns during important expressions or dialogue;
 - avoid stacking fast walking, arm motion, hair motion, and a strong camera move;
-- settle the final 0.75-1.0 seconds into low-velocity motion with stable focus and lighting.
+- for one-time transitions, settle the final 0.75-1.0 seconds into low-velocity motion with stable focus and lighting. For user-requested sustained cyclic motion, preserve the requested cadence and cycle phase while keeping the literal tail clear, focused, and evenly lit; do not force a pause or slow playback.
 
 A distant full-body figure cannot retain the same facial detail as a medium-close face at the same output resolution. Do not promise otherwise.
 
