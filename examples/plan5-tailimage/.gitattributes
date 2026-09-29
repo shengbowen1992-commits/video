@@ -1,3 +1,4 @@
 *.json text eol=lf
+*.txt text eol=lf
 # Preserve exact executed prompt bytes, including the controller's trailing space.
 benchmark-continuation-executed.txt -text whitespace=-blank-at-eol

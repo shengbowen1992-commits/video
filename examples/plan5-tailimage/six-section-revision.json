@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-30",
+  "status": "prepared_not_rendered",
+  "change": "Remove only the unstructured preamble before subject_definitions. Preserve the six-section body, identity references and tail conditioning. Use a separate output filename prefix.",
+  "source_executed_prompt_sha256": "e79dd1efe2d66ce27dcba230f9b76aed3d1cf48e3483da2bc52b9c807512bf66",
+  "prepared_prompt_sha256": "06cf36cbc1fab106d7288825b3c96dd6cc9b35dba3713a8675c9c85ef1f5c8a6",
+  "source_api_sha256": "9c085dfa7c145313027d431d4978ef35d77799f153b67b8471ae711586a4e9e3",
+  "prepared_api_sha256": "8985e2fc9cedb1d8e86be11b6630f4ca5d9f0e9fcdfea3154cfa05975e745577",
+  "changed_graph_fields": [
+    "136.inputs.prompt",
+    "92.inputs.filename_prefix"
+  ],
+  "existing_story_segments_checked": 12,
+  "raw_prompts_preserved_verbatim": true,
+  "build_recipe_matches_runtime": true,
+  "historical_outputs_modified": false,
+  "rendered": false,
+  "activation": "New jobs copy the updated factory runner. Existing job snapshots stay unchanged; no ComfyUI restart required."
+}

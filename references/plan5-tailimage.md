@@ -41,21 +41,29 @@ non_diegetic_music:
 
 ## 原始正文与实际执行文本
 
-`raw_prompt: true` 时 `global_prompt` 仍为空字符串；用户的六节 `prompt` 保持原文。但本衍生控制器会在正文前加一段英文参考约定。它与原方案五“不加任何前缀”的行为不同。
+2026-09-30 修订：`raw_prompt: true` 时 `global_prompt` 保持空字符串，控制器直接执行每段完整的六节 `prompt`，**不再在六节前添加任何参考图前缀**。身份与接续要求写入六节内部，不依赖控制器补写。
 
-第1段增加：
-
-```text
-Picture 1 and Picture 2 are permanent character identity references. Preserve their faces and hairstyles throughout.
-```
-
-第2段起还增加：
+人物来源写在 `subject_definitions`，例如：
 
 ```text
-Picture 3 is the enhanced actual final frame of the preceding segment. Use Picture 3 as the opening composition, pose, camera, lighting and object-state reference. Continue the current action phase immediately without replaying or resetting the action. It is not a third character identity.
+<Subject 1> takes facial identity and hairstyle from <Picture 1>.
+<Subject 2> takes facial identity and hairstyle from <Picture 2>.
 ```
 
-审计时比较 `前缀 + 两个换行 + 原prompt` 与执行图里的 `MiniMaxH3ReferenceToVideo.inputs.prompt`；精确空格以控制器保存的文本为准。交付故事文件时只存六节正文，不把已加前缀的执行文本重新塞回同一控制器导致重复。控制器只加通用约定，没有逐帧理解尾帧并自动改写下一段剧情的能力。
+第2段起，在 `subject_definitions` 定义尾帧，在 `retention_analysis` 写保留范围，在 `detailed_description` 的 Shot 1 写具体接续。例如以下是三个位置的片段，不能当作完整提示词交付：
+
+```text
+subject_definitions:
+<Picture 3> is the enhanced actual final frame of the preceding segment, used as the opening composition and physical-state reference, not a third person.
+retention_analysis:
+<Picture 3> ([Shot 1] opening composition): fully_preserved - retain the current clothing, subject placement, contact points, camera, lighting and object state within its defined opening-reference role.
+detailed_description:
+[Shot 1] Begin from the observable state in <Picture 3> and continue the current movement phase without replaying or resetting the action. Follow with the concrete action, camera and sound description for this shot.
+```
+
+审计时，故事文件的 `prompt`、保存的执行文本和执行图里的 `MiniMaxH3ReferenceToVideo.inputs.prompt` 应逐字符相等。控制器仍绑定第三张图片，但不会自动识别尾帧内容、改写剧情或补足缺失的角色／状态说明。旧的简写 `scene_prompt` 兼容路径不等于本页完整六节模式；新交付统一使用 `raw_prompt: true`。
+
+新建任务会复制修改后的 Runner，无需重启 ComfyUI。已有任务的 Runner 快照、已生成视频和执行审计保持原样；不要直接替换旧任务代码再恢复，以免输入指纹与历史记录不一致。修订前的12段与耗时测试确实使用过前缀，仓库的历史 `*-executed.txt`、原 API 图与哈希仍保留这一事实；新提供的无前缀文件标为“已准备、未渲染”，不伪称旧成品使用了新格式。
 
 ## 产出的 JSON 与运行设置分开
 
