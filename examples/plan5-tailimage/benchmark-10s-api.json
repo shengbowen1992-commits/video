@@ -1,0 +1,229 @@
+{
+  "119": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "120": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+    }
+  },
+  "127": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "128": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "137": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "h3_series_v2/8c427d203988bb21f072.png"
+    }
+  },
+  "139": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "h3_series_v2/a26c3cfeb06abed8ad19.png"
+    }
+  },
+  "136": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "clip": [
+        "128",
+        0
+      ],
+      "vae": [
+        "119",
+        0
+      ],
+      "audio_vae": [
+        "120",
+        0
+      ],
+      "prompt": "Picture 1 and Picture 2 are permanent character identity references. Preserve their faces and hairstyles throughout. Picture 3 is the enhanced actual final frame of the preceding segment. Use Picture 3 as the opening composition, pose, camera, lighting and object-state reference. Continue the current action phase immediately without replaying or resetting the action. It is not a third character identity. \n\nsubject_definitions:\n<Subject 1> is the fictional 28-year-old adult woman identified by <Picture 1>; preserve her facial proportions, long dark-brown hair and healthy natural adult build. The image defines identity, not a mandatory studio pose or background.\n<Subject 2> is the adult man male-lead-001 identified by <Picture 2>; preserve his facial proportions and black textured short hairstyle. The image defines identity, not a mandatory portrait crop, pose, lighting or background.\n<Picture 3> is the enhanced actual final frame of the preceding generated segment, used as the opening composition and physical-state reference, not as a third person.\n\nsummary: [reference generation] A continuous segment of an energetic adult couple arriving home and spending time together. The dance remains active, with their joined hands rising into an overhead turn lead.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - facial identity, hair, normal body proportions and volumetric appearance; wardrobe follows the current story state below.\n<Subject 2> (appears in [Shot 1]): fully_preserved - facial identity, black textured short hair, normal body proportions and volumetric appearance; wardrobe follows the current story state below.\n<Picture 3> ([Shot 1] opening composition): fully_preserved - preserve the actual room, subject count, current clothing state, screen-side assignment, contact points and movement phase; then develop only the next action. Permanent portraits cannot replace this scene composition.\n\ndetailed_description:\nLive-action romantic domestic cinema, natural adult anatomy, lively physical performance. The setting is an enclosed windowless interior with no visible windows and no natural light. It is illuminated only by bright, soft, even artificial lighting. Doors, walls, and furniture are light-colored, plain, and minimalist. The face remains cleanly and evenly exposed with a soft frontal key light, natural skin tone, clearly resolved eyes and facial features, stable exposure and white balance, sharp focus, crisp motion edges, and controlled movement throughout the shot. Lighting still models rounded cheeks, jaw, shoulders and clothing folds with soft gradients; retain the same healthy adult body proportions, cheek volume and three-dimensional appearance. No beauty-filter smoothing, progressive facial thinning, flat cutout bodies, smeared knit texture or ghost outlines. Exactly two adults exist in the room, one instance of each subject. No text, subtitles or logos. Both remain fully clothed in their opaque inner outfits after taking off their outerwear. One continuous shot per segment. Framing changes use the stated camera movement, not unexplained pose resets, time jumps or hidden cuts. Maintain normal perspective and the same camera axis; track moving faces without a focus hunt.\n\nMotion Intensity Contract: Playback remains normal real-time 1x throughout. Any increase in speed refers only to the performers actual physical movement frequency and movement amplitude. Use energetic, high-cadence, large-amplitude, full-range movement along the described physical path. Preserve natural momentum and the current movement phase through the segment boundary. No slow motion, speed ramps, fast-forward, time-lapse, frame skipping, frozen endings, or deliberate handoff pauses. Do not slow the performers to make the reference easier to match.\n\nThe apartment has one connected floor plan: the warm-white front door and low entry cabinet are at the rear left; a light wooden coat rack stands beside the cabinet. A white ceramic key bowl rests on the cabinet. An ivory sofa and a muted light-blue rug occupy the center, and a small light-beige dining table with two chairs stands to camera-right. Two plain ceramic mugs, one white and one pale blue, already sit on that table. Artificial ceiling lights and a soft off-camera fill maintain stable neutral-warm exposure. The same furniture remains fixed in its established positions, including when it passes outside the frame.\n\n[Shot 1] At the opening, take the exact observable positions and clothing/contact state from <Picture 3>. Continue the current dance-step phase from the actual tail, keeping the same handclasp and rug position. Any planned state wording below describes the intended trajectory; if a small pose difference exists, bridge from the visible tail without a jump. Ivory and charcoal knit tops, navy and dark trousers, and white sneakers stay stable in color, cut and volume. No coat reappears. They continuously repeat pronounced alternating side steps throughout the shot, approximately two foot placements per second. Sustain this physical cadence for the full requested duration. Each lateral step travels roughly one shoe-length or more and is paired with a visible knee bend and rebound, a broad free-arm sweep and a cheerful shoulder bounce. Their joined hands flex and extend naturally between waist and chest height without stretching or fusing their arms. Both bodies stay upright and rounded with realistic weight shifting through the feet. Near the final second the man raises their connected hands toward head height while they continue their footwork, creating the beginning of an underarm-turn path. Do not stop the dance to prepare the next segment. Keep a stable wide full-body two-shot, with only a responsive lateral tracking correction. Both complete bodies, foot placements and the space under the raised hands remain visible throughout. Repeated soft shoe impacts follow the alternating steps, with changing cloth swishes during each larger arm sweep. Room ambience stays continuous; no added beat, song or spoken counting. Both characters remain the same existing instances through all occlusions and head turns. Physical contact has clear separate hands and limbs, with stable relative body size and natural cloth thickness. The shot plays continuously; moving faces and fabric remain as resolved as their distance allows, without inventing a hold for sharpness.\n\noverall_soundscape: Consistent quiet apartment room tone supports clearly timed footsteps, clothing movement and the specific object contacts described in the shot. Maintain natural spatial perspective and unprocessed sound without dialogue, voiceover, singing or music.\n\nnon_diegetic_music: N/A",
+      "width": 576,
+      "height": 960,
+      "length": 243,
+      "ref_image_size": "match",
+      "ref_images.ref_image_0": [
+        "137",
+        0
+      ],
+      "ref_images.ref_image_1": [
+        "139",
+        0
+      ],
+      "ref_images.ref_image_2": [
+        "172",
+        0
+      ]
+    }
+  },
+  "129": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 20330978
+    }
+  },
+  "123": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler"
+    }
+  },
+  "124": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "model": [
+        "141",
+        0
+      ],
+      "scheduler": "simple",
+      "steps": 4,
+      "denoise": 1.0
+    }
+  },
+  "126": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "141",
+        0
+      ],
+      "conditioning": [
+        "136",
+        0
+      ]
+    }
+  },
+  "125": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "129",
+        0
+      ],
+      "guider": [
+        "126",
+        0
+      ],
+      "sampler": [
+        "123",
+        0
+      ],
+      "sigmas": [
+        "124",
+        0
+      ],
+      "latent_image": [
+        "136",
+        1
+      ]
+    }
+  },
+  "122": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "125",
+        0
+      ],
+      "vae": [
+        "119",
+        0
+      ]
+    }
+  },
+  "121": {
+    "class_type": "VAEDecodeAudio",
+    "inputs": {
+      "samples": [
+        "125",
+        0
+      ],
+      "vae": [
+        "120",
+        0
+      ]
+    }
+  },
+  "130": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "122",
+        0
+      ],
+      "audio": [
+        "121",
+        0
+      ],
+      "fps": 24.0,
+      "bit_depth": 8
+    }
+  },
+  "92": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "130",
+        0
+      ],
+      "filename_prefix": "h3_duration_benchmark_20260929/10s_r1",
+      "format": "mp4",
+      "codec": "h264",
+      "codec.encoding": "re-encode",
+      "codec.encoding.crf": 18
+    }
+  },
+  "172": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "h3_series_v2/11de7fca2670981419e3.png"
+    }
+  },
+  "160": {
+    "class_type": "MiniMaxH3MemoryEfficientSageAttentionPatch",
+    "inputs": {
+      "model": [
+        "127",
+        0
+      ]
+    }
+  },
+  "140": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "160",
+        0
+      ],
+      "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+      "strength_model": 1.0
+    }
+  },
+  "141": {
+    "class_type": "MiniMaxH3SigmaShift",
+    "inputs": {
+      "model": [
+        "140",
+        0
+      ],
+      "shift_video": 12.0,
+      "shift_audio": 3.0
+    }
+  }
+}

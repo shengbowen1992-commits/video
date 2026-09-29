@@ -1,0 +1,298 @@
+{
+  "date": "2026-09-29",
+  "source_job": "20260929-185325-dc06c30d",
+  "source_story_sha256": "5a4772e1c4c89f799cc4098337b1929b24aca95743feb8f4d8428f938e4137e8",
+  "exported_story_sha256": "ef269f9dd2249832ac6bf141a46fae3c2cc2c03af98ba75fe8bdc24947bab9a6",
+  "transformation": "Envelope-only export: preserve every title, prompt and seed; move test_metadata to this sidecar. Execution adds the documented identity/tail preamble.",
+  "known_limitations": "Historical 12x5 stress test, not a continuity-approved template. Retains the original prompt contradictions and observed visual defects.",
+  "segments": [
+    {
+      "id": 1,
+      "source_prompt_sha256": "cb05b38926615f6a4b1c1d4bac9d46ef3ae334d570030d5aa9da5cc90a7caf9b",
+      "executed_prompt_sha256": "964b6345a130287cda1d82697f851fdd808a0b41f9a232c806761ea5c24c75ac",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20260929,
+      "actual_reference_count": 2,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "wide",
+          "planned_end": "Both are inside; the woman is near the coat rack and the man is bringing the door almost shut, keyring still in his right hand.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "source_prompt_sha256": "ee035da2ee14aad9238fa39cd9d766f9c28dda94435878feaed38ccfba9e4ae6",
+      "executed_prompt_sha256": "83eade95e798d44c32ff6a2733944dbe8c1c681bcbded4fefbb069d102274c40",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20270936,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "medium",
+          "planned_end": "Door closed; keys in the bowl; the woman has started sliding the camel coat backward from her shoulders.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 3,
+      "source_prompt_sha256": "8b81eff61d78aac29b1d69813851f132e697825db6da8b5ba30fd0446f9c420d",
+      "executed_prompt_sha256": "b782d7c38151c3b45eda46e23f3bf0ad6b8f09e4d7c1bad11bb384704adc1849",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20280943,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "medium",
+          "planned_end": "Camel coat hangs from the left hook. The woman turns back in her sweater and trousers; the man begins spreading his jacket open.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 4,
+      "source_prompt_sha256": "b827d64e549140f135b959b8c7f48d55cf54eceeb5b7d79a308ba9a96cea2944",
+      "executed_prompt_sha256": "f63ed1cbfc7bbf800bc94a5cca24bba7cd0ee82e1468863f203a61d3d84fa7c8",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20290950,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "wide",
+          "planned_end": "Both adults approach each other with arms open; both coats are on the rack, keys remain in the bowl.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 5,
+      "source_prompt_sha256": "f7a0b0bd365de0355b13a1a21171dd564029a0f6df1ee55ad4571a2a7ba3a174",
+      "executed_prompt_sha256": "cdf13d374ef80a2f7b4c42275b835640dde744c4861667ad372ebd95a373de3f",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20300957,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "medium",
+          "planned_end": "They remain embracing after a quarter-circle movement, heads turning toward each other.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 6,
+      "source_prompt_sha256": "7e5849aa165112ebb6e8d1723c2170dbdd076452154ad9003f7ee48e94ac73c3",
+      "executed_prompt_sha256": "541bb6c55e24ed1a54916b7d3673f64231b17c49213c9593feaa95916e355021",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20310964,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "close",
+          "planned_end": "Their faces are separated and smiling; the embrace is loosening and his right hand is moving toward her left hand.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 7,
+      "source_prompt_sha256": "5147021107ddb4ed3551435bab6cf1ed7c555660e525f02015c59f18904b8662",
+      "executed_prompt_sha256": "3b024d8e0a99b89a70ea96ca6a3bb59671c89367c4e4df1190c52bbf6b0f3a4b",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20320971,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "wide",
+          "planned_end": "Both reach the rug, still holding his right hand to her left, and start the first lateral dance step.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 8,
+      "source_prompt_sha256": "6429401d545115c5d3d5d8aefac21f2fbbcc56268588a44130fcfbbecc22614a",
+      "executed_prompt_sha256": "6e9849f24baebcf14165358692f85d097bd41969e4618aba0d6ec13b5e567ba2",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20330978,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "wide",
+          "planned_end": "The dance remains active, with their joined hands rising into an overhead turn lead.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 9,
+      "source_prompt_sha256": "7c1850808fb9591abb95041ffae2523428e6eca918424529c9a25f956a2f96a1",
+      "executed_prompt_sha256": "9e8681f6949cb07a32b436fac76410853fcc5be2a2d322302efb0a1acb0e0cc1",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20340985,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "medium-wide",
+          "planned_end": "One full turn is complete; joined hands are lowering as they rebound into two lively side steps.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 10,
+      "source_prompt_sha256": "cb56036fb6fde0890134390cb1f1510aac5cee0ef25799e71244bd875d69de00",
+      "executed_prompt_sha256": "354bca1e94a1667b6f35d50709d0c86ef1dce4f916e4ded1371ad5fa413dcca4",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20350992,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "close",
+          "planned_end": "The free hands separate after one high-five; their original hands remain joined and their feet remain active.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 11,
+      "source_prompt_sha256": "a559528af62dfbc0e169b9e1d25565cc44f4b3024bb841fff1a788e3e7c600ee",
+      "executed_prompt_sha256": "5503e7bc06ff1b24aedad1699aa2d17e53dab54692bd6622f7bbe3decbc41aab",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20360999,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "medium-wide",
+          "planned_end": "Each is descending toward their own pulled-out chair beside the existing two mugs.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    },
+    {
+      "id": 12,
+      "source_prompt_sha256": "48953566dff6493a074d7999264fa198193f254dd8460e20bfe87ec9b0eb68ac",
+      "executed_prompt_sha256": "8ddc52a6e0ba6092ae1683ce1e648506f23b1b113b0d40fb746b31a48c5362bf",
+      "matches_archived_execution_graph": true,
+      "actual_seed": 20371006,
+      "actual_reference_count": 3,
+      "moved_fields": {
+        "test_metadata": {
+          "requested_seconds": 5,
+          "framing": "medium",
+          "planned_end": "Both sit in their own chairs, one mug per person, separating their mugs after a single toast while smiling and turning toward each other.",
+          "quality_checks": [
+            "identity",
+            "facial_detail",
+            "body_volume",
+            "motion_sharpness",
+            "tail_handoff",
+            "wardrobe_and_props",
+            "motion_cadence"
+          ]
+        }
+      }
+    }
+  ]
+}

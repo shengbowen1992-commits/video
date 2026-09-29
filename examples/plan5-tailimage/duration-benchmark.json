@@ -1,0 +1,143 @@
+{
+  "date": "2026-09-29",
+  "hardware": "RTX 4060 Ti 16GB; 32GB system RAM",
+  "width": 576,
+  "height": 960,
+  "fps": 24,
+  "steps": 4,
+  "mode": "Ref2VA TurboLoRA",
+  "ref_image_size": "match",
+  "round_orders": [
+    [
+      5,
+      10,
+      15
+    ],
+    [
+      15,
+      10,
+      5
+    ]
+  ],
+  "round_seeds": [
+    20330978,
+    20330979
+  ],
+  "measurement": "Pipeline includes video job, download, final-frame extraction/upload, RealESRGAN x2 job and image download. Excludes pre-test reference upload, later QC, concatenation and retries.",
+  "reference_contract": "All samples start independently from the same existing segment-7 enhanced tail and the same two identity pictures; these are not successive segments in a new chain.",
+  "aggregate": [
+    {
+      "requested_seconds": 5,
+      "actual_seconds": 5.166667,
+      "mean_pipeline_seconds": 162.18889093399048,
+      "min_pipeline_seconds": 159.2354598045349,
+      "max_pipeline_seconds": 165.14232206344604,
+      "mean_video_seconds": 156.725,
+      "mean_sr_seconds": 2.6115,
+      "compute_minutes_per_actual_video_minute": 31.39139622003711,
+      "cost_multiple_vs_5s": 1.0,
+      "nominal_60s_segment_count": 12,
+      "nominal_60s_generation_minutes": 32.4377781867981,
+      "nominal_60s_actual_output_seconds": 62.000004000000004
+    },
+    {
+      "requested_seconds": 10,
+      "actual_seconds": 10.125,
+      "mean_pipeline_seconds": 301.2040261030197,
+      "min_pipeline_seconds": 295.90348982810974,
+      "max_pipeline_seconds": 306.5045623779297,
+      "mean_video_seconds": 294.6135,
+      "mean_sr_seconds": 2.7190000000000003,
+      "compute_minutes_per_actual_video_minute": 29.748545787952565,
+      "cost_multiple_vs_5s": 1.8571187235358013,
+      "nominal_60s_segment_count": 6,
+      "nominal_60s_generation_minutes": 30.120402610301973,
+      "nominal_60s_actual_output_seconds": 60.75
+    },
+    {
+      "requested_seconds": 15,
+      "actual_seconds": 15.083333,
+      "mean_pipeline_seconds": 466.9373414516449,
+      "min_pipeline_seconds": 463.9823589324951,
+      "max_pipeline_seconds": 469.8923239707947,
+      "mean_video_seconds": 459.0475,
+      "mean_sr_seconds": 3.028,
+      "compute_minutes_per_actual_video_minute": 30.957172493085242,
+      "cost_multiple_vs_5s": 2.878972405339922,
+      "nominal_60s_segment_count": 4,
+      "nominal_60s_generation_minutes": 31.129156096776327,
+      "nominal_60s_actual_output_seconds": 60.333332
+    }
+  ],
+  "runs": [
+    {
+      "name": "05s_r1",
+      "requested_seconds": 5,
+      "actual_seconds": 5.166667,
+      "frames": 124,
+      "video_seconds": 160.159,
+      "sr_seconds": 2.545,
+      "pipeline_seconds": 165.14232206344604,
+      "seconds_per_output_second": 31.963028014665166,
+      "full_decode": true
+    },
+    {
+      "name": "05s_r2",
+      "requested_seconds": 5,
+      "actual_seconds": 5.166667,
+      "frames": 124,
+      "video_seconds": 153.291,
+      "sr_seconds": 2.678,
+      "pipeline_seconds": 159.2354598045349,
+      "seconds_per_output_second": 30.81976442540905,
+      "full_decode": true
+    },
+    {
+      "name": "10s_r1",
+      "requested_seconds": 10,
+      "actual_seconds": 10.125,
+      "frames": 243,
+      "video_seconds": 300.164,
+      "sr_seconds": 2.623,
+      "pipeline_seconds": 306.5045623779297,
+      "seconds_per_output_second": 30.272055543499228,
+      "full_decode": true
+    },
+    {
+      "name": "10s_r2",
+      "requested_seconds": 10,
+      "actual_seconds": 10.125,
+      "frames": 243,
+      "video_seconds": 289.063,
+      "sr_seconds": 2.815,
+      "pipeline_seconds": 295.90348982810974,
+      "seconds_per_output_second": 29.2250360324059,
+      "full_decode": true
+    },
+    {
+      "name": "15s_r1",
+      "requested_seconds": 15,
+      "actual_seconds": 15.083333,
+      "frames": 362,
+      "video_seconds": 461.49,
+      "sr_seconds": 2.995,
+      "pipeline_seconds": 469.8923239707947,
+      "seconds_per_output_second": 31.153082940673304,
+      "full_decode": true
+    },
+    {
+      "name": "15s_r2",
+      "requested_seconds": 15,
+      "actual_seconds": 15.083333,
+      "frames": 362,
+      "video_seconds": 456.605,
+      "sr_seconds": 3.061,
+      "pipeline_seconds": 463.9823589324951,
+      "seconds_per_output_second": 30.76126204549718,
+      "full_decode": true
+    }
+  ],
+  "limitations": "Two seeds only; same ongoing service without controlled cache flush; not an acceptance-rate or long-chain degradation test. No audio listening review.",
+  "executed_prompt_sha256": "e79dd1efe2d66ce27dcba230f9b76aed3d1cf48e3483da2bc52b9c807512bf66",
+  "api_graph_sha256": "9c085dfa7c145313027d431d4978ef35d77799f153b67b8471ae711586a4e9e3"
+}

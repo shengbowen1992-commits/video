@@ -59,6 +59,7 @@ non_diegetic_music:
 
 ## 按工作流选择引用绑定
 
+- **方案五衍生：全局人物 + 高清尾帧续接**：第一段两张身份图，第二段起另加 `<Picture 3>`，来源是紧邻上一段实际成品最后一帧经 RealESRGAN x2 处理的图片；不绑定 `<Video 1>`。本版保留 `raw_prompt` 六节正文，但控制器会额外前置参考图约定，因此不能把外层空 `global_prompt` 与运行时前缀混为一谈。完整要求、输入映射、分辨率、时长建议及实例见 [当前尾帧版说明](plan5-tailimage.md)。
 - 原始双图动态工作流和方案六：`<Picture 1>`、`<Picture 2>` 分别保持原来分配的身份参考角色，不把第二张身份图变成尾帧。原始工作流从第 2 段开始绑定上一段尾部视频；方案六为混合策略，仅在选定的视频参考段绑定。实际绑定时始终使用 `<Video 1>`：若第 3 段使用视频参考，它指第 2 段尾部；若第 6 段使用，它指第 5 段尾部。未绑定的段不要写 `<Video 1>`。JSON 的 `id` 递增，视频输入编号不递增。
 - 方案五（无 Video / Opening State）：女主和男主各一张图，每段都按下表重新作为参考图输入；**任何一段都不绑定 `<Video 1>`**。从第 2 段起在各段完整提示词中描述上一段结束后的 Opening State 与下一步动作，不要把不存在的视频引用写进提示词。`raw_prompt: true` 时 Runner 直接使用 `prompt` 原文，不会自动补写承接语句。
 - 视频带有音轨不代表已启用参考音频输入；仅在实际绑定了音频参考时按原规范定义 `<Audio N>`。
@@ -84,6 +85,8 @@ non_diegetic_music:
 段数没有固定上限不代表计算资源无限。此规范也不修改渲染器支持的帧数、尺寸或时长范围。
 
 ## 校验与交付
+
+当前尾帧版的实际 [12段 JSON 示例](../examples/plan5-tailimage/story_segments.json) 和 [文件索引](../examples/plan5-tailimage/README.md) 已随仓库提供。示例来自历史压力测试，保留原提示词；测试元数据移到独立审计文件，不能据结构校验通过宣称已修复连续性。
 
 ```text
 python scripts/validate_story_segments.py /path/to/story_segments.json

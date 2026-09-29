@@ -32,6 +32,8 @@ Use the selected mode's existing fields and actual audio bindings. Preserve exac
 
 ## Output File Format: Select Before Authoring
 
+For the **Plan 5 derivative with global identity pictures and an enhanced tail image**, read [references/plan5-tailimage.md](references/plan5-tailimage.md). Segment 1 binds the two identity pictures; segment 2 onward also binds the immediately preceding enhanced actual tail as `<Picture 3>`, never `<Video 1>`. Keep this profile distinct from the original two-picture Plan 5 described below. The six-section authoring format and story JSON envelope remain unchanged, but this derivative prepends a reference-role contract to the raw execution text. The reference documents that difference, actual examples, 3:5 / 9:16 / 16:9 presets and the limited 5/10/15-second benchmark. Prefer 10 seconds when duration is unspecified; this recommendation does not change saved workflow defaults or override explicit timing.
+
 For a new multi-segment chain, read [references/story-segments-json.md](references/story-segments-json.md) and use the dynamic-series envelope: `global_prompt` plus `segments`, with consecutive integer `id`, `title`, `raw_prompt: true`, and one complete `prompt` string per segment. Support the requested positive segment count, including 4, 6, and more; this envelope has no fixed segment-count maximum.
 
 This changes the delivered file format, not the prompt-writing standard. Apply the existing six-section Ref2VA contract, style, speech, shot timing, retention, and continuity requirements to every `prompt`. Do not flatten the six sections into separate JSON properties, substitute a plot summary, or introduce new scene requirements for packaging. A format-only repackaging preserves the supplied prompt strings exactly.
