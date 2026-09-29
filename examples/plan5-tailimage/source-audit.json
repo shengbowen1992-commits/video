@@ -2,7 +2,7 @@
   "date": "2026-09-29",
   "source_job": "20260929-185325-dc06c30d",
   "source_story_sha256": "5a4772e1c4c89f799cc4098337b1929b24aca95743feb8f4d8428f938e4137e8",
-  "exported_story_sha256": "ef269f9dd2249832ac6bf141a46fae3c2cc2c03af98ba75fe8bdc24947bab9a6",
+  "exported_story_sha256": "85b231930be8f6b8049d10ae7ba2e34a64950c067b571e86299f817e284f94cc",
   "transformation": "Envelope-only export: preserve every title, prompt and seed; move test_metadata to this sidecar. Execution adds the documented identity/tail preamble.",
   "known_limitations": "Historical 12x5 stress test, not a continuity-approved template. Retains the original prompt contradictions and observed visual defects.",
   "segments": [
