@@ -1,7 +1,7 @@
 interface:
   display_name: "H3 连续分段 JSON"
   short_description: "输入段数、时长和场景生成多段 JSON，自动应用 V18 动作规则与分层声音规范"
-  default_prompt: "Use $h3-tailchain-continuity with my segment count, duration, and scene description to write story_segments.json, preserving the existing six-section Ref2VA prompt requirements inside each complete prompt string."
+  default_prompt: "Use $h3-tailchain-continuity with my segment count, duration, and scene description to write story_segments.json for original Plan 5: only two permanent identity pictures in every segment, text-only Opening State continuity, no tail picture or reference video. Preserve the six-section Ref2VA prompt requirements inside each complete prompt string."
 
 policy:
   allow_implicit_invocation: true
