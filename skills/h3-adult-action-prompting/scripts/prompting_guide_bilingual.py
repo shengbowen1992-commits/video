@@ -73,35 +73,127 @@ def is_blocked(key: str, value: str) -> bool:
     return bool(BLOCK_RE.search(key + "\n" + value))
 
 
-def get_translation():
-    import argostranslate.translate
+def get_package():
+    """Return the installed direct en->zh Argos package."""
+    import argostranslate.package
 
-    installed = argostranslate.translate.get_installed_languages()
-    en = next((x for x in installed if x.code == "en"), None)
-    zh = next((x for x in installed if x.code == "zh"), None)
-    if en is None or zh is None:
-        raise RuntimeError("Argos en->zh language package is not installed")
-    return en.get_translation(zh)
+    packages = argostranslate.package.get_installed_packages()
+    for pkg in packages:
+        if getattr(pkg, "type", None) == "translate" and pkg.from_code == "en" and pkg.to_code == "zh":
+            return pkg
+    raise RuntimeError("Argos en->zh language package is not installed")
 
 
-def translate_value(translation, text: str) -> str:
-    # Translate paragraph-by-paragraph to preserve the source's Markdown-like
-    # organization and reduce the risk of very long sequences.
-    parts = re.split(r"(\n\n+)", text)
-    out: List[str] = []
-    for part in parts:
-        if not part:
+def split_translation_units(text: str, max_chars: int = 420):
+    """Split text into short units while preserving all separators for reconstruction."""
+    units = []
+    # Preserve newline runs exactly. Translate only non-newline pieces.
+    for block in re.split(r"(\\n+)", text):
+        if not block:
             continue
-        if part.startswith("\n"):
-            out.append(part)
+        if block.startswith("\\n"):
+            units.append((False, block))
             continue
-        # Preserve blank / punctuation-only fragments.
-        if not re.search(r"[A-Za-z]", part):
-            out.append(part)
-            continue
-        out.append(translation.translate(part))
-    return "".join(out)
 
+        # Preserve leading Markdown bullet/number indentation outside the MT model.
+        m = re.match(r"^(\\s*(?:(?:[-*+]\\s+)|(?:\\d+[.)]\\s+))?)(.*?)(\\s*)$", block, re.S)
+        prefix, core, suffix = m.group(1), m.group(2), m.group(3)
+        if prefix:
+            units.append((False, prefix))
+
+        # Split long prose at sentence-ish boundaries first.
+        pieces = re.split(r"(?<=[.!?。！？])(?=\\s+)", core)
+        for piece in pieces:
+            if not piece:
+                continue
+            while len(piece) > max_chars:
+                cut = piece.rfind(" ", 0, max_chars)
+                if cut < max_chars // 2:
+                    cut = max_chars
+                head, piece = piece[:cut], piece[cut:]
+                units.append((bool(re.search(r"[A-Za-z]", head)), head))
+            if piece:
+                units.append((bool(re.search(r"[A-Za-z]", piece)), piece))
+
+        if suffix:
+            units.append((False, suffix))
+    return units
+
+
+def batch_translate_values(items):
+    """Translate many theme values in one CTranslate2 batch for speed."""
+    import ctranslate2
+    import argostranslate.settings as settings
+
+    pkg = get_package()
+    params = {
+        "model_path": str(pkg.package_path / "model"),
+        "device": settings.device,
+        "inter_threads": settings.inter_threads,
+        "intra_threads": settings.intra_threads,
+    }
+    if settings.compute_type != "auto":
+        params["compute_type"] = settings.compute_type
+    translator = ctranslate2.Translator(**params)
+
+    layouts = []
+    source_segments = []
+    blocked = []
+
+    for key, value in items:
+        if is_blocked(key, value):
+            layouts.append((key, [("fixed", OMISSION_ZH)]))
+            blocked.append(key)
+            continue
+
+        layout = []
+        for should_translate, unit in split_translation_units(value):
+            if should_translate:
+                idx = len(source_segments)
+                source_segments.append(unit)
+                layout.append(("translated", idx))
+            else:
+                layout.append(("fixed", unit))
+        layouts.append((key, layout))
+
+    if source_segments:
+        print(f"Batch translating {len(source_segments)} text units", flush=True)
+        tokenized = [pkg.tokenizer.encode(x) for x in source_segments]
+        target_prefix = None
+        if pkg.target_prefix != "":
+            target_prefix = [[pkg.target_prefix]] * len(tokenized)
+
+        results = translator.translate_batch(
+            tokenized,
+            target_prefix=target_prefix,
+            replace_unknowns=True,
+            max_batch_size=settings.batch_size,
+            batch_type="tokens",
+            beam_size=1,
+            num_hypotheses=1,
+            length_penalty=0.2,
+            return_scores=False,
+        )
+
+        translations = []
+        for result in results:
+            value = pkg.tokenizer.decode(result.hypotheses[0])
+            if pkg.target_prefix and value.startswith(pkg.target_prefix):
+                value = value[len(pkg.target_prefix):]
+            translations.append(value.lstrip(" "))
+    else:
+        translations = []
+
+    out = OrderedDict()
+    for key, layout in layouts:
+        parts = []
+        for kind, payload in layout:
+            if kind == "fixed":
+                parts.append(payload)
+            else:
+                parts.append(translations[payload])
+        out[key] = "".join(parts)
+    return out, blocked
 
 def translate_shard(shard: int, shard_size: int, output: Path) -> None:
     _, obj = load_source()
@@ -111,29 +203,24 @@ def translate_shard(shard: int, shard_size: int, output: Path) -> None:
     if start >= len(items):
         raise ValueError(f"Shard {shard} starts past the end of {len(items)} entries")
 
-    translation = get_translation()
+    selected = items[start:end]
+    print(
+        f"[shard {shard:02d}] translating entries {start+1}-{end} ({len(selected)} themes)",
+        flush=True,
+    )
+    result, blocked = batch_translate_values(selected)
+
     output.mkdir(parents=True, exist_ok=True)
-    result: OrderedDict[str, str] = OrderedDict()
-    blocked: List[str] = []
-
-    for i, (key, value) in enumerate(items[start:end], 1):
-        print(f"[shard {shard:02d}] {i}/{end-start}: {key}", flush=True)
-        if is_blocked(key, value):
-            result[key] = OMISSION_ZH
-            blocked.append(key)
-        else:
-            result[key] = translate_value(translation, value)
-
     out_path = output / f"shard-{shard:02d}.json"
     out_path.write_text(
-        json.dumps(result, ensure_ascii=False, indent=2) + "\n",
+        json.dumps(result, ensure_ascii=False, indent=2) + "\\n",
         encoding="utf-8",
     )
     (output / f"shard-{shard:02d}.blocked.json").write_text(
-        json.dumps(blocked, ensure_ascii=False, indent=2) + "\n",
+        json.dumps(blocked, ensure_ascii=False, indent=2) + "\\n",
         encoding="utf-8",
     )
-
+    print(f"[shard {shard:02d}] wrote {len(result)} themes", flush=True)
 
 def write_shards(obj: OrderedDict, base: Path, lang: str, shard_size: int):
     items = list(obj.items())
