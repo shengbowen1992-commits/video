@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: prompting-guide-bilingual-v3
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   translate:
@@ -21,14 +21,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      max-parallel: 6
+      max-parallel: 10
       matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
 
     env:
       ARGOS_DEVICE_TYPE: cpu
       ARGOS_COMPUTE_TYPE: int8
-      ARGOS_BATCH_SIZE: "32"
+      ARGOS_BEAM_SIZE: "1"
+      ARGOS_BATCH_SIZE: "64"
+      ARGOS_CHUNK_TYPE: MINISBD
       ARGOS_INTRA_THREADS: "0"
 
     steps:
@@ -57,7 +59,7 @@ jobs:
 
       - name: Translate shard
         run: |
-          python skills/h3-adult-action-prompting/scripts/prompting_guide_bilingual.py             translate-shard             --shard "${{ matrix.shard }}"             --shard-size 100             --output "tmp/zh"
+          python skills/h3-adult-action-prompting/scripts/prompting_guide_bilingual.py             translate-shard             --shard "${{ matrix.shard }}"             --shard-size 50             --output "tmp/zh"
 
       - name: Upload translated shard
         uses: actions/upload-artifact@v4
@@ -95,7 +97,7 @@ jobs:
 
       - name: Build full English and Chinese JSON plus shards
         run: |
-          python skills/h3-adult-action-prompting/scripts/prompting_guide_bilingual.py             merge             --shards-dir tmp/zh-shards             --repo-root .             --shard-size 100
+          python skills/h3-adult-action-prompting/scripts/prompting_guide_bilingual.py             merge             --shards-dir tmp/zh-shards             --repo-root .             --shard-size 50
 
       - name: Validate generated JSON
         run: |
@@ -118,8 +120,8 @@ jobs:
           assert len(en_obj) == 1268
           assert list(en_obj) == list(zh_obj)
           assert index["entry_count"] == 1268
-          assert len(index["english_shards"]) == 13
-          assert len(index["chinese_shards"]) == 13
+          assert len(index["english_shards"]) == 26
+          assert len(index["chinese_shards"]) == 26
           print("validated", len(en_obj), "entries")
           PY
 
