@@ -89,18 +89,36 @@ def split_text(text: str, limit: int = MAX_CHARS):
     return chunks
 
 
+_last_request_at = 0.0
+
 def translate_chunk(translator, text: str) -> str:
+    global _last_request_at
     if not text.strip():
         return text
+
     last = None
-    for attempt in range(7):
+    for attempt in range(20):
+        # Stay below Google's documented 5 requests/second ceiling.
+        elapsed = time.monotonic() - _last_request_at
+        if elapsed < 0.35:
+            time.sleep(0.35 - elapsed)
+
         try:
+            _last_request_at = time.monotonic()
             out = translator.translate(text)
             if out:
                 return out
         except Exception as exc:
             last = exc
-        time.sleep(min(30, 2 ** attempt))
+            msg = str(exc).lower()
+            if "too many requests" in msg or "429" in msg:
+                # Cool down aggressively on rate limiting, then resume.
+                wait = min(120, 30 + attempt * 10)
+            else:
+                wait = min(60, 2 ** min(attempt, 6))
+            print(f"translation retry {attempt + 1}/20 after {wait}s: {exc}")
+            time.sleep(wait)
+
     raise RuntimeError(f"Translation failed after retries: {last}")
 
 
