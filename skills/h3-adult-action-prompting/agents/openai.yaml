@@ -1,7 +1,7 @@
 interface:
   display_name: "H3 成人动作提示词 / Adult Action Prompting"
-  short_description: "原始 prompting-guide 检索 + 中英文 H3 动作转译 + Ref2VA/T2VA/I2VA 结构化输出"
-  default_prompt: "Use $h3-adult-action-prompting with a source-first workflow. Retrieve the closest terminology and prompt-construction patterns from the original prompting guide when available, otherwise use the normalized bilingual dictionaries. Then translate the requested adult fictional/synthetic action into precise MiniMax H3 motion language: position, active subject, direction, cadence, amplitude, full motion cycle, synchronized body response, stabilizers, face-priority camera framing, continuity, and the correct T2VA/I2VA/Ref2VA structure. If the user writes Chinese, consult the Chinese guide and return Chinese when requested."
+  short_description: "双语 prompting-guide 检索 + H3 动作转译 + 英文/中文双文档输出"
+  default_prompt: "Use $h3-adult-action-prompting with the paired source files references/prompting-guide.json and references/prompting-guide-Chinese.json. Retrieve the closest source theme(s), build one normalized MiniMax H3 semantic plan, and then always deliver two synchronized Markdown documents: H3_Prompt_EN.md and H3_Prompt_ZH-CN.md. The two files must use the same H3 mode, subjects, references, shots, timing, action mechanics, cadence, amplitude, body response, camera, continuity, soundscape, and music. Keep H3 protocol field names, <Subject N>/<Picture N>/<Video N> tags, [Shot N], timestamps, retention markers, and fixed protocol strings unchanged in the Chinese file; translate only the descriptive prose. For Ref2VA, preserve the exact six-section order. Only suppress one language if the user explicitly asks for a single-language deliverable."
 
 policy:
   allow_implicit_invocation: true
