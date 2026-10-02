@@ -1,0 +1,7 @@
+interface:
+  display_name: "H3 成人动作提示词"
+  short_description: "把成人动作、姿势、频率、幅度和镜头要求改写成可执行的 MiniMax H3 提示词"
+  default_prompt: "Use $h3-adult-action-prompting to convert my explicitly adult fictional/synthetic character scene into a precise MiniMax H3 prompt. Resolve position, active subject, motion direction, cadence, amplitude, full motion cycle, synchronized body response, face-priority camera framing, and continuity. If Picture 1 and Picture 2 are identity-only references, use Ref2VA reference-generation subject definitions rather than treating them as first-frame anchors."
+
+policy:
+  allow_implicit_invocation: true
