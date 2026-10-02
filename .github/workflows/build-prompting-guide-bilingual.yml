@@ -3,17 +3,27 @@ name: Build bilingual prompting guide
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
       - ".github/workflows/build-prompting-guide-bilingual.yml"
-      - "skills/h3-adult-action-prompting/scripts/build_bilingual_prompting_guide.py"
+      - "skills/h3-adult-action-prompting/scripts/prompting_guide_bilingual.py"
 
 permissions:
   contents: write
 
+concurrency:
+  group: prompting-guide-bilingual-v2
+  cancel-in-progress: false
+
 jobs:
-  build:
+  translate:
+    name: Translate shard ${{ matrix.shard }}
     runs-on: ubuntu-latest
-    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
     steps:
       - name: Checkout
@@ -25,21 +35,95 @@ jobs:
           python-version: "3.11"
 
       - name: Install translator
-        run: python -m pip install --upgrade deep-translator
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests deep-translator
 
-      - name: Build English and Chinese source corpora
-        run: python skills/h3-adult-action-prompting/scripts/build_bilingual_prompting_guide.py
+      - name: Translate shard
+        run: |
+          python skills/h3-adult-action-prompting/scripts/prompting_guide_bilingual.py \
+            translate-shard \
+            --shard "${{ matrix.shard }}" \
+            --shard-size 100 \
+            --output "tmp/zh"
 
-      - name: Commit generated corpora
+      - name: Upload translated shard
+        uses: actions/upload-artifact@v4
+        with:
+          name: zh-shard-${{ matrix.shard }}
+          path: tmp/zh/shard-*.json
+          if-no-files-found: error
+          retention-days: 3
+
+  merge:
+    name: Merge and commit bilingual source
+    needs: translate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Download translated shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: zh-shard-*
+          path: tmp/zh-shards
+          merge-multiple: true
+
+      - name: Build full English and Chinese JSON plus shards
+        run: |
+          python skills/h3-adult-action-prompting/scripts/prompting_guide_bilingual.py \
+            merge \
+            --shards-dir tmp/zh-shards \
+            --repo-root . \
+            --shard-size 100
+
+      - name: Validate generated JSON
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          base = Path("skills/h3-adult-action-prompting/references/source")
+          en = base / "en/prompting-guide.en.json"
+          zh = base / "zh-CN/prompting-guide.zh-CN.json"
+          idx = base / "prompting-guide.index.json"
+
+          raw = en.read_bytes()
+          assert hashlib.sha256(raw).hexdigest() == "8f1693636c7928248aaa241f4db7315e8da132b642ac498f25e385a6f1fb178c"
+
+          en_obj = json.loads(en.read_text(encoding="utf-8"))
+          zh_obj = json.loads(zh.read_text(encoding="utf-8"))
+          index = json.loads(idx.read_text(encoding="utf-8"))
+
+          assert len(en_obj) == 1268
+          assert list(en_obj) == list(zh_obj)
+          assert index["entry_count"] == 1268
+          assert len(index["english_shards"]) == 13
+          assert len(index["chinese_shards"]) == 13
+
+          print("validated", len(en_obj), "entries")
+          PY
+
+      - name: Commit generated bilingual source
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add skills/h3-adult-action-prompting/references/prompting-guide.source.en.json
-          git add skills/h3-adult-action-prompting/references/prompting-guide.source.zh-CN.json
-          git add skills/h3-adult-action-prompting/references/prompting-guide.translation-meta.json
+          git add skills/h3-adult-action-prompting/references/source
           if git diff --cached --quiet; then
-            echo "No generated changes."
-          else
-            git commit -m "Add bilingual prompting guide source corpus"
-            git push
+            echo "No generated changes to commit."
+            exit 0
           fi
+          git commit -m "Add original English and Chinese prompting guide sources"
+          git push origin main
