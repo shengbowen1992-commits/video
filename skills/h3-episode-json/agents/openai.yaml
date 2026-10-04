@@ -1,0 +1,4 @@
+interface:
+  display_name: "H3 分段视频 JSON"
+  short_description: "按 H3 官方 I2V 格式生成分段 JSON，明确秒数、首帧来源与每段 LoRA"
+  default_prompt: "使用 $h3-episode-json，把我的分镜生成当前 ComfyUI 整集工作流可上传的 JSON；逐段明确秒数、首帧路径或上一段尾帧、LoRA，并按 H3 官方 I2V 格式编写 prompt。"

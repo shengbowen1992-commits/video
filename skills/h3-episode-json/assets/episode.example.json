@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "episode_id": "h3_i2va_example_001",
+  "title": "三段结构示例：请替换首帧路径和画面描述",
+  "shots": [
+    {
+      "id": 1,
+      "duration_sec": 8,
+      "first_frame": {"type": "image", "path": "F:/请替换为真实素材/首帧/001.png"},
+      "prompt": "For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.\n\nintegrated_multimodal_description: [Shot 1] Live-action, a medium shot begins with the woman seated at the desk as shown in <Picture 1>, retaining her clothing, posture, the envelope on the desk, and the window light. Over the opening three seconds, she lowers her gaze toward the envelope. The camera slowly moves a short distance forward as she reaches for its edge and lifts it. By the end of the eight-second shot, she pauses with the envelope in her hands. She does not speak.\n\noverall_soundscape: A low room hum continues beneath the faint movement of her sleeve and paper against the desk.\n\nnon_diegetic_music: N/A",
+      "seed": 100001,
+      "loras": []
+    },
+    {
+      "id": 2,
+      "duration_sec": 6,
+      "first_frame": {"type": "previous_tail"},
+      "prompt": "For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.\n\nintegrated_multimodal_description: [Shot 1] Live-action, continue from the woman's exact position and the envelope placement visible in <Picture 1>, preserving the desk, clothing, and window light. The camera remains stationary. During this six-second shot, she studies the envelope for a moment, then gently raises her gaze toward the doorway without leaving her seat. Keep the envelope in its opening state. She remains silent.\n\noverall_soundscape: The same low room hum persists, with a faint sleeve rustle as she raises her head.\n\nnon_diegetic_music: N/A",
+      "seed": 100002,
+      "loras": []
+    },
+    {
+      "id": 3,
+      "duration_sec": 10,
+      "first_frame": {"type": "image", "path": "F:/请替换为真实素材/首帧/003.png"},
+      "prompt": "For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.\n\nintegrated_multimodal_description: [Shot 1] Live-action, a medium-wide shot opens on the man standing in the doorway shown in <Picture 1>, retaining his clothing, initial stance, and the room layout. During the first four seconds, he takes one measured step into the room while the camera stays at its opening position. The man with a low, even voice (S1) says: <d>[Chinese] 我回来了。</d> He comes to a stop and waits through the end of the ten-second shot, looking toward the desk.\n\noverall_soundscape: One footstep and a soft clothing rustle are audible against the quiet indoor ambience.\n\nnon_diegetic_music: N/A",
+      "seed": 100003,
+      "loras": []
+    }
+  ]
+}

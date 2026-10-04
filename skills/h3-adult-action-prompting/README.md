@@ -98,4 +98,8 @@ For Ref2VA, both files keep the exact six-section field order.
 skills/h3-adult-action-prompting/
 ```
 
-The repository-root `SKILL.md` remains separate.
+This directory is a standalone skill package. Copy the whole directory when installing; no files from the repository root or sibling skills are required for ordinary use. Other skills are listed in the repository README and have their own directories.
+
+The paired source JSON files are already included. The historical translation-maintenance scripts are optional: `build_bilingual_prompting_guide.py` uses `deep-translator` and network access; `prompting_guide_bilingual.py` uses `requests`, Argos Translate and its model runtime when translating. Do not run these scripts merely to install or use the skill. The stopped repository translation workflow remains stopped.
+
+For maintenance of this standalone folder, `prompting_guide_bilingual.py merge` accepts `--skill-root` (defaults to this skill directory). The previous `--repo-root` option remains available for older repository automation.

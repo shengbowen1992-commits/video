@@ -29,8 +29,8 @@ SOURCE_URL = (
     "resolve/main/prompting-guide.json"
 )
 SOURCE_SHA256 = "8f1693636c7928248aaa241f4db7315e8da132b642ac498f25e385a6f1fb178c"
-SKILL_REL = Path("skills/h3-adult-action-prompting")
-SOURCE_REL = SKILL_REL / "references" / "source"
+SKILL_ROOT = Path(__file__).resolve().parents[1]
+SOURCE_REL = Path("references") / "source"
 
 OMISSION_ZH = "[已省略：该主题涉及未成年人、年龄不明确或儿童化的性内容，因此未翻译正文。]"
 
@@ -250,7 +250,7 @@ def write_shards(obj: OrderedDict, base: Path, lang: str, shard_size: int):
     return meta
 
 
-def merge(shards_dir: Path, repo_root: Path, shard_size: int) -> None:
+def merge(shards_dir: Path, skill_root: Path, shard_size: int) -> None:
     raw, english = load_source()
     expected_keys = list(english.keys())
 
@@ -281,7 +281,7 @@ def merge(shards_dir: Path, repo_root: Path, shard_size: int) -> None:
             f"Translated keys/order mismatch. missing={missing[:10]} extra={extra[:10]}"
         )
 
-    base = repo_root / SOURCE_REL
+    base = skill_root / SOURCE_REL
     en_dir = base / "en"
     zh_dir = base / "zh-CN"
     en_dir.mkdir(parents=True, exist_ok=True)
@@ -338,14 +338,18 @@ def main() -> None:
 
     m = sub.add_parser("merge")
     m.add_argument("--shards-dir", type=Path, required=True)
-    m.add_argument("--repo-root", type=Path, required=True)
+    location = m.add_mutually_exclusive_group()
+    location.add_argument("--skill-root", type=Path, help="Standalone skill folder; defaults to this script's skill")
+    location.add_argument("--repo-root", type=Path, help="Legacy repository root (compatibility option)")
     m.add_argument("--shard-size", type=int, default=100)
 
     args = ap.parse_args()
     if args.cmd == "translate-shard":
         translate_shard(args.shard, args.shard_size, args.output)
     else:
-        merge(args.shards_dir, args.repo_root, args.shard_size)
+        skill_root = (args.repo_root / "skills" / "h3-adult-action-prompting"
+                      if args.repo_root else (args.skill_root or SKILL_ROOT))
+        merge(args.shards_dir, skill_root, args.shard_size)
 
 
 if __name__ == "__main__":

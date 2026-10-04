@@ -1,0 +1,35 @@
+name: Validate isolated skills
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skills/**"
+      - "scripts/check_skill_layout.py"
+      - ".github/workflows/validate-skills.yml"
+  pull_request:
+    paths:
+      - "skills/**"
+      - "scripts/check_skill_layout.py"
+      - ".github/workflows/validate-skills.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check independent package layout
+        run: python scripts/check_skill_layout.py
+      - name: Check existing story envelope behavior
+        run: python -m unittest discover -s skills/h3-tailchain-continuity/scripts -p 'test_*.py'
+      - name: Check portable episode JSON behavior
+        run: python -m unittest discover -s skills/h3-episode-json/scripts -p 'test_*.py'
+      - name: Validate episode template without local runtime
+        run: python skills/h3-episode-json/scripts/validate_episode.py skills/h3-episode-json/assets/episode.example.json
