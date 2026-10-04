@@ -1,0 +1,4 @@
+interface:
+  display_name: "H3 双人物 Ref2V 整集 JSON"
+  short_description: "编写全局男女主参考、Picture 3 开场图及逐段时长的 H3 Ref2V JSON"
+  default_prompt: "使用 $h3-episode-ref2v-json，把我的分镜生成可上传的 Ref2V 整集 JSON，逐段写秒数、Picture 3 来源和内容 LoRA。"

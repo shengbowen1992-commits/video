@@ -5,10 +5,11 @@
 | Skill | 用途 | 输出 / 适用工作流 |
 | --- | --- | --- |
 | [h3-episode-json](skills/h3-episode-json/SKILL.md) | 为 H3 官方 I2V 格式编写整集分段 JSON，明确每段秒数、图片路径或上段尾帧、附加 LoRA | `shots` JSON；用于“整集JSON-外置分辨率与原生加速参数”工作流 |
+| [h3-episode-ref2v-json](skills/h3-episode-ref2v-json/SKILL.md) | 为双人物 Ref2V 整集编写 JSON：女主/男主全局参考，Picture 3 为开场图或上段尾帧，逐段秒数与内容 LoRA | `shots` JSON；prompt 使用官方 Ref2VA 六字段；用于“整集JSON-Ref2V-双人物全局-Picture3开场参考”工作流 |
 | [h3-tailchain-continuity](skills/h3-tailchain-continuity/SKILL.md) | Ref2VA 分段提示词、Opening State 文字承接及旧版尾帧序列 | 默认 `story_segments.json`；原版方案五两张人物身份图；兼容显式选择的旧版 `sequence.json` |
 | [h3-adult-action-prompting](skills/h3-adult-action-prompting/README.md) | 已有的成年虚构角色提示词资料与双语规范 | 中英文 H3 文档；语料、说明和维护脚本保留在自己的目录 |
 
-这三种输出协议彼此独立。`shots`、`segments`、旧版 `sets/clips` 不应混用；目录整理没有改变原有工作流的输入约定。
+各 skill 的输入约定彼此独立。两种 `shots` JSON 分别对应 I2VA 三字段和 Ref2VA 六字段 prompt，应选择匹配的工作流；`segments`、旧版 `sets/clips` 不应混用。
 
 ## 目录
 
@@ -24,6 +25,12 @@ skills/
     SKILL.md
     README.md
     agents/
+    references/
+    scripts/
+  h3-episode-ref2v-json/
+    SKILL.md
+    agents/
+    assets/
     references/
     scripts/
   h3-adult-action-prompting/
@@ -60,6 +67,7 @@ Copy-Item -LiteralPath (Join-Path 'skills' $skillName) -Destination $skillDestin
 ## 独立使用与依赖
 
 - `h3-episode-json` 的 JSON / I2VA 结构检查只需 Python 3.10+ 标准库，不依赖其他 skill、本机固定盘符或 ComfyUI。图片解码检查需 Pillow；显式传入 `--project-root` 时才调用已有 H3 整集项目解析器，并需要该项目依赖。生成视频仍需要对应的 ComfyUI 工作流、节点和模型，本仓库不分发它们。
+- `h3-episode-ref2v-json` 自带 Ref2VA 三图编写规范、模板和独立标准库校验器。检查真实图片时同时提供两张全局身份图；显式传入 `--project-root` 时调用 Ref2V 项目的真实导入器。Picture 3 为开场参考约束，不保证生成首帧与图片逐像素相同。
 - `h3-tailchain-continuity` 的两个 JSON 校验脚本随目录提供，使用 Python 3.10+，不读取兄弟 skill。
 - `h3-adult-action-prompting` 已随包提供现有中英文资料。普通使用不需要运行翻译构建脚本；其历史维护工具的网络与翻译依赖见该目录说明，原来停止的翻译 workflow 继续保持停止状态。
 
@@ -76,6 +84,8 @@ python scripts/check_skill_layout.py
 python -m unittest discover -s skills/h3-tailchain-continuity/scripts -p 'test_*.py'
 python -m unittest discover -s skills/h3-episode-json/scripts -p 'test_*.py'
 python skills/h3-episode-json/scripts/validate_episode.py skills/h3-episode-json/assets/episode.example.json
+python -m unittest discover -s skills/h3-episode-ref2v-json/scripts -p 'test_*.py'
+python skills/h3-episode-ref2v-json/scripts/validate_episode.py skills/h3-episode-ref2v-json/assets/episode.example.json
 ```
 
 检查只验证目录边界、文件引用、JSON 格式和脚本行为；不会提交视频、翻译语料或调用生成模型。

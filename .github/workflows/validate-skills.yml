@@ -33,3 +33,7 @@ jobs:
         run: python -m unittest discover -s skills/h3-episode-json/scripts -p 'test_*.py'
       - name: Validate episode template without local runtime
         run: python skills/h3-episode-json/scripts/validate_episode.py skills/h3-episode-json/assets/episode.example.json
+      - name: Check independent Ref2VA three-picture episode behavior
+        run: python -m unittest discover -s skills/h3-episode-ref2v-json/scripts -p 'test_*.py'
+      - name: Validate Ref2VA template without local runtime
+        run: python skills/h3-episode-ref2v-json/scripts/validate_episode.py skills/h3-episode-ref2v-json/assets/episode.example.json

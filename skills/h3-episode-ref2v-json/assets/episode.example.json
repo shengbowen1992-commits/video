@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "episode_id": "ref2v_episode_001",
+  "title": "Ref2V 双人物 + Picture 3 三段示例",
+  "shots": [
+    {
+      "id": 1,
+      "duration_sec": 10,
+      "first_frame": {
+        "type": "image",
+        "path": "F:/你的素材/开场图/001.png"
+      },
+      "prompt": "subject_definitions:\n<Subject 1> is the woman whose facial identity and hairstyle come from <Picture 1>. <Subject 2> is the man whose facial identity and hairstyle come from <Picture 2>. <Picture 3> is the intended opening frame for [Shot 1], establishing their current positions, clothing states, props and scene composition.\n\nsummary:\n[reference generation + keyframe completion] Continue the two subjects' scene from <Picture 3>, using the two identity pictures only for their respective identities.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - identity and hairstyle from <Picture 1>.\n<Subject 2> (appears in [Shot 1]): fully_preserved - identity and hairstyle from <Picture 2>.\n<Picture 3> ([Shot 1] first frame): fully_preserved - opening composition, spatial relationships, current wardrobe and object states.\n\ndetailed_description:\nThe visual style and lighting follow <Picture 3>. Playback is normal real-time speed. Identity references do not replace the scene or introduce duplicate people. [Shot 1] Begin from the opening state shown in <Picture 3>, maintaining each visible person's position, gaze, hands, clothing and contact with objects. The two subjects slowly turn their attention toward one another, then hold a natural listening posture. Keep the camera movement gentle and continuous. Preserve each person's identity through the action and leave a clear final view for the following segment. No dialogue or visible text is added.\n\noverall_soundscape:\nQuiet ambience consistent with the depicted setting, with subtle clothing movement synchronized to the action.\n\nnon_diegetic_music:\nN/A",
+      "seed": 100001,
+      "loras": []
+    },
+    {
+      "id": 2,
+      "duration_sec": 8,
+      "first_frame": {
+        "type": "previous_tail"
+      },
+      "prompt": "subject_definitions:\n<Subject 1> is the woman whose facial identity and hairstyle come from <Picture 1>. <Subject 2> is the man whose facial identity and hairstyle come from <Picture 2>. <Picture 3> is the intended opening frame for [Shot 1], establishing their current positions, clothing states, props and scene composition.\n\nsummary:\n[reference generation + keyframe completion] Continue the two subjects' scene from <Picture 3>, using the two identity pictures only for their respective identities.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - identity and hairstyle from <Picture 1>.\n<Subject 2> (appears in [Shot 1]): fully_preserved - identity and hairstyle from <Picture 2>.\n<Picture 3> ([Shot 1] first frame): fully_preserved - opening composition, spatial relationships, current wardrobe and object states.\n\ndetailed_description:\nThe visual style and lighting follow <Picture 3>. Playback is normal real-time speed. Identity references do not replace the scene or introduce duplicate people. [Shot 1] Begin from the opening state shown in <Picture 3>, maintaining each visible person's position, gaze, hands, clothing and contact with objects. Continue from the actual opening state without repeating the completed turn. The woman makes one small nod while the man remains attentive. Keep the camera movement gentle and continuous. Preserve each person's identity through the action and leave a clear final view for the following segment. No dialogue or visible text is added.\n\noverall_soundscape:\nQuiet ambience consistent with the depicted setting, with subtle clothing movement synchronized to the action.\n\nnon_diegetic_music:\nN/A",
+      "seed": 100002,
+      "loras": []
+    },
+    {
+      "id": 3,
+      "duration_sec": 10,
+      "first_frame": {
+        "type": "image",
+        "path": "F:/你的素材/开场图/003.png"
+      },
+      "prompt": "subject_definitions:\n<Subject 1> is the woman whose facial identity and hairstyle come from <Picture 1>. <Subject 2> is the man whose facial identity and hairstyle come from <Picture 2>. <Picture 3> is the intended opening frame for [Shot 1], establishing their current positions, clothing states, props and scene composition.\n\nsummary:\n[reference generation + keyframe completion] Continue the two subjects' scene from <Picture 3>, using the two identity pictures only for their respective identities.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - identity and hairstyle from <Picture 1>.\n<Subject 2> (appears in [Shot 1]): fully_preserved - identity and hairstyle from <Picture 2>.\n<Picture 3> ([Shot 1] first frame): fully_preserved - opening composition, spatial relationships, current wardrobe and object states.\n\ndetailed_description:\nThe visual style and lighting follow <Picture 3>. Playback is normal real-time speed. Identity references do not replace the scene or introduce duplicate people. [Shot 1] Begin from the opening state shown in <Picture 3>, maintaining each visible person's position, gaze, hands, clothing and contact with objects. In this newly supplied composition, the two subjects settle their posture and briefly exchange a glance. Keep the camera movement gentle and continuous. Preserve each person's identity through the action and leave a clear final view for the following segment. No dialogue or visible text is added.\n\noverall_soundscape:\nQuiet ambience consistent with the depicted setting, with subtle clothing movement synchronized to the action.\n\nnon_diegetic_music:\nN/A",
+      "seed": 100003,
+      "loras": []
+    }
+  ]
+}
