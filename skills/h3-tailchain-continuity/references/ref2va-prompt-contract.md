@@ -161,7 +161,7 @@ Apply [H3 sound authoring](h3-sound-prompt-standard.md) by default: global style
 
 ## Tailchains and Multiple Independent Identities
 
-The parent skill's legacy map uses one permanent identity image plus a previous-tail image. Dynamic-series reference bindings depend on the selected workflow: the original two-image workflow uses the immediately preceding tail video as `<Video 1>` from segment 2 onward; Plan 6 is hybrid and uses it only on selected video-reference segments; Plan 5 uses two identity-reference images and no video input. Keep these roles explicit; never promise exact first-frame equality from a Ref2VA text instruction alone. An actual I2VA workflow is the separate literal-first-frame contract.
+The parent skill's legacy map uses one permanent identity image plus a previous-tail image. The current dynamic-series default is Plan 5 tail-lineart: Pictures 1/2 retain female/male identities in every segment, and Picture 3 supplies the preceding final frame's lineart from segment 2 onward. Opening State text supplements that structural reference. The original dynamic workflow instead uses tail video as `<Video 1>`; Plan 6 uses it only on selected segments; explicitly selected original Plan 5 uses only two identities and text. Keep these roles explicit; never promise exact first-frame equality from Ref2VA conditioning. I2VA is a separate mode and is not required to use a tail as Picture 3.
 
 | Situation | Explicit picture mapping |
 | --- | --- |
@@ -169,11 +169,12 @@ The parent skill's legacy map uses one permanent identity image plus a previous-
 | Legacy clip 02+ | `<Subject 1>` keeps identity from `<Picture 1>`; standalone `<Picture 2>` anchors the opening from the previous accepted tail |
 | Two independent identity images, first clip | `<Subject 1>` gets identity from `<Picture 1>`; `<Subject 2>` gets identity from `<Picture 2>` |
 | Two independent identities plus previous tail | Keep those two identity mappings; use a separate `<Picture 3>` for the previous-tail opening |
+| Current default: Plan 5 tail-lineart | Female identity stays in `<Picture 1>`, male identity in `<Picture 2>`. Segment 1 has no Picture 3; each continuation uses the immediately preceding actual tail converted to lineart as `<Picture 3>` for opening geometry and action phase. Keep the requested output style and current color state; do not imitate the line drawing. No video input. |
 | Dynamic series with two identity images and tail video | Keep `<Picture 1>` and `<Picture 2>` assigned to their identities; segment 1 has no preceding video, and segment 2 onward always use `<Video 1>` for the immediately preceding tail video |
 | Plan 6 (hybrid two-image series) | Keep the same two identity images. Use `<Video 1>` only in segments where the workflow actually binds the previous tail video; omit it in other segments. |
 | Plan 5 (No Video / Opening State) | `<Picture 1>` is the single female-lead reference; `<Picture 2>` is the single male-lead reference. All segments use these two still images, none has `<Video 1>`. Describe the previous ending state in the next complete prompt; the text does not enforce an exact matching first frame. |
 
-This table describes workflow-specific contracts, not universal picture numbering. If generation is requested, verify input support and binding; do not overwrite an identity image with a tail. For text-only authoring, state the required mapping without demanding local file paths. Apply the parent skill's identity-versus-geometry authority and instance-continuity rules to the resolved labels. For `prompt_i2v_en`, `<Picture 1>` is still the actual previous tail; do not copy Ref2VA numbering into I2VA blindly. The [Plan 5 single-image input mapping](story-segments-json.md#方案五女主单图与男主单图) are defined separately.
+This table describes workflow-specific contracts, not universal picture numbering. If generation is requested, verify input support and binding; do not overwrite an identity image with a tail. For text-only authoring, state the required mapping without demanding local file paths. Apply the parent skill's identity-versus-geometry authority and instance-continuity rules to the resolved labels. For `prompt_i2v_en`, `<Picture 1>` is still the actual previous tail; do not copy Ref2VA numbering into I2VA blindly. The [dynamic-series profile mappings](story-segments-json.md) distinguish the current tail-lineart default from explicitly selected alternatives.
 
 ## Complete Original Example
 

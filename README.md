@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | [h3-episode-json](skills/h3-episode-json/SKILL.md) | 为 H3 官方 I2V 格式编写整集分段 JSON，明确每段秒数、图片路径或上段尾帧、附加 LoRA | `shots` JSON；用于“整集JSON-外置分辨率与原生加速参数”工作流 |
 | [h3-episode-ref2v-json](skills/h3-episode-ref2v-json/SKILL.md) | 为双人物 Ref2V 整集编写 JSON：女主/男主全局参考，Picture 3 为开场图或上段尾帧，逐段秒数与内容 LoRA | `shots` JSON；prompt 使用官方 Ref2VA 六字段；用于“整集JSON-Ref2V-双人物全局-Picture3开场参考”工作流 |
-| [h3-tailchain-continuity](skills/h3-tailchain-continuity/SKILL.md) | Ref2VA 分段提示词、Opening State 文字承接及旧版尾帧序列 | 默认 `story_segments.json`；原版方案五两张人物身份图；兼容显式选择的旧版 `sequence.json` |
+| [h3-tailchain-continuity](skills/h3-tailchain-continuity/SKILL.md) | Ref2VA 分段提示词、双人物身份与 Picture 3 尾帧线稿续接 | 默认 `story_segments.json`；Picture 1/2 固定身份，第 2 段起追加尾帧线稿 Picture 3；原版纯文字 Opening State 与旧版 `sequence.json` 需显式选择 |
 | [h3-adult-action-prompting](skills/h3-adult-action-prompting/README.md) | 已有的成年虚构角色提示词资料与双语规范 | 中英文 H3 文档；语料、说明和维护脚本保留在自己的目录 |
 
 各 skill 的输入约定彼此独立。两种 `shots` JSON 分别对应 I2VA 三字段和 Ref2VA 六字段 prompt，应选择匹配的工作流；`segments`、旧版 `sets/clips` 不应混用。
