@@ -19,6 +19,21 @@ Before authoring or revising H3 execution prompts, read [references/h3-sound-pro
 
 Use the selected mode's existing fields and actual audio bindings. Preserve exact dialogue, silence requests and format-only source text; templates do not authorize new voices, music or reference inputs. Apply the standard inside each complete execution prompt, not only in an unused outer `global_prompt`. With V18, sustain the requested physical cadence while allowing natural vocal spacing rather than one vocal response per movement. Prompt validation does not replace listening to rendered audio.
 
+## Express Emotion and Intensity Through Observable Actions
+
+When authoring or revising emotional performance or physical intensity, do not use adjectives or abstract states as the entire action instruction. Words such as “大幅度”, “用力”, “享受”, “紧张”, “愤怒”, “intense”, or “enjoying” may qualify a concrete action, but cannot replace it. Apply this rule inside each affected Shot in the actual execution prompt, not only in a summary or an outer JSON field.
+
+Describe who moves, which body part moves, and what it does to which target. Make direction/path, visible range, pace/repetition, contact or weight transfer, and the resulting posture clear where relevant. Express emotion through context-appropriate gaze, facial changes, hand movements, and body reactions; do not force every cue into every shot or assign one fixed gesture to every emotion. Use meaningful spatial anchors or timing when helpful, without inventing unsupported exact measurements.
+
+Examples illustrate the writing method only; use them only when the underlying action already belongs to the user's scene:
+
+- Instead of only “用力推门”: “双掌抵住门板，前脚向前踏半步，屈肘后逐渐伸直双臂，肩膀和身体重心向前压，门板随推动缓慢打开。”
+- Instead of only “大幅度挥手”: “手臂从腰侧抬到头顶上方，再向身体外侧划出宽弧，连续左右摆动。”
+- Instead of only “享受地喝茶”: “抿一口茶后缓缓咽下，眼睑轻合，肩膀放松下沉，嘴角微微抬起。”
+- Instead of only “紧张地等候”: “视线反复移向门口，拇指来回摩擦另一只手的指节，双肩微微收紧。”
+
+Preserve the requested emotion, existing action, physical path, and continuity. Do not invent new plot beats, props, contact, dialogue, or sounds to demonstrate a feeling. For intensity requests, also apply V18; visible movement must carry the requested amplitude and cadence rather than merely adding stronger adjectives. Pure format-only packaging preserves the source wording and reports vague action descriptions separately instead of rewriting them without authorization.
+
 ## Scope Boundary
 
 - Never invent or substitute characters, relationships, story beats, locations, props, dialogue, mood, or visual style.
@@ -367,6 +382,7 @@ Write the finished JSON to the user-specified directory. If no directory is supp
 
 Before delivery, verify:
 
+- each requested emotion or intensity in the affected execution Shots is grounded in concrete observable actions, with relevant direction, range, rhythm, and physical reactions; adjectives alone do not satisfy this check;
 - a revision prompt begins from the actual tail when one exists; an initial package uses the preceding planned tail state without claiming it was visually verified;
 - no quarantined completed-action term remains, including in negatives;
 - the opening continues the inherited trajectory; one-time transitions keep a single direction, while requested cyclic actions preserve phase through natural return strokes;
