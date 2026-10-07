@@ -21,6 +21,14 @@ Use the selected mode's existing fields and actual audio bindings. Preserve exac
 
 If spoken or nonverbal vocal reactions are explicitly requested, every affected Shot must contain its relevant trigger-specific reaction; `overall_soundscape` alone is insufficient. Apply the source, trigger, texture, dynamics, spacing, and visible-response guidance in the sound reference without adding unrequested sounds. A request for a silent gesture alone does not activate this vocal requirement.
 
+## Adult Explicit Action Continuity Routing
+
+When the user's scene explicitly involves **fictional adult characters** performing explicit sexual actions, read [references/adult-action-continuity.md](references/adult-action-continuity.md) and apply it in addition to the general Ref2VA, tail-lineart, V18, state-ledger, expression, and sound rules.
+
+Activate this module only for explicit adult sexual content such as oral sex, genital/manual stimulation, penetrative intercourse, explicit sexual position transitions, nudity prerequisites for those actions, or climax continuity. Do not load or inject its sexual vocabulary into nonsexual scenes, suggestive-but-nonexplicit scenes, or format-only transformations that must preserve source wording.
+
+The adult module is a **specialized continuity and artifact-prevention layer**, not permission to invent new sexual acts, new partners, dialogue, fluids, climax events, or escalation beyond the user's scene. Preserve the user's requested action sequence and relationship dynamics. All depicted characters must be adults.
+
 ## Express Emotion and Intensity Through Observable Actions
 
 When authoring or revising emotional performance or physical intensity, do not use adjectives or abstract states as the entire action instruction. Words such as “大幅度”, “用力”, “享受”, “紧张”, “愤怒”, “intense”, or “enjoying” may qualify a concrete action, but cannot replace it. Apply this rule inside each affected Shot in the actual execution prompt, not only in a summary or an outer JSON field.
@@ -420,6 +428,8 @@ Before delivery, verify:
 - mutable state is tracked independently for every persistent subject and relevant prop that changes; each Shot completing a one-time transition makes the resulting end state unambiguous, while partial transitions continue from their inherited phase;
 - completed garment, footwear and prop transitions do not replay or silently revert; an actual accepted raw tail overrides a conflicting planned state;
 - close interactions preserve each visible body part's correct subject ownership and plausible physical attachment; attached anatomy is not described as an independent handheld object;
+- when the adult explicit-action module is active, genital anatomy keeps correct ownership and continuous attachment; oral/manual/penetrative contact follows the requested anatomical path; prerequisite nudity/garment state is completed before the dependent sexual action; position changes preserve or explicitly release/re-establish the relevant contact rather than teleporting it;
+- when the adult explicit-action module is active, requested pleasure expressions, moans/gasps, and climax behavior are trigger-specific and naturally varied rather than a fixed face, one sound per movement, or an abrupt unsupported climax state;
 - every Shot affected by a requested vocal reaction has its own source and action-triggered sound details, not just a global soundscape sentence;
 - a user-designated visual anchor remains the camera priority across cuts and moves without freezing the action during a brief camera glance;
 - no quarantined completed-action term remains, including in negatives;

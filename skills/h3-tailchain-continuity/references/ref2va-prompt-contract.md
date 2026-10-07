@@ -139,6 +139,8 @@ For tail-lineart continuation, the ledger has distinct authorities: identity pic
 
 For close interaction or framing where body-part ownership is ambiguous, preserve each visible body part's ownership and plausible physical attachment to its correct subject. Anchor contact to identifiable body landmarks, such as a hand resting on the other subject's shoulder or fingers along the jaw, and clarify which subject owns each contacting hand or limb. If hand assistance is unnecessary, do not add ambiguous handling instructions. Attached body parts must not become movable standalone props, switch owners, float, or duplicate. Reject those artifacts during authorized visual review. Apply this as a general anatomical-consistency rule without adding an unrequested action.
 
+When an explicit fictional-adult sexual scene is being authored, also apply the specialized [adult explicit-action continuity rules](adult-action-continuity.md). Those rules refine genital ownership/attachment, oral/manual/penetrative contact, position transitions, prerequisite nudity state, adult vocal reactions, pleasure expressions, and climax handoffs without changing this general contract.
+
 ## User-Designated Visual Anchor
 
 When the user designates a visual-anchor subject, keep that subject as the camera priority across cuts and camera moves. Reframing, tracking, orbiting, over-shoulder views, and camera-height changes should continue to serve the designated subject instead of unintentionally making another person the visual lead. This does not remove other participants or their continuity requirements.
