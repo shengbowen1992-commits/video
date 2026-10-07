@@ -10,6 +10,7 @@
 | 第二段及以后 | 追加上一段实际最后一帧转换的线稿，始终编号 `<Picture 3>` |
 | 跨段承接 | 开场构图、姿态、位置及接触关系以 Picture 3 为准；Opening State 主要补充已确定的颜色和衣服当前状态，下一步动作单独描述 |
 | 故事文件 | `story_segments.json`，每段 `raw_prompt: true`，完整六节 `prompt` |
+| 静态校验 | `validate_story_segments.py` 校验外壳；默认尾帧线稿方案再用 `validate_tailchain_prompts.py` 校验六节标题与 Picture/Video 绑定 |
 | 运行参数 | 分辨率、4/8 步、LoRA 开关与强度、单段时长在工作流设置，不写进故事 JSON |
 
 运行链路：单段视频 → 提取实际最后一帧 → 转线稿 → 下一段 Picture 3。不执行尾帧 2 倍超分或调色，不绑定参考视频。第三张图表达结构，人物身份仍由前两张图提供；输出保留用户要求的画风及当前颜色/服装状态，不照着线稿生成黑白画面。Ref2VA 参考图不保证逐像素首帧一致。
@@ -25,5 +26,6 @@
 - [故事 JSON 结构与各方案绑定](references/story-segments-json.md)
 - [V18 动作要求](references/v18-motion-intensity.md)
 - [分层声音规范](references/h3-sound-prompt-standard.md)
+- [默认尾帧线稿静态 Prompt 校验器](scripts/validate_tailchain_prompts.py)
 
 本仓库提供提示词技能、格式说明和校验脚本；ComfyUI 节点与本地运行环境不随仓库分发。修改提示词 skill 不会启动渲染或改变已有任务。

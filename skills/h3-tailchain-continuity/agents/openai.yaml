@@ -1,7 +1,7 @@
 interface:
   display_name: "H3 连续分段 JSON"
-  short_description: "输入段数、时长和场景生成多段 JSON，自动应用 V18 动作规则与分层声音规范"
-  default_prompt: "Use $h3-tailchain-continuity to write story_segments.json with six-section Ref2VA prompts: fixed female Picture 1 and male Picture 2, previous tail-lineart Picture 3 from segment 2 onward governing visible opening state, and brief Opening State text mainly supplementing established colors and current clothing state."
+  short_description: "生成多段 H3 JSON，并应用尾帧线稿状态继承、V18 动作规则与分层声音规范"
+  default_prompt: "Use $h3-tailchain-continuity to write story_segments.json with six-section Ref2VA prompts: fixed female Picture 1 and male Picture 2; segment 1 contains no Picture 3; segment 2 onward uses the immediately preceding accepted tail-lineart as Picture 3 for opening geometry and visible action phase only. Carry relevant mutable non-geometric state in concise prompt text for every persistent subject and prop, preserve completed one-time transitions without replay, and put requested visible/vocal reactions inside each affected Shot."
 
 policy:
   allow_implicit_invocation: true

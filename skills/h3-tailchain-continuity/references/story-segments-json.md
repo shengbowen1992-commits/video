@@ -130,7 +130,15 @@ Continue forward without replaying completed transitions.
 python scripts/validate_story_segments.py /path/to/story_segments.json
 ```
 
-校验器只检查 JSON 语法、字段集合、类型、非空值和连续编号；只输出段数和结构校验结果，不打印提示词正文，不改写文件，不联网、不提交渲染。它把 `prompt` 当作不透明字符串，不证明六节正文、语义、连续性、人物或成片质量合格。
+上面的校验器只检查 JSON 语法、字段集合、类型、非空值和连续编号；只输出段数和结构校验结果，不打印提示词正文，不改写文件，不联网、不提交渲染。它把 `prompt` 当作不透明字符串。
+
+当前默认的方案五衍生·尾帧线稿续接还应额外运行：
+
+```text
+python scripts/validate_tailchain_prompts.py /path/to/story_segments.json
+```
+
+这个静态校验器只检查可机械确认的正文契约：六节标题恰好各一次且顺序正确、每段包含 Pictures 1/2、第一段完全不提 Picture 3、第二段起必须引用 Picture 3、默认 Plan 5 线稿方案不得引用 Video 1。它不会判断 Opening State 的语义是否正确、可变状态是否真的连续、表情/声音是否自然、动作是否重演或成片是否合格；这些仍按本 skill 的人工交付前检查和渲染 QC 处理。其他显式选择的 profile 不使用这个线稿专用校验器。
 
 正常创作仍执行原有提示词规范的交付前检查。用户限制正文检查时遵守限制，只报告已完成的结构检查，不能把它说成提示词内容审核通过。
 
