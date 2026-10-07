@@ -127,6 +127,24 @@ Live-action with soft, even artificial lighting. The same two people retain thei
 
 Here the opening states the global rule, while Shot 2 gives the actual hand/object/position handoff. Do not merely append “keep continuity” to every shot or repeatedly restage the characters. When shots are generated separately, retain identity references and use the preceding accepted result/tail as supported by the renderer; never claim that text alone proves visual continuity. Do not add a cut or new action solely to demonstrate this method.
 
+### Per-Subject Mutable-State Ledger
+
+Maintain the ledger independently for every persistent subject and relevant prop, including secondary subjects. Track only details needed for the requested changes: garment identity/color/layer, worn/loosened/partially removed/fully removed, fastened/unfastened, footwear on/off, and prop ownership or changed prop state. If multiple subjects change state, track all of their transitions separately; do not infer another subject's state from the visual lead.
+
+Plan any explicitly requested prerequisite transition before the action that depends on it. Do not introduce a last-minute conditional branch or invent a missing wardrobe/prop change. Each Shot completing a one-time transition must make its resulting end state unambiguous. Carry that result forward until an explicit story reversal; a partial transition continues from its inherited phase, and true cyclic motion retains its cycle phase.
+
+For tail-lineart continuation, the ledger has distinct authorities: identity pictures preserve identity; Picture 3 governs structural opening geometry/action phase; text carries the relevant non-geometric mutable state. During initial planning, derive text state only from the preceding explicitly completed planned end state, without claiming to have inspected a future image. After rendering, accepted raw-tail evidence overrides planned mutable state. Reconcile a mismatch before continuing; do not use a text assertion to disguise it. The ledger is a working authoring record, not a new JSON field or a complete description repeated in every Shot.
+
+## Anatomical Ownership and Attachment
+
+For close interaction or framing where body-part ownership is ambiguous, preserve each visible body part's ownership and plausible physical attachment to its correct subject. Anchor contact to identifiable body landmarks, such as a hand resting on the other subject's shoulder or fingers along the jaw, and clarify which subject owns each contacting hand or limb. If hand assistance is unnecessary, do not add ambiguous handling instructions. Attached body parts must not become movable standalone props, switch owners, float, or duplicate. Reject those artifacts during authorized visual review. Apply this as a general anatomical-consistency rule without adding an unrequested action.
+
+## User-Designated Visual Anchor
+
+When the user designates a visual-anchor subject, keep that subject as the camera priority across cuts and camera moves. Reframing, tracking, orbiting, over-shoulder views, and camera-height changes should continue to serve the designated subject instead of unintentionally making another person the visual lead. This does not remove other participants or their continuity requirements.
+
+Camera priority does not require constant frontal eye contact: use the requested front, three-quarter, profile, over-shoulder, or moving view while retaining recognizability. A brief camera glance, when requested, happens during the ongoing action without freezing, pausing, or reducing its cadence. Do not add camera gazes or a designated visual anchor when the user has not requested them.
+
 ## Shots, Timing, and Description Detail
 
 ```text
@@ -222,3 +240,7 @@ Perform this review in addition to the repository's JSON validator. Do not claim
 6. Speaker IDs, lip activity, original dialogue, language tags, and any cross-cut audio are consistent. Shot-specific sound identifies its source, trigger and relevant dynamics/spacing; natural vocal reactions do not mechanically repeat once per movement. Soundscape and score do not contradict the shot audio or duplicate dialogue. Respect deliberate rhythmic sounds, silence and actual audio bindings.
 7. In a chain, stable identity labels, previous-tail geometry, subject count, and forward motion survive the seam. Separate identity inputs never silently become tail inputs. Runtime support is distinguished from prompt intent.
 8. Explicit user requirements take precedence over local defaults. For a limited format-only edit, report remaining authoring deviations rather than claiming full compliance. Prompt validation does not prove rendered identity, lip sync, or continuity.
+9. Mutable state is tracked separately for all persistent subjects and relevant props that change. Completed one-time state transitions remain complete unless explicitly reversed; partial transitions continue from their inherited phase. A Shot completing a transition establishes the resulting end state before the next Shot/segment.
+10. In the default lineart profile, segment 1 contains no Picture 3 reference anywhere; segment 2+ assigns it only structural opening geometry/action phase. Text carries relevant colors and mutable non-geometric state. Planned prior end states are not represented as observed tails; accepted raw-tail evidence overrides a conflicting plan.
+11. Close interactions preserve correct body-part ownership and physical attachment; no instruction treats attached anatomy as an independent handheld prop.
+12. Requested expressions and vocal reactions are grounded in each affected Shot's trigger and response, rather than only a global adjective or soundscape sentence. A designated visual anchor retains camera priority; brief camera gaze does not pause the ongoing action.

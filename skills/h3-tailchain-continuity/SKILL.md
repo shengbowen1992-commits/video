@@ -19,6 +19,8 @@ Before authoring or revising H3 execution prompts, read [references/h3-sound-pro
 
 Use the selected mode's existing fields and actual audio bindings. Preserve exact dialogue, silence requests and format-only source text; templates do not authorize new voices, music or reference inputs. Apply the standard inside each complete execution prompt, not only in an unused outer `global_prompt`. With V18, sustain the requested physical cadence while allowing natural vocal spacing rather than one vocal response per movement. Prompt validation does not replace listening to rendered audio.
 
+If spoken or nonverbal vocal reactions are explicitly requested, every affected Shot must contain its relevant trigger-specific reaction; `overall_soundscape` alone is insufficient. Apply the source, trigger, texture, dynamics, spacing, and visible-response guidance in the sound reference without adding unrequested sounds. A request for a silent gesture alone does not activate this vocal requirement.
+
 ## Express Emotion and Intensity Through Observable Actions
 
 When authoring or revising emotional performance or physical intensity, do not use adjectives or abstract states as the entire action instruction. Words such as “大幅度”, “用力”, “享受”, “紧张”, “愤怒”, “intense”, or “enjoying” may qualify a concrete action, but cannot replace it. Apply this rule inside each affected Shot in the actual execution prompt, not only in a summary or an outer JSON field.
@@ -33,6 +35,8 @@ Examples illustrate the writing method only; use them only when the underlying a
 - Instead of only “紧张地等候”: “视线反复移向门口，拇指来回摩擦另一只手的指节，双肩微微收紧。”
 
 Preserve the requested emotion, existing action, physical path, and continuity. Do not invent new plot beats, props, contact, dialogue, or sounds to demonstrate a feeling. For intensity requests, also apply V18; visible movement must carry the requested amplitude and cadence rather than merely adding stronger adjectives. Pure format-only packaging preserves the source wording and reports vague action descriptions separately instead of rewriting them without authorization.
+
+When visible emotional or performance reactions are requested, put a concrete response inside every affected Shot, tied to that Shot's current trigger. Vary the relevant eyelid, gaze, brow, jaw, lip, head, hand, shoulder, or torso response rather than repeating one fixed signature expression. These are available cues, not a mandatory list for every shot; breathing as a visible response does not authorize an added vocal sound. A requested brief camera glance happens during the ongoing action and must not introduce a pause or reduce its cadence.
 
 ## Scope Boundary
 
@@ -51,7 +55,25 @@ The default is **Plan 5 tail-lineart continuation**, for `H3-方案5衍生-全�
 
 In each continuation's six-section prompt, keep identity attached to Pictures 1/2. **Picture 3 governs the opening composition, body positions, pose, contact points, prop placement, camera axis and visible action phase.** Keep Opening State brief: primarily supplement established colors and current clothing state that the lineart cannot express clearly, without restating or preassigning spatial/pose details that could conflict with the actual tail. Keep the requested subsequent action separate from this opening-state supplement; it begins from the supplied reference rather than resetting the pose. The lineart is not a third character or the target drawing style.
 
-Preserve known garment identity, colors, layers and the latest confirmed wearing/fastening state; do not restore an outfit from Pictures 1/2 after the story has changed it. Where wearing/fastening details are visible in Picture 3, follow the image; supplemental text must agree. For details lost in lineart, use the actual raw tail when available or previously confirmed unchanged state. Do not assert that a planned clothing change has already happened without evidence, or claim colors can be read from black-and-white lines. For initial JSON authoring with no actual tail yet, defer visible opening details to Picture 3 and omit unverified mutable clothing states. The current runner passes the actual lineart but does not automatically recognize clothing state or rewrite the JSON prompt. This is the existing Ref2VA Picture 3 tail-reference route with a lineart preprocessing step, not an I2V mode switch or a pixel-exact first-frame guarantee.
+The current runner passes the actual lineart but does not automatically recognize mutable state or rewrite the JSON prompt. This is the existing Ref2VA Picture 3 tail-reference route with a lineart preprocessing step, not an I2V mode switch or a pixel-exact first-frame guarantee. Apply the following state-authority rules when writing or revising this profile.
+
+### Tail-Lineart State Continuity
+
+Split continuity authority into three layers:
+
+1. Permanent identity references control facial identity and stable identity-critical appearance.
+2. `<Picture 3>` controls opening geometry: composition, body positions, pose, contact points, prop placement, camera axis, and visible action phase.
+3. Prompt text carries relevant non-geometric mutable state that lineart cannot reliably preserve: colors, garment identity/layers, wearing or fastening state, footwear state, and changed prop state.
+
+Segment 1 has no previous tail: do not define or mention `<Picture 3>` anywhere in its prompt, including a negative instruction. Segment 2 onward uses the immediately preceding accepted final-frame lineart as `<Picture 3>`. Technical completion alone does not establish visual acceptance; stop for review or correction when the actual tail disagrees with the intended state.
+
+Maintain a concise working mutable-state ledger independently for every persistent subject and relevant prop, not only the visual lead. Follow the [per-subject ledger and state-handoff rules](references/ref2va-prompt-contract.md#per-subject-mutable-state-ledger). Completed one-time changes remain in their resulting states until the story explicitly reverses them; identity pictures or camera cuts must not reset them. This planning ledger is not an extra field in `story_segments.json`.
+
+Before future tails exist, derive the next prompt's text-carried state from the previous segment's explicitly completed planned end state. Distinguish this planning assumption from an observed result; never claim to have inspected a future Picture 3. Omit unsupported details or unresolved outcomes instead of guessing. Partial transitions continue from their inherited phase rather than being treated as complete or restarted.
+
+Once an accepted raw tail exists, it is authoritative for mutable state, while its derived Picture 3 is authoritative for opening geometry. Actual accepted evidence overrides a merely planned state. If they disagree, revise the next prompt or regenerate the preceding segment within the authorized scope; do not conceal the mismatch with contradictory text. Preserve confirmed unchanged details that the current view does not reveal, and never infer colors from black-and-white lines.
+
+### Other Output Profiles
 
 Explicit alternatives remain supported: the original **Plan 5 (No Video / Opening State)** uses only Pictures 1/2 and textual continuity; the older color-tail Picture 3 workflow uses its actual tail-processing configuration rather than claiming lineart. Preserve the selected workflow's binding and existing task snapshots.
 
@@ -197,7 +219,7 @@ Prevent duplicate people or objects when the previous tail already contains more
 - Assign every persistent visible person or important object a stable `<Subject N>` ID. For Clip 02 onward, state that each such subject is the same existing instance already visible in the resolved previous-tail reference.
 - Never reintroduce an existing tail subject with indefinite wording such as `a person enters`, `another person approaches`, or `a new vehicle appears` unless the user explicitly requests an additional instance. Rewrite it as the same subject continuing from the current tail position.
 - When the requested count is unambiguous, state the permitted count positively and explicitly, for example: `Exactly one instance of <Subject 2> remains in the shot throughout this clip.` A short technical exclusion such as `no additional people` or `no duplicate subjects` is allowed because extra-subject suppression does not replay a completed story action.
-- Keep reference authority separate: permanent identity images control only their assigned identities; the previous-tail reference carries current positions, appearance, and contact geometry. Preserve any separate identity references supplied for secondary subjects.
+- Keep reference authority separate: permanent identity images control only their assigned identities; the previous-tail reference carries current positions and contact geometry. For the lineart profile, derive mutable appearance from the accepted raw tail or the scoped planning ledger, not from black-and-white lines. Preserve any separate identity references supplied for secondary subjects.
 - A single-person identity reference should contain only the intended locked subject. If it also contains an unintended person, crop or replace it when asset editing is authorized; otherwise label every visible person and flag the duplication risk rather than silently treating the extra person as background.
 - Preserve the exact count and screen-side assignment across the seam. Do not move an existing subject to a distant new position by restaging the subject; describe one continuous path from the tail position or insert a bridge segment.
 - For an intentional entrance or exit, specify which stable subject moves, its visible path, and the exact before/after count. Do not combine an existing tail instance with a separately worded arrival of the same subject.
@@ -214,7 +236,8 @@ Before drafting, form a compact state vector from the preceding planned tail, or
 3. measurable spacing between important body parts or objects;
 4. the motion already underway, including direction and approximate speed;
 5. camera framing, axis, movement, scene geometry, and lighting;
-6. which action has already completed and must leave the active vocabulary.
+6. each persistent subject's relevant mutable garment, footwear and prop state;
+7. which action or one-time state transition has already completed and must leave the active action vocabulary.
 
 For a one-time transition, design a forward-only path. For user-requested cyclic movement, preserve phase and the current trajectory through natural return strokes instead; do not force a monotonic path across whole cycles:
 
@@ -227,6 +250,8 @@ For a one-time transition, design a forward-only path. For user-requested cyclic
 
 ## Semantic Replay Prevention
 
+Anti-replay applies to one-time mutable-state transitions as well as plot actions: putting on or removing an outer garment, opening/closing or fastening/unfastening, picking up/dropping/handing off an object, switching a device on/off, and completing a one-way positional transition. Carry each resulting state forward unless the story explicitly reverses it. A camera cut or new reference does not authorize repeating the transition. True cyclic motion instead continues from its inherited phase.
+
 Build a temporary quarantine list from actions completed in the preceding segment. Remove those concepts from the continuation prompt, including:
 
 - negative instructions containing the completed action;
@@ -235,6 +260,8 @@ Build a temporary quarantine list from actions completed in the preceding segmen
 - conditional branches that describe both the earlier and later states.
 
 H3 can reactivate a concept even when it appears inside a negation. Replace semantic prohibitions with visible positive geometry. Prefer `the distance between their faces increases continuously` over naming an earlier face action and forbidding its repetition.
+
+Quarantine completed transition verbs, not the necessary current-state facts. For example, carry `the blue jacket lies on the chair; the same gray shirt remains visible` rather than recapping how the jacket got there or giving another removal instruction. Keep such object state distinct from Picture 3's authority over its opening placement.
 
 Use negative wording only for short technical exclusions that do not repeat the completed semantic action, for example cuts, text, watermarks, anatomy defects, or extra subjects when relevant.
 
@@ -389,7 +416,12 @@ Write the finished JSON to the user-specified directory. If no directory is supp
 Before delivery, verify:
 
 - each requested emotion or intensity in the affected execution Shots is grounded in concrete observable actions, with relevant direction, range, rhythm, and physical reactions; adjectives alone do not satisfy this check;
-- a revision prompt begins from the actual tail when one exists; initial tail-lineart JSON defers visible opening state to Picture 3, supplements only established color/clothing information, and does not present planned changes as observed facts; other explicitly selected profiles retain their own planned-handoff rules;
+- a revision prompt begins from the accepted actual tail when available; initial tail-lineart JSON defers opening geometry to Picture 3 and derives text-carried state only from an explicitly completed planned prior end state, without presenting that plan as observed evidence;
+- mutable state is tracked independently for every persistent subject and relevant prop that changes; each Shot completing a one-time transition makes the resulting end state unambiguous, while partial transitions continue from their inherited phase;
+- completed garment, footwear and prop transitions do not replay or silently revert; an actual accepted raw tail overrides a conflicting planned state;
+- close interactions preserve each visible body part's correct subject ownership and plausible physical attachment; attached anatomy is not described as an independent handheld object;
+- every Shot affected by a requested vocal reaction has its own source and action-triggered sound details, not just a global soundscape sentence;
+- a user-designated visual anchor remains the camera priority across cuts and moves without freezing the action during a brief camera glance;
 - no quarantined completed-action term remains, including in negatives;
 - the opening continues the inherited trajectory; one-time transitions keep a single direction, while requested cyclic actions preserve phase through natural return strokes;
 - no completed story transition is replayed or undone; natural return strokes within a requested movement cycle are allowed;
@@ -405,7 +437,7 @@ Before delivery, verify:
 - every non-overridden clip carries the canonical windowless, artificial-light-only, light-colored minimalist-interior contract; in a legacy package, `scene_style` also records the same policy and the corresponding validation flag passes.
 - no actual or planned handoff tail contains a visible window, natural-light spill, dark wall/door treatment, or heavy ornate furniture that would be propagated into the next clip.
 - when deterministic seeds are active, every clip has one recorded valid seed and the resolved ordered seed list is reported.
-- Ref2VA prompts keep permanent face identity and previous-tail geometry on separate, correctly typed references; default tail-lineart segment 1 has no Picture 3, while every continuation explicitly uses Picture 3 for opening geometry and keeps Pictures 1/2 as identities. Opening State text supplements that image. Video-reference profiles use `<Video 1>` without incrementing its number; both Plan 5 variants have no video reference.
+- Ref2VA prompts keep permanent face identity and previous-tail geometry on separate, correctly typed references; default tail-lineart segment 1 contains no Picture 3 reference anywhere, while every continuation uses Picture 3 only for structural opening geometry/action phase and keeps Pictures 1/2 as identities. Opening State supplements relevant colors and mutable non-geometric state. Video-reference profiles use `<Video 1>` without incrementing its number; both Plan 5 variants have no video reference.
 - every persistent subject already visible in the previous tail keeps the same stable ID, instance count, and screen-side assignment; no existing subject is reintroduced as a new arrival.
 - the permanent identity image contains only the intended locked subject, or every additional visible subject is intentionally mapped and reported as a risk.
 - seam validation checks beyond the anchored first frame and does not hide a frame-2 jump.
