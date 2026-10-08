@@ -29,6 +29,16 @@ Activate this module only for explicit adult sexual content such as oral sex, ge
 
 The adult module is a **specialized continuity and artifact-prevention layer**, not permission to invent new sexual acts, new partners, dialogue, fluids, climax events, or escalation beyond the user's scene. Preserve the user's requested action sequence and relationship dynamics. All depicted characters must be adults.
 
+## Optional H3 LoRA Routing
+
+When the user explicitly asks which H3 LoRAs to use, supplies LoRA filenames/triggers, or the active workflow already exposes LoRA slots that must be configured, read [references/h3-lora-routing.md](references/h3-lora-routing.md).
+
+Keep three layers separate: author-published metadata, this repository's empirical multi-LoRA starting points, and per-segment enable/disable decisions. Do not present project starting strengths as official author defaults. Do not force LoRA choices into an ordinary prompt-only task when the user did not request adapter configuration.
+
+Use role-based routing rather than loading everything at full strength: anatomy adapters only where their anatomy is relevant, one broad main-motion layer by default, optional Ref2VA enhancement conservatively, and realism according to its documented trigger requirements. Trigger words belong in the actual executed prompt only when the selected adapter documents or requires them; a project helper label such as `LoRA trigger cues:` is not an H3 protocol field by itself.
+
+Actual LoRA filenames, strengths, sampler/scheduler, node order and runtime toggles remain workflow/runtime configuration unless the consuming controller explicitly supports them. The current `story_segments.json` outer schema does not gain new LoRA fields from this reference.
+
 ## Express Emotion and Intensity Through Observable Actions
 
 When authoring or revising emotional performance or physical intensity, do not use adjectives or abstract states as the entire action instruction. Words such as “大幅度”, “用力”, “享受”, “紧张”, “愤怒”, “intense”, or “enjoying” may qualify a concrete action, but cannot replace it. Apply this rule inside each affected Shot in the actual execution prompt, not only in a summary or an outer JSON field.
