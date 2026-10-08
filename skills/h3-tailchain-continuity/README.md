@@ -27,6 +27,7 @@
 - [V18 动作要求](references/v18-motion-intensity.md)
 - [分层声音规范](references/h3-sound-prompt-standard.md)
 - [成人露骨动作连续性（仅虚构成年人露骨场景启用）](references/adult-action-continuity.md)
+- [H3 LoRA 路由（可选：trigger、强度、动态启停与堆叠排错）](references/h3-lora-routing.md)
 - [默认尾帧线稿静态 Prompt 校验器](scripts/validate_tailchain_prompts.py)
 
 本仓库提供提示词技能、格式说明和校验脚本；ComfyUI 节点与本地运行环境不随仓库分发。修改提示词 skill 不会启动渲染或改变已有任务。
