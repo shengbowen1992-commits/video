@@ -72,6 +72,19 @@ complete; the removed garment does not return.
 
 If the actual accepted tail contradicts the planned state, fix the chain before the dependent sexual action instead of hiding the mismatch in text.
 
+### Terminal nude-state vocabulary isolation
+
+Once a participant reaches a stable fully nude state and no re-dressing is requested, later segments should serialize the **positive current body state only**. Do not keep reintroducing the names, colors, or materials of garments that are no longer worn.
+
+- In later `Wardrobe/Body State:` text, prefer concise current-state wording such as `both subjects are fully nude and remain fully nude throughout this segment` rather than listing every previously removed garment.
+- Do not repeat absent garment names inside `Color/Material State:`, `retention_analysis:`, initial-outfit recaps, negative instructions, conditional branches, or clauses such as `whenever still present`. Mentioning an absent garment can reactivate the clothing concept even when the sentence says not to restore it.
+- `Color/Material State:` should describe only currently present subject appearance, visible scene materials, lighting-relevant surfaces, and props that still exist in the active scene.
+- If a removed garment is still physically visible in the scene, track it as a separate prop with its current location and appearance. If it is not visible and no later action uses it, omit it completely from subsequent prompts.
+- Permanent identity references control identity, hair identity, and body proportions; after the nude state is established they must not be allowed to re-authorize the reference image's original clothing.
+- `retention_analysis:` must not say that clothing state may continue to evolve when the intended terminal nude state is locked. State that the current nude body state remains unchanged unless the user explicitly requests a later wardrobe transition.
+
+This rule is a specialization of the parent skill's semantic quarantine: preserve the current visible state, not the vocabulary of a completed clothing history.
+
 ## 4. Oral Sex Continuity
 
 For oral sex already requested by the user:
