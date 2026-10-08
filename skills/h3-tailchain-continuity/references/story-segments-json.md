@@ -79,21 +79,34 @@ non_diegetic_music:
 
 每个后续段的完整六节 `prompt` 必须保留 Pictures 1/2 的身份分工，并明确：**开场构图、人物位置、姿态、接触关系、道具位置及可见动作阶段以 Picture 3 为准。Opening State 主要补充已确定的颜色和衣服当前状态，保持简短，不重复写死图中可见的姿态或空间关系。** 下一步具体动作单独描述，从参考图状态继续，不把未来动作当成已经完成的开场状态。
 
-`Opening State` 是简短的非几何状态补充，不是第二份姿态/构图描述：
+默认尾帧线稿方案中，**每一段（包括第一段）**都必须在 `detailed_description` 的 `[Shot 1]` 前写一个 `Continuity State Lock:`。它负责线稿无法可靠表达的跨段状态，不是第二份姿态/构图描述。
 
-- 姿态、人物位置、接触点、相机轴线、道具位置和可见动作阶段交给 Picture 3。
-- 文字承接相关颜色、服装款式/层次、穿着/移除/开合/扣合状态、鞋履状态及变化中的道具状态。
-- 分别追踪每个发生变化的持续角色和相关道具，不只记录视觉主角；身份图不能把剧情已改变的状态重置。
-- 已完成的一次性状态转换不因新段或切镜而再演一次；部分完成的转换从继承阶段继续。
+`Continuity State Lock:` 至少按当前任务中已有且相关的信息覆盖：
+
+- `Wardrobe/Body State:` 分人物写当前服装/层次、是否穿着、松开、部分脱下、完全脱下、扣合/解开、鞋履和必要的身体裸露状态。
+- 衣服如果**只脱到一半**，必须记录剩余附着点和布料位置，例如哪只袖子/肩带/裤腿仍在、衣服堆在哪个身体位置、哪部分已经露出；下一 Shot/下一段从这个状态继续，不能重新从“完整穿着”开始，也不能无过程跳到“完全脱掉”。
+- `Color/Material State:` 明确已建立且需要保持的头发/肤色外观、服装颜色/材质、床品、墙面、家具和重要道具颜色/材质。
+- `Lighting/Exposure State:` 明确已建立的光源类型、方向、软硬、色温倾向、白平衡、曝光/对比度和整体色彩风格；剧情没有明确改变时，每段都重复要求保持一致。
+
+第一段用用户提供的信息和真实参考建立基线，不猜看不见的细节。第二段及以后：姿态、人物位置、接触点、相机轴线、道具位置和可见动作阶段交给 Picture 3；文字状态锁负责颜色、材质、衣服/鞋履、道具可变状态和灯光/曝光。身份图不能把剧情已改变的状态重置。
+
+已完成的一次性状态转换不因新段或切镜而再演一次；部分完成的转换必须从继承阶段继续。任何 Shot 真正改变衣服、道具、色彩或灯光状态时，在该 Shot 末尾写清** resulting state **，下一 Shot/段直接继承结果。
 
 规划与实际证据分开处理：未来尾帧尚未生成时，只能从上一段**明确计划完成的结尾状态**推导下一段的文字状态，不能声称已看过未来 Picture 3；计划未明确完成、未知或无依据的状态不能猜测。实际结果经接受后，**已接受的原始尾帧决定可变状态，其派生线稿决定开场几何**。实际状态与计划不一致时，在授权范围内改写下一段或重做上一段，不能以冲突文字掩盖差异。当前视角无法辨认的细节沿用此前已确认且未改变的状态，不从黑白线条猜颜色。当前 Runner 自动传图，但不会自动识别状态、进行人工验收或重写提示词。
 
 续接段可用以下结构；方括号内容只填相关且有依据的状态，不把模板原样交付，也不用于第一段：
 
 ```text
-Opening State: follow <Picture 3> for composition, positions, pose,
-contacts, camera axis and visible action phase. Preserve the established
-non-geometric state: [relevant colors / garment / footwear / prop state].
+Continuity State Lock:
+Wardrobe/Body State: [per-subject current garment/body state; include exact
+remaining attachment points and fabric location for any partial removal].
+Color/Material State: [established subject, garment, bedding, wall, furniture
+and important prop colors/materials that remain unchanged].
+Lighting/Exposure State: [established light type/direction/softness,
+color-temperature tendency, white balance, exposure/contrast and overall grade].
+
+Opening Geometry: follow <Picture 3> for composition, positions, pose,
+contacts, camera axis, prop placement and visible action phase.
 Continue forward without replaying completed transitions.
 ```
 
@@ -138,7 +151,7 @@ python scripts/validate_story_segments.py /path/to/story_segments.json
 python scripts/validate_tailchain_prompts.py /path/to/story_segments.json
 ```
 
-这个静态校验器只检查可机械确认的正文契约：六节标题恰好各一次且顺序正确、每段包含 Pictures 1/2、第一段完全不提 Picture 3、第二段起必须引用 Picture 3、默认 Plan 5 线稿方案不得引用 Video 1。它不会判断 Opening State 的语义是否正确、可变状态是否真的连续、表情/声音是否自然、动作是否重演或成片是否合格；这些仍按本 skill 的人工交付前检查和渲染 QC 处理。其他显式选择的 profile 不使用这个线稿专用校验器。
+这个静态校验器只检查可机械确认的正文契约：六节标题恰好各一次且顺序正确、每段包含 Pictures 1/2、每段包含一次 `Continuity State Lock:` 标记、第一段完全不提 Picture 3、第二段起必须引用 Picture 3、默认 Plan 5 线稿方案不得引用 Video 1。它不会判断 Opening State 的语义是否正确、可变状态是否真的连续、表情/声音是否自然、动作是否重演或成片是否合格；这些仍按本 skill 的人工交付前检查和渲染 QC 处理。其他显式选择的 profile 不使用这个线稿专用校验器。
 
 正常创作仍执行原有提示词规范的交付前检查。用户限制正文检查时遵守限制，只报告已完成的结构检查，不能把它说成提示词内容审核通过。
 

@@ -135,6 +135,20 @@ Plan any explicitly requested prerequisite transition before the action that dep
 
 For tail-lineart continuation, the ledger has distinct authorities: identity pictures preserve identity; Picture 3 governs structural opening geometry/action phase; text carries the relevant non-geometric mutable state. During initial planning, derive text state only from the preceding explicitly completed planned end state, without claiming to have inspected a future image. After rendering, accepted raw-tail evidence overrides planned mutable state. Reconcile a mismatch before continuing; do not use a text assertion to disguise it. The ledger is a working authoring record, not a new JSON field or a complete description repeated in every Shot.
 
+### Mandatory Continuity State Lock for Tail-Lineart Segments
+
+In the default tail-lineart profile, every segment must place exactly one `Continuity State Lock:` inside `detailed_description` before `[Shot 1]`.
+
+Write it as concise execution prose, not a seventh top-level field. It has three responsibilities:
+
+1. **Wardrobe/Body State** — for every persistent subject, record each relevant garment/layer and its current state. For partial removal, record the remaining attachment points and fabric location: which sleeve/strap/leg still remains on, where the garment is gathered, and which body area is already uncovered. This exact partial state persists until the action visibly changes it.
+2. **Color/Material State** — retain established hair/skin appearance, garment colors/materials, bedding, wall, furniture, and important prop colors/materials. Because lineart is black-and-white structure, never treat Picture 3 as color evidence.
+3. **Lighting/Exposure State** — retain established light source type, direction, softness, color-temperature tendency, white balance, exposure/contrast level, and overall grade/palette unless the user explicitly changes lighting.
+
+If a Shot changes one of these states, end that Shot with a concise resulting-state sentence. The next Shot inherits it verbatim in meaning before introducing another change. A camera cut alone never alters the state.
+
+Do not invent a precise Kelvin value, RGB value, fabric type, or hidden garment detail unless it is user-supplied or visibly established. Preserve the established qualitative state instead.
+
 ## Anatomical Ownership and Attachment
 
 For close interaction or framing where body-part ownership is ambiguous, preserve each visible body part's ownership and plausible physical attachment to its correct subject. Anchor contact to identifiable body landmarks, such as a hand resting on the other subject's shoulder or fingers along the jaw, and clarify which subject owns each contacting hand or limb. If hand assistance is unnecessary, do not add ambiguous handling instructions. Attached body parts must not become movable standalone props, switch owners, float, or duplicate. Reject those artifacts during authorized visual review. Apply this as a general anatomical-consistency rule without adding an unrequested action.

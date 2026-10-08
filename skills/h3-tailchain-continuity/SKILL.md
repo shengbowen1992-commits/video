@@ -71,7 +71,22 @@ Split continuity authority into three layers:
 
 1. Permanent identity references control facial identity and stable identity-critical appearance.
 2. `<Picture 3>` controls opening geometry: composition, body positions, pose, contact points, prop placement, camera axis, and visible action phase.
-3. Prompt text carries relevant non-geometric mutable state that lineart cannot reliably preserve: colors, garment identity/layers, wearing or fastening state, footwear state, and changed prop state.
+3. Prompt text carries relevant non-geometric mutable state that lineart cannot reliably preserve: colors, garment identity/layers, wearing or fastening state, footwear state, changed prop state, established material/color palette, and lighting/exposure state.
+
+### Mandatory Per-Segment Continuity State Lock
+
+For the default tail-lineart profile, **every segment**, including Segment 1, must carry a concise `Continuity State Lock:` block inside `detailed_description` before `[Shot 1]`. Do not rely on the outer `global_prompt`, Picture 3, or an identity image to remember these non-geometric states.
+
+The block must cover, when relevant and known:
+
+- **Wardrobe/Body State** for every persistent subject: each garment and layer currently worn, loosened, partially removed, fully removed, fastened/unfastened, footwear on/off, and current nudity state where applicable.
+- For a **partially completed garment transition**, record the remaining attachment points and fabric location precisely enough to continue the same removal rather than restarting it: e.g. which sleeve/strap/leg remains on, where the garment is gathered, and which body region is already uncovered.
+- **Color/Material State**: established hair/skin appearance, garment colors/materials, bedding, walls, furniture, and important prop colors/materials that must remain visually stable.
+- **Lighting/Exposure State**: established artificial-light type, direction, softness, color-temperature tendency, white balance, exposure/contrast level, and overall grade/palette.
+
+Segment 1 establishes the known baseline from the user request and supplied references without inventing unsupported hidden details. Segment 2+ repeats the currently established state explicitly because lineart cannot carry color or material information reliably. If the story intentionally changes wardrobe, color, prop state, or lighting, treat that as a one-time state transition: describe it once, make the resulting end state explicit, and carry only the new state into later segments.
+
+Within any Shot that changes wardrobe or another mutable visual state, finish the relevant action with a concise **resulting-state sentence**. The next Shot/segment starts from that exact result. A garment that is still partly on remains partly on with the same remaining attachment points; it does not jump back to fully worn or ahead to fully removed.
 
 Segment 1 has no previous tail: do not define or mention `<Picture 3>` anywhere in its prompt, including a negative instruction. Segment 2 onward uses the immediately preceding accepted final-frame lineart as `<Picture 3>`. Technical completion alone does not establish visual acceptance; stop for review or correction when the actual tail disagrees with the intended state.
 
@@ -419,14 +434,15 @@ When the user separately requests rendering or QC, inspect every clip at its ope
 
 ## Delivery
 
-Write the finished JSON to the user-specified directory. If no directory is supplied, create a clearly named project folder under the active video workspace. Default to `story_segments.json` and run `python scripts/validate_story_segments.py PATH_TO_JSON`; this checks only the envelope. For the default Plan 5 tail-lineart profile, also run `python scripts/validate_tailchain_prompts.py PATH_TO_JSON`; this statically checks the six-section heading order and the fixed Picture/Video binding contract only. It does not validate semantic continuity, mutable-state correctness, sound/expression quality, or render quality. For an explicitly selected legacy profile, save `sequence.json` and use its validator and compatibility notes above. Return the clickable file path, segment count, planned ordered durations and total, and the accurately scoped validation result. Runtime timing must be supplied separately for dynamic-series files. Do not ask the user to choose LoRA/native or a launcher, and do not paste the full JSON into chat unless the user asks to preview it.
+Write the finished JSON to the user-specified directory. If no directory is supplied, create a clearly named project folder under the active video workspace. Default to `story_segments.json` and run `python scripts/validate_story_segments.py PATH_TO_JSON`; this checks only the envelope. For the default Plan 5 tail-lineart profile, also run `python scripts/validate_tailchain_prompts.py PATH_TO_JSON`; this statically checks the six-section heading order, the fixed Picture/Video binding contract, and the required per-segment `Continuity State Lock:` marker only. It does not validate semantic continuity, mutable-state correctness, sound/expression quality, or render quality. For an explicitly selected legacy profile, save `sequence.json` and use its validator and compatibility notes above. Return the clickable file path, segment count, planned ordered durations and total, and the accurately scoped validation result. Runtime timing must be supplied separately for dynamic-series files. Do not ask the user to choose LoRA/native or a launcher, and do not paste the full JSON into chat unless the user asks to preview it.
 
 Before delivery, verify:
 
 - each requested emotion or intensity in the affected execution Shots is grounded in concrete observable actions, with relevant direction, range, rhythm, and physical reactions; adjectives alone do not satisfy this check;
 - a revision prompt begins from the accepted actual tail when available; initial tail-lineart JSON defers opening geometry to Picture 3 and derives text-carried state only from an explicitly completed planned prior end state, without presenting that plan as observed evidence;
-- mutable state is tracked independently for every persistent subject and relevant prop that changes; each Shot completing a one-time transition makes the resulting end state unambiguous, while partial transitions continue from their inherited phase;
-- completed garment, footwear and prop transitions do not replay or silently revert; an actual accepted raw tail overrides a conflicting planned state;
+- every default tail-lineart segment contains one `Continuity State Lock:` before `[Shot 1]`, covering the known per-subject wardrobe/body state plus stable color/material and lighting/exposure state; continuation segments restate these because Picture 3 is lineart;
+- mutable state is tracked independently for every persistent subject and relevant prop that changes; each Shot completing a one-time transition makes the resulting end state unambiguous, while partial transitions retain their exact remaining attachment points/fabric location and continue from that inherited phase;
+- completed garment, footwear, color/lighting and prop transitions do not replay or silently revert; an actual accepted raw tail overrides a conflicting planned state;
 - close interactions preserve each visible body part's correct subject ownership and plausible physical attachment; attached anatomy is not described as an independent handheld object;
 - when the adult explicit-action module is active, genital anatomy keeps correct ownership and continuous attachment; oral/manual/penetrative contact follows the requested anatomical path; prerequisite nudity/garment state is completed before the dependent sexual action; position changes preserve or explicitly release/re-establish the relevant contact rather than teleporting it;
 - when the adult explicit-action module is active, requested pleasure expressions, moans/gasps, and climax behavior are trigger-specific and naturally varied rather than a fixed face, one sound per movement, or an abrupt unsupported climax state;

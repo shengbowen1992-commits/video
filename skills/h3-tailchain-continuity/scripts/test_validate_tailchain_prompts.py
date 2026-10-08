@@ -29,7 +29,12 @@ def prompt(index: int) -> str:
         f"<Subject 2> comes from <Picture 2>.{picture3}\n\n"
         "summary:\n[reference generation] Synthetic test prompt.\n\n"
         "retention_analysis:\nSynthetic retention.\n\n"
-        "detailed_description:\nSynthetic visible action.\n\n"
+        "detailed_description:\n"
+        "Continuity State Lock:\n"
+        "Wardrobe/Body State: synthetic known state.\n"
+        "Color/Material State: synthetic stable palette.\n"
+        "Lighting/Exposure State: synthetic stable lighting.\n"
+        "[Shot 1] Synthetic visible action.\n\n"
         "overall_soundscape:\nSynthetic room tone.\n\n"
         "non_diegetic_music:\nN/A"
     )
@@ -76,6 +81,27 @@ class TailchainPromptContractTests(unittest.TestCase):
     def test_default_plan5_rejects_video1(self):
         data = story()
         data["segments"][2]["prompt"] += "\n<Video 1>"
+        with self.assertRaises(ValueError):
+            validate_tailchain_data(data)
+
+    def test_every_segment_requires_one_state_lock_before_shot1(self):
+        data = story()
+        data["segments"][1]["prompt"] = data["segments"][1]["prompt"].replace(
+            "Continuity State Lock:\n", "", 1
+        )
+        with self.assertRaises(ValueError):
+            validate_tailchain_data(data)
+
+        data = story()
+        data["segments"][1]["prompt"] += "\nContinuity State Lock:"
+        with self.assertRaises(ValueError):
+            validate_tailchain_data(data)
+
+        data = story()
+        prompt_text = data["segments"][1]["prompt"]
+        prompt_text = prompt_text.replace("Continuity State Lock:\n", "", 1)
+        prompt_text += "\nContinuity State Lock:"
+        data["segments"][1]["prompt"] = prompt_text
         with self.assertRaises(ValueError):
             validate_tailchain_data(data)
 

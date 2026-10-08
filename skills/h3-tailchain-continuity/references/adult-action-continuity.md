@@ -54,6 +54,8 @@ Before a sexual action begins:
 - carry the resulting nude/partially nude state forward;
 - never restore a removed garment from Picture 1/2 merely because a new segment starts.
 
+For **every adult segment**, the parent skill's `Continuity State Lock:` must enumerate the current clothing/nudity state of every participant, not only the visual lead. If a garment is mid-removal, include the exact remaining attachment points and fabric location (for example, one sleeve still on the forearm while the other shoulder is bare). Keep that partial state through subsequent cuts/segments until the same continuous removal changes it. Do not repeatedly start “taking off the shirt/trousers” from the fully worn state.
+
 Avoid late conditional wording such as:
 
 ```text
@@ -257,6 +259,7 @@ For segment 2 onward in the default lineart profile:
 
 - Picture 3 controls opening pose, pelvis orientation, limb placement, contact points, camera axis, and the visible phase of the current sexual action.
 - Text carries nudity/garment state and any other non-geometric mutable state.
+- The segment's `Continuity State Lock:` also repeats the established color/material palette and lighting/exposure state because the lineart cannot preserve those attributes.
 - For cyclic oral/manual/penetrative motion, continue from the inherited phase instead of restarting the action.
 - For one-time position changes, the previous segment owns the completed transition; the next segment begins from the resulting position.
 - Never write “begins penetration” again if penetration is already visibly underway in Picture 3.

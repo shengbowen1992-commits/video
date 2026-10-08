@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Statically validate the default Plan 5 tail-lineart prompt contract without echoing prompt text."""
+"""Statically validate the default Plan 5 tail-lineart prompt contract and state-lock marker without echoing prompt text."""
 
 from __future__ import annotations
 
@@ -43,6 +43,16 @@ def validate_tailchain_data(data: object) -> int:
         for reference in ("<Picture 1>", "<Picture 2>"):
             if reference not in prompt:
                 raise ValueError(prefix + f"missing required identity reference {reference}")
+
+        state_lock_count = prompt.count("Continuity State Lock:")
+        if state_lock_count != 1:
+            raise ValueError(prefix + "Continuity State Lock: must appear exactly once")
+
+        detailed_pos = prompt.find("detailed_description:")
+        shot1_pos = prompt.find("[Shot 1]")
+        lock_pos = prompt.find("Continuity State Lock:")
+        if not (detailed_pos < lock_pos < shot1_pos):
+            raise ValueError(prefix + "Continuity State Lock: must appear inside detailed_description before [Shot 1]")
 
         if index == 1:
             if "<Picture 3>" in prompt:
