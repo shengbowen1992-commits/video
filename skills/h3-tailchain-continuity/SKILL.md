@@ -286,6 +286,18 @@ H3 can reactivate a concept even when it appears inside a negation. Replace sema
 
 Quarantine completed transition verbs, not the necessary current-state facts. For example, carry `the blue jacket lies on the chair; the same gray shirt remains visible` rather than recapping how the jacket got there or giving another removal instruction. Keep such object state distinct from Picture 3's authority over its opening placement.
 
+### Terminal-State Vocabulary Isolation
+
+Treat every state field as a serializer of the **current visible state**, not a historical ledger. Once an entity reaches a stable absent terminal state and the story does not explicitly reintroduce it, remove that entity's vocabulary from later prompts as well as its transition verb.
+
+- Do not keep naming an absent garment, accessory, footwear item, prop, or other removed entity in `Wardrobe/Body State:`, `Color/Material State:`, `retention_analysis:`, negative instructions, recap sentences, initial-state reminders, or conditional clauses merely to say that it is gone.
+- Do not preserve the color/material attributes of an entity that is no longer present. `Color/Material State:` should list only currently present people, surfaces, objects, and visible materials that still need continuity.
+- If a removed entity remains physically visible in the active scene, reclassify it as a scene prop and track its current location/appearance. If it is absent from the active scene, omit it entirely until the user explicitly reintroduces it.
+- When a body or wardrobe state is terminal and should remain locked, write the positive current state directly. Do not write that the state may `evolve` in `retention_analysis:` unless a later state change is actually requested.
+- Permanent identity references define identity only; they never authorize restoration of a mutable appearance state that the story has already changed.
+
+This lexical isolation is especially important with lineart tails because Picture 3 cannot carry color/material evidence strongly enough to counteract a reactivated noun from Picture 1/2 or from the text prompt.
+
 Use negative wording only for short technical exclusions that do not repeat the completed semantic action, for example cuts, text, watermarks, anatomy defects, or extra subjects when relevant.
 
 ## Legacy H3 I2VA Output Contract
@@ -443,6 +455,7 @@ Before delivery, verify:
 - every default tail-lineart segment contains one `Continuity State Lock:` before `[Shot 1]`, covering the known per-subject wardrobe/body state plus stable color/material and lighting/exposure state; continuation segments restate these because Picture 3 is lineart;
 - mutable state is tracked independently for every persistent subject and relevant prop that changes; each Shot completing a one-time transition makes the resulting end state unambiguous, while partial transitions retain their exact remaining attachment points/fabric location and continue from that inherited phase;
 - completed garment, footwear, color/lighting and prop transitions do not replay or silently revert; an actual accepted raw tail overrides a conflicting planned state;
+- terminal-state vocabulary isolation is respected: once a removed entity is no longer present, later prompts do not keep naming it or its obsolete color/material attributes unless it remains visible as a separately tracked prop; locked body/wardrobe states are written as positive current states rather than historical removal recaps;
 - close interactions preserve each visible body part's correct subject ownership and plausible physical attachment; attached anatomy is not described as an independent handheld object;
 - when the adult explicit-action module is active, genital anatomy keeps correct ownership and continuous attachment; oral/manual/penetrative contact follows the requested anatomical path; prerequisite nudity/garment state is completed before the dependent sexual action; position changes preserve or explicitly release/re-establish the relevant contact rather than teleporting it;
 - when the adult explicit-action module is active, requested pleasure expressions, moans/gasps, and climax behavior are trigger-specific and naturally varied rather than a fixed face, one sound per movement, or an abrupt unsupported climax state;
