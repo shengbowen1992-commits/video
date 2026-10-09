@@ -31,6 +31,10 @@ The adult module is a **specialized continuity, choreography, and artifact-preve
 
 When an explicit adult scene includes penetrative intercourse, oral/manual genital action, explicit position changes, broad delegated adult choreography, or a request for stronger/rougher/higher-cadence/larger-amplitude sexual motion, also read [references/adult-position-motion-library.md](references/adult-position-motion-library.md). Select only the position/action template that matches the current Shot; use it as reusable geometry and motion language, not as permission to paste unrelated acts into every segment. Combine its high-impact templates with V18 when intensity is requested, and preserve Picture 3's inherited cycle phase at seams.
 
+The position library is an extensible reference, not a whitelist. Under broad adult creative delegation, the author may design a new physically coherent position or AV-style choreography that is not yet in the library. Before using a new position, define support points, pelvis/body orientation, driver/receiver roles, anatomical axis, physically available travel, force path, receiving-body response, camera readability, and the release/preserve/re-establish transition model. If the new pattern is likely to recur, add a reusable template to the library instead of treating the existing catalog as exhaustive.
+
+Default adult kissing style under broad AV choreography: unless the user requests a softer kiss, write kissing as aggressive open-mouth French kissing with clearly parted lips, active tongue contact, changing head angles, jaw/neck movement, close face pressure and irregular brief releases for breath before re-engaging. Kissing is an overlay on the ongoing body action and must not automatically pause the established cyclic motion.
+
 ## Optional H3 LoRA Routing
 
 When the user explicitly asks which H3 LoRAs to use, supplies LoRA filenames/triggers, or the active workflow already exposes LoRA slots that must be configured, read [references/h3-lora-routing.md](references/h3-lora-routing.md).
