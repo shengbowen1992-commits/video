@@ -10,6 +10,8 @@ Use this reference when the scene includes penetrative intercourse, oral sex, ma
 
 Do not paste every template into every segment. Select only the template matching the current action and rewrite it around the current subjects, support points, camera axis, intensity, and inherited Picture 3 phase.
 
+This catalog is **not a whitelist**. Real AV choreography can use positions or hybrids not listed below. When a scene calls for a library-external position, first derive it from physical constraints instead of inventing only a name. Define: (1) every support point, (2) both pelvis/body orientations, (3) the driving subject and force path, (4) the anatomical contact axis, (5) the maximum physically available travel, (6) how the receiving body absorbs/rebounds, (7) how the female visual anchor remains readable, and (8) whether contact is preserved, released, or re-established during entry into the pose. Once that geometry is coherent, the new position is valid for the current prompt. If it is broadly reusable, add it as a new template to this file.
+
 For high-intensity cyclic motion, combine the selected position template with v18-motion-intensity.md. For anatomy/contact continuity, also follow adult-action-continuity.md.
 
 ## 2. Shared High-Impact Sexual Motion Grammar
@@ -265,7 +267,29 @@ When the woman is the camera-priority subject, select an angle that preserves he
 
 Do not solve face visibility by cutting to a detached face-only portrait during explicit cyclic action. Keep a recognizable shoulder line, partner body edge, support point, or pelvis/torso context in frame.
 
-## 19. Vocal and Expression Overlay
+## 19. AV Kissing Standard — Open-Mouth French Kissing
+
+Unless the user explicitly requests a soft, closed-mouth, romantic, teasing, or restrained kiss, adult AV choreography defaults to an intense open-mouth French kiss rather than a light peck.
+
+Physical components:
+
+- both adults clearly part their lips before contact;
+- mouths press together with changing pressure instead of a fixed closed-mouth pose;
+- tongues actively meet, slide and re-engage inside the shared mouth space;
+- heads change angle naturally left/right so noses and jaws do not collide;
+- jaws and necks remain visibly active rather than frozen;
+- the pair may briefly break mouth contact for breath, leaving lips close, then immediately re-engage;
+- hands may stabilize on jaw, neck, shoulder, back, waist, hip or another already authorized body landmark;
+- if kissing occurs during intercourse, riding or another cyclic action, the pelvis/body cadence continues underneath the kiss rather than pausing;
+- female moans/gasps become muffled during full mouth contact and become clearer again during brief releases.
+
+Reusable execution fragment:
+
+> They crash into an intense open-mouth French kiss with both mouths visibly open and their tongues actively meeting and sliding against each other. Their heads keep changing angle as their jaws and necks move with the kiss; they press faces close, break apart only for brief irregular breaths, then immediately re-engage. The ongoing body action continues at the established cadence underneath the kiss instead of stopping for the kiss.
+
+Camera: prefer a close or medium-close two-shot/over-shoulder angle where both mouths, jaw movement, at least one eye/cheek line of the visual-anchor woman, and some continuing body-action context remain readable. Avoid a face-only detached portrait if a simultaneous explicit action must remain legible.
+
+## 20. Vocal and Expression Overlay
 
 Motion and vocal reaction are separate systems. Do not map one moan to every cycle.
 
@@ -278,7 +302,7 @@ When vocal reactions are authorized:
 
 Use h3-sound-prompt-standard.md for the full two-layer sound contract.
 
-## 20. Artifact Prevention Checklist
+## 21. Artifact Prevention Checklist
 
 Before delivery, verify the selected template:
 
