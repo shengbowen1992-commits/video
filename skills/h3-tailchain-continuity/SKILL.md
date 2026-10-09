@@ -62,6 +62,23 @@ Preserve the requested emotion, existing action, physical path, and continuity. 
 
 When visible emotional or performance reactions are requested, put a concrete response inside every affected Shot, tied to that Shot's current trigger. Vary the relevant eyelid, gaze, brow, jaw, lip, head, hand, shoulder, or torso response rather than repeating one fixed signature expression. These are available cues, not a mandatory list for every shot; breathing as a visible response does not authorize an added vocal sound. A requested brief camera glance happens during the ongoing action and must not introduce a pause or reduce its cadence.
 
+## Female Face Priority Camera Contract
+
+When the woman is the visual anchor, or when an adult two-person AV-style scene has no contrary framing instruction, default to **seeing the woman's face first**. Preserve a readable frontal-to-three-quarter view of her face whenever physically possible. The male performer does not need a frontal face unless the user explicitly requests it.
+
+Default priority:
+- preserve the woman's eyes, nose bridge, cheeks, jawline, and overall facial readability before preserving the man's frontal face;
+- if one performer must be partially occluded, prefer occluding the man;
+- the man may appear as shoulder, back-of-head, cheek edge, jaw edge, neck, or partial side profile when that better preserves the woman's face;
+- prefer the woman's face around frontal to roughly 20–35 degrees three-quarter rather than a full side profile;
+- avoid an equal side-profile two-shot when an over-shoulder or offset composition can keep the woman's face readable;
+- during kissing or other close face-to-face contact, rotate or offset the man's head first rather than forcing the woman's head into profile;
+- male frontal-face visibility is optional unless explicitly requested.
+
+Preferred default for close face-to-face action: place the camera just behind and slightly above the man's shoulder, using his shoulder / cheek edge / back of head only as a limited foreground frame element. Do not let that foreground element block the woman's eyes, nose bridge, cheeks, or jawline.
+
+Face priority does not mean a detached portrait crop. Preserve enough torso, pelvis, support-point, or partner context to keep the active action readable.
+
 ## Scope Boundary
 
 - Treat explicit user constraints as fixed. When the user delegates broad authorial control, freely design story beats, action progression, contact/choreography, wardrobe transitions, props, vocal reactions, climax/aftermath beats, and other details that fall inside that delegated scope; do not substitute cast, relationships, location, or visual style unless those are also delegated.
