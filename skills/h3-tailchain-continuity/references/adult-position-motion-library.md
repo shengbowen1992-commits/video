@@ -270,7 +270,7 @@ When a framing tradeoff is necessary:
 
 ### 18.2 Female-face over-shoulder template
 
-Use this pattern whenever the woman is the visual anchor and the action is face-to-face, including kissing, wall sex, missionary, seated straddle, and similar frontal pair positions.
+This is one **conditional tool**, not the universal default. Use it when the woman is the visual anchor and the current face-to-face geometry makes male-over-shoulder the clearest way to preserve her face, such as selected kissing, wall-sex, missionary, seated-straddle, or similar frontal pair shots. For other shots, choose another angle from the position-specific patterns below if it preserves her frontal/three-quarter face more naturally.
 
 - camera sits just behind and slightly above the man's shoulder;
 - the man occupies only a limited foreground edge with shoulder / cheek edge / back of head;
