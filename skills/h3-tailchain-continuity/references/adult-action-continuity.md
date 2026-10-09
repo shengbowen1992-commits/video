@@ -6,6 +6,8 @@ Use it only when the requested scene is explicitly sexual. Do not inject its sex
 
 This module supports both constrained choreography and broad delegated authoring. When the user explicitly grants broad creative control over a fictional-adult sexual scene, it may invent and sequence additional sexual acts, position changes, wardrobe transitions, intensity escalation, climax events, ejaculation/fluid outcomes, vocal reactions, and aftermath beats within that delegated scope. Keep the established cast and relationship mapping unless cast changes are also delegated, honor explicit exclusions, and preserve anatomical/temporal continuity. For narrowly specified requests, stay within the user's stated action set.
 
+For reusable position geometry, support-point definitions, high-impact cyclic motion fragments, female visual-anchor camera patterns, and Picture 3 phase handoff language, read [adult-position-motion-library.md](adult-position-motion-library.md). Treat that file as a selective library: load only the active action/position template and adapt it to the inherited scene.
+
 ## 1. Rule Priority
 
 For an adult explicit tailchain, resolve instructions in this order:
@@ -15,8 +17,9 @@ For an adult explicit tailchain, resolve instructions in this order:
 3. actual accepted previous tail / Picture 3 for opening geometry and visible action phase;
 4. text-carried mutable state for clothing, nudity, footwear, props, and other non-geometric state;
 5. this adult-action module for anatomy/contact continuity;
-6. V18 for real 1× movement frequency and amplitude when intensity is requested;
-7. shot-specific expression and sound rules.
+6. the matching template from the adult position/motion library for support geometry, action path, and reusable choreography language;
+7. V18 for real 1× movement frequency, amplitude, and impact-cycle behavior when intensity is requested;
+8. shot-specific expression and sound rules.
 
 Never use this module to override the user's requested action with a different sexual act.
 
@@ -148,6 +151,8 @@ For penetrative vaginal or anal intercourse already requested by the user:
 For sustained cyclic intercourse across a segment seam, Picture 3 carries the visible phase. Continue from that phase instead of resetting to “about to enter” or replaying initial penetration.
 
 When V18 is active, preserve normal 1× playback and express intensity through actual hip/pelvic travel, cadence, weight transfer, body compression/rebound, and supporting limbs. Do not use fast-forward or speed-ramp language.
+
+For recurring penetrative positions, select the matching reusable template in [adult-position-motion-library.md](adult-position-motion-library.md) rather than rewriting support geometry from scratch. The library currently covers supine face-to-face, raised-leg supine, edge-of-bed, kneeling rear entry, prone rear entry, woman-on-top, reverse woman-on-top, seated face-to-face, side-lying, standing rear entry, and standing wall-supported variants.
 
 ## 7. Sexual Position Transitions
 
