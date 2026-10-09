@@ -19,6 +19,25 @@
 
 当用户还要求“身体跟着抖动／晃动／回弹”或同义的次级运动时，把它写成**主动作造成的物理响应**，不要把次级运动写成独立循环。头发、松散布料、肩胸、腹部、臀腿或其他可见软组织的摆动、弹跳、压缩与回弹，应与当前冲击方向、频率和力量存在因果关系；主动作更强时响应可以更明显，但不要机械地要求每一次循环都完全同幅、同相、同声音。相机应保留足够身体上下文，让这种响应能被看见，同时不牺牲身份、接触关系或动作路径的可读性。
 
+## 参考标定的冲击式循环运动
+
+当用户给出参考视频并明确要求“像参考里的力度／幅度／冲击感”，或语义明确要求长行程、强冲击、高频连续往复时，自动把视觉参考抽象成**运动学特征**，不要复制参考人物、场景、体位、镜头或其他内容。优先提取以下通用结构：
+
+1. **Load / Withdrawal**：先形成足够可见的后撤、拉开或蓄力行程；
+2. **Decisive Return**：沿既定动作轴线快速、明确地回程；
+3. **Compression / Contact Peak**：在接触峰值出现身体、支撑点、床垫、靠背或其他承力结构的可见压缩；
+4. **Elastic Rebound**：压缩后立即释放并进入下一循环，不插入无意义停顿；
+5. **Whole-body Kinetic Chain**：用当前姿势允许的髋、腿、躯干、肩臂和支撑点共同产生／吸收力量，而不是只让一个关节做微小抖动；
+6. **Receiving-body Response**：受力身体或对象必须出现与主动作同方向、稍有滞后的位移、压缩和回弹；头发、软组织、松散布料等只作为次级惯性响应；
+7. **Large Usable Travel**：在当前姿势的物理可用范围内尽量保持完整行程；高频不能通过牺牲幅度变成浅幅微振；
+8. **Normal 1× Playback**：所有冲击感来自真实表演路径、频率、幅度和力量传导，不使用快放或时间压缩。
+
+适用时可把以下英文片段放进实际执行 prompt 的 Motion Intensity Contract：
+
+`Use long-travel, impact-driven reciprocal motion at normal real-time 1×. Each cycle shows a clearly visible loading/withdrawal phase, decisive acceleration through the return, a brief compression/contact peak, and immediate elastic rebound into the next cycle. The driving body uses the physically available limbs and trunk as one kinetic chain, while the receiving body and support points visibly absorb and release the force. Sustain a high physical cadence with almost no dead pause, but do not collapse the action into shallow rapid micro-movements merely to look fast.`
+
+若当前动作不具备明显接触峰值或承力对象，只保留“完整行程 + 明确回程 + 全身动力链 + 连续相位”部分，不强行制造碰撞。若用户只要求高频、不要求冲击感，也不要自动加入强压缩或猛烈回弹。
+
 ## 放进实际执行的提示词
 
 - Ref2VA：在每段 `detailed_description:` 的 `[Shot 1]` 之前放一次 Motion Intensity Contract，保留原有六节结构。随后每个 Shot 只描述自身强度、路径和承接状态，不重复整段合同。
