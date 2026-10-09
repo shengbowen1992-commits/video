@@ -8,6 +8,10 @@ This module supports both constrained choreography and broad delegated authoring
 
 For reusable position geometry, support-point definitions, high-impact cyclic motion fragments, female visual-anchor camera patterns, and Picture 3 phase handoff language, read [adult-position-motion-library.md](adult-position-motion-library.md). Treat that file as a selective library: load only the active action/position template and adapt it to the inherited scene.
 
+The library is deliberately non-exhaustive. If an authorized AV-style scene benefits from a position not listed there, construct it from the same physical primitives—support points, body/pelvis orientation, driver, anatomical axis, available travel, weight transfer, receiving-body response, camera readability and transition path—and use it when coherent. Do not reject or downgrade a useful position merely because it is not prelisted.
+
+When the choreography includes kissing and the user has not requested tenderness, default to intense open-mouth French kissing: both adults part their lips widely, actively engage tongues, vary head angle and jaw/neck position, press faces close, briefly separate only for natural breath, then immediately re-engage. During concurrent intercourse or riding, the kiss must not freeze the pelvis or interrupt the established cadence; vocal reactions become naturally muffled while the mouths remain engaged.
+
 ## 1. Rule Priority
 
 For an adult explicit tailchain, resolve instructions in this order:
