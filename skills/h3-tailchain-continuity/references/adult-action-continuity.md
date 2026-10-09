@@ -199,12 +199,14 @@ When the user designates one adult performer as the visual anchor:
 - a brief look toward camera lasts only a moment and never pauses oral/manual/penetrative movement;
 - do not cut away to isolated genital close-ups so aggressively that identity/body ownership becomes ambiguous unless the user explicitly asks for that framing.
 
-When <Subject 1> (the woman) is the visual anchor, apply a stronger default face-visibility rule:
+When <Subject 1> (the woman) is the visual anchor, apply a stronger default face-visibility rule across kissing, intercourse, oral/manual action, and position transitions:
 - preserve her frontal or three-quarter facial readability over showing <Subject 2>'s frontal face;
 - <Subject 2> may appear from behind, over-shoulder, partial side view, cheek/jaw edge, neck, or back-of-head if that better preserves <Subject 1>'s face;
 - if one subject must be partially occluded, prefer occluding <Subject 2>;
 - in face-to-face intercourse, seated straddle, wall sex, or kissing, manage camera placement and head angle so <Subject 1> does not remain in a full side profile for the whole shot;
-- prefer the woman's face around frontal to roughly 20–35 degrees three-quarter whenever the action geometry allows it.
+- in rear-entry, prone, woman-on-top, oral, standing, or other non-face-to-face geometry, choose a side-front, front-three-quarter, POV-like, offset, or controlled orbit angle that reveals her face without breaking the anatomical action path;
+- prefer the woman's face around frontal to roughly 20–35 degrees three-quarter whenever the action geometry allows it;
+- over-shoulder is one available solution, not the default for every shot; vary camera solutions while preserving the same face-priority goal.
 
 Reusable occlusion wording when needed:
 
