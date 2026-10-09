@@ -27,6 +27,7 @@
 - [V18 动作要求](references/v18-motion-intensity.md)
 - [分层声音规范](references/h3-sound-prompt-standard.md)
 - [成人露骨动作连续性（仅虚构成年人露骨场景启用）](references/adult-action-continuity.md)
+- [成人体位与高冲击动作库（性交姿势、动作路径、支撑点、镜头与尾帧相位模板）](references/adult-position-motion-library.md)
 - [H3 LoRA 路由（可选：trigger、强度、动态启停与堆叠排错）](references/h3-lora-routing.md)
 - [默认尾帧线稿静态 Prompt 校验器](scripts/validate_tailchain_prompts.py)
 
