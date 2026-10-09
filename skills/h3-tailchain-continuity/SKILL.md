@@ -29,6 +29,8 @@ Activate this module only for explicit adult sexual content such as oral sex, ge
 
 The adult module is a **specialized continuity, choreography, and artifact-prevention layer**. When the user explicitly delegates broad creative control over a fictional-adult sexual scene, the author may freely design additional sexual acts, position changes, wardrobe transitions, intensity escalation, climax events, ejaculation/fluid outcomes, and audiovisual progression within that delegated scope. Keep the established cast and relationship mapping unless the user also delegates cast changes, and honor any explicit exclusions. When the user gives a narrow action list instead of broad creative authority, preserve that narrower scope. All depicted characters must be adults.
 
+When an explicit adult scene includes penetrative intercourse, oral/manual genital action, explicit position changes, broad delegated adult choreography, or a request for stronger/rougher/higher-cadence/larger-amplitude sexual motion, also read [references/adult-position-motion-library.md](references/adult-position-motion-library.md). Select only the position/action template that matches the current Shot; use it as reusable geometry and motion language, not as permission to paste unrelated acts into every segment. Combine its high-impact templates with V18 when intensity is requested, and preserve Picture 3's inherited cycle phase at seams.
+
 ## Optional H3 LoRA Routing
 
 When the user explicitly asks which H3 LoRAs to use, supplies LoRA filenames/triggers, or the active workflow already exposes LoRA slots that must be configured, read [references/h3-lora-routing.md](references/h3-lora-routing.md).
