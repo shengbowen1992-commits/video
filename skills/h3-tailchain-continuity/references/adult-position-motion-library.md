@@ -257,6 +257,39 @@ Reusable continuation fragment:
 
 ## 18. Female Visual-Anchor Camera Patterns
 
+### 18.1 Default priority
+
+In two-person adult scenes, default to **see the woman's face first**. The male performer's frontal face is optional unless the user explicitly requests it. Composition, occlusion, head angle, and camera placement should be solved primarily in favor of preserving the woman's frontal or three-quarter face.
+
+When a framing tradeoff is necessary:
+- preserve the woman's eyes, nose bridge, cheeks, jawline, and facial readability first;
+- allow the man to be shown from behind, over-shoulder, partial side profile, cheek/jaw edge, neck, or back-of-head;
+- if one performer must be partially occluded, prefer occluding the man;
+- prefer the woman's face around frontal to roughly 20–35 degrees three-quarter rather than a full side profile;
+- keep enough torso/pelvis/support geometry to read the active action.
+
+### 18.2 Female-face over-shoulder template
+
+Use this pattern whenever the woman is the visual anchor and the action is face-to-face, including kissing, wall sex, missionary, seated straddle, and similar frontal pair positions.
+
+- camera sits just behind and slightly above the man's shoulder;
+- the man occupies only a limited foreground edge with shoulder / cheek edge / back of head;
+- the woman's face remains dominant in frame;
+- the woman's face stays frontal-to-three-quarter, ideally around 20–35 degrees off axis;
+- do not drift into a full side-profile two-shot unless the user explicitly asks for it;
+- if kissing would normally force both subjects into profile, rotate or offset the man's head first rather than sacrificing the woman's facial readability;
+- preserve enough torso / pelvis context to keep the action anatomically readable.
+
+Reusable execution fragment:
+
+> The camera stays just behind and slightly above <Subject 2>'s shoulder, looking toward <Subject 1>. <Subject 2>'s shoulder, cheek edge, and back of head remain only a limited foreground frame element and must not block <Subject 1>'s eyes, nose bridge, cheeks, or jawline. <Subject 1> remains the dominant facial subject in a frontal-to-three-quarter view, approximately 20–35 degrees off axis. If the intimate contact becomes tighter, adjust <Subject 2>'s head angle and foreground placement rather than letting the shot collapse into a side-profile two-shot.
+
+Priority rule:
+
+> If a framing choice must be made, preserve <Subject 1>'s facial readability first; <Subject 2>'s frontal face is optional unless explicitly requested by the user.
+
+### 18.3 Position-specific camera patterns
+
 When the woman is the camera-priority subject, select an angle that preserves her face and enough action context:
 
 - supine: male-rear/over-shoulder slightly high, side-front three-quarter, or low front three-quarter toward her face;
