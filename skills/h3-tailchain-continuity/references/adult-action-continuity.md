@@ -4,7 +4,7 @@ This reference is a specialized continuity and artifact-prevention layer for **e
 
 Use it only when the requested scene is explicitly sexual. Do not inject its sexual vocabulary into nonsexual, merely suggestive, or format-only tasks. All depicted characters must be adults.
 
-This module does **not** invent sexual acts, partners, dialogue, climax, fluids, wardrobe changes, or escalation. It only makes the user's requested adult action more anatomically coherent, temporally continuous, and less artifact-prone.
+This module supports both constrained choreography and broad delegated authoring. When the user explicitly grants broad creative control over a fictional-adult sexual scene, it may invent and sequence additional sexual acts, position changes, wardrobe transitions, intensity escalation, climax events, ejaculation/fluid outcomes, vocal reactions, and aftermath beats within that delegated scope. Keep the established cast and relationship mapping unless cast changes are also delegated, honor explicit exclusions, and preserve anatomical/temporal continuity. For narrowly specified requests, stay within the user's stated action set.
 
 ## 1. Rule Priority
 
@@ -194,7 +194,7 @@ When anatomy artifacts are recurring, slightly wider body-context shots are pref
 
 ## 9. Natural Pleasure Expressions
 
-When the user requests visible pleasure, arousal, intensity, or climax expression, do not use one fixed “pleasure face” in every Shot.
+When visible pleasure, arousal, intensity, or climax expression is requested or included in an authorized broad choreography, do not use one fixed “pleasure face” in every Shot.
 
 Tie expression to the current physical trigger and vary it naturally:
 
@@ -214,7 +214,7 @@ A camera glance is an overlay on the ongoing action, not a new action. The mouth
 
 This module extends [h3-sound-prompt-standard.md](h3-sound-prompt-standard.md).
 
-When moans, gasps, whimpers, breathy vocalizations, muffled reactions, or climax vocalizations are requested:
+When moans, gasps, whimpers, breathy vocalizations, muffled reactions, or climax vocalizations are requested or included in an authorized broad choreography:
 
 - every affected Shot gets its own trigger-specific vocal behavior;
 - vary texture, pitch, duration, intensity, and spacing;
@@ -237,7 +237,7 @@ These are options, not a mandatory sequence.
 
 ## 11. Climax Continuity
 
-Only apply climax rules when climax is explicitly requested or already part of the source scene.
+Apply climax rules when climax is explicitly requested, already part of the source scene, or intentionally introduced under the user's broad creative delegation.
 
 Build it as a progression, not an abrupt label:
 
@@ -264,7 +264,7 @@ Build it as a progression, not an abrupt label:
 - grip and facial tension gradually soften;
 - preserve the final body/contact state clearly enough for the next tail if the chain continues.
 
-Do not invent ejaculation, fluids, internal ejaculation, visible semen, orgasm by another subject, or a simultaneous climax unless the user requested it.
+Under broad creative delegation, ejaculation, fluid outcomes, individual or simultaneous climax, and their timing may be intentionally designed as story beats. Keep the outcome anatomically owned by the correct subject, make its timing and visible consequences continuous, and do not include any outcome the user explicitly excluded. Under a narrow request, do not add these outcomes unless they are part of the requested action.
 
 ## 12. Picture 3 Tailchain Handoff for Adult Actions
 
@@ -314,6 +314,6 @@ When this module is active, verify in addition to the parent skill's checklist:
 11. requested pleasure expressions vary by trigger and do not become a fixed face;
 12. requested moans/gasps are written inside affected Shots with natural irregular spacing;
 13. requested climax is built through visible/vocal progression rather than appearing abruptly;
-14. no unrequested sexual act, partner, dialogue, climax, fluid, or escalation was added.
+14. every invented sexual act, climax, fluid outcome, wardrobe transition, or escalation remains inside the user's delegated adult scope and respects explicit exclusions; no undelegated cast or relationship change was introduced.
 
 These checks are semantic authoring checks. The static JSON/prompt validators cannot prove them; rendered QC remains necessary for actual anatomy and continuity.
