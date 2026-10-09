@@ -199,6 +199,21 @@ When the user designates one adult performer as the visual anchor:
 - a brief look toward camera lasts only a moment and never pauses oral/manual/penetrative movement;
 - do not cut away to isolated genital close-ups so aggressively that identity/body ownership becomes ambiguous unless the user explicitly asks for that framing.
 
+When <Subject 1> (the woman) is the visual anchor, apply a stronger default face-visibility rule:
+- preserve her frontal or three-quarter facial readability over showing <Subject 2>'s frontal face;
+- <Subject 2> may appear from behind, over-shoulder, partial side view, cheek/jaw edge, neck, or back-of-head if that better preserves <Subject 1>'s face;
+- if one subject must be partially occluded, prefer occluding <Subject 2>;
+- in face-to-face intercourse, seated straddle, wall sex, or kissing, manage camera placement and head angle so <Subject 1> does not remain in a full side profile for the whole shot;
+- prefer the woman's face around frontal to roughly 20–35 degrees three-quarter whenever the action geometry allows it.
+
+Reusable occlusion wording when needed:
+
+`<Subject 2>'s shoulder, cheek edge, and back of head occupy only a limited foreground area and must not block <Subject 1>'s eyes, nose bridge, cheeks, or jawline.`
+
+Reusable head-angle wording when needed:
+
+`<Subject 2> angles his head across <Subject 1>'s mouth in a way that preserves <Subject 1>'s frontal-to-three-quarter facial visibility rather than forcing her into a full side profile.`
+
 When anatomy artifacts are recurring, slightly wider body-context shots are preferable to extreme crops that remove the pelvis/torso attachment context.
 
 ## 9. Natural Pleasure Expressions
