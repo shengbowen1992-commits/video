@@ -288,15 +288,26 @@ Priority rule:
 
 > If a framing choice must be made, preserve <Subject 1>'s facial readability first; <Subject 2>'s frontal face is optional unless explicitly requested by the user.
 
-### 18.3 Position-specific camera patterns
+### 18.3 Scene-adaptive camera selection
 
-When the woman is the camera-priority subject, select an angle that preserves her face and enough action context:
+The author must choose **one concrete camera solution per Shot** from the current physical geometry. These are decision rules, not a list to paste verbatim into the prompt.
 
-- supine: male-rear/over-shoulder slightly high, side-front three-quarter, or low front three-quarter toward her face;
-- kneeling rear entry: side-front toward her face, front three-quarter with hips still readable, or a controlled orbit that never loses the body axis;
-- woman-on-top: lower-partner POV-like, low front three-quarter, or side-front medium shot;
-- seated face-to-face: partner shoulder/three-quarter framing with her face unobstructed;
-- standing: side-front or partner-shoulder view that includes the support surface and pelvis alignment.
+| Active geometry | Preferred face-preserving solution |
+| --- | --- |
+| face-to-face kiss / wall pin with male head directly in front of woman | male right- or left-shoulder over-shoulder, slightly high; choose the shoulder that exposes more of her face |
+| supine face-to-face / legs raised | offset bed-end or low front three-quarter toward her face; use over-shoulder only if the man's torso otherwise blocks her |
+| woman-on-top / diagonal riding | lower-partner POV-like or low front three-quarter; keep her face naturally frontal |
+| seated face-to-face straddle | slight partner-shoulder offset or direct three-quarter; use the minimum male foreground needed |
+| kneeling rear-entry | side-front toward her face, with enough rear-body context; require a readable head turn |
+| prone rear-entry | low side-front/front-three-quarter toward her face; avoid pure rear crop |
+| oral action, woman giving | front/front-three-quarter toward her face while retaining recipient pelvis attachment context |
+| standing/hybrid position | choose the side and camera height that reveals her face while preserving support points and action axis |
+
+Hard authoring rule:
+
+> Do not write “camera may use A / B / C” inside a final execution Shot. Decide which single angle best satisfies face visibility for the actual pose, then write that angle explicitly.
+
+For face-to-face kissing specifically, if a side-front camera would reduce <Subject 1> to a full profile because <Subject 2> is directly in front of her, default to the appropriate male-over-shoulder angle instead. The man does not need to show a frontal face.
 
 Do not solve face visibility by cutting to a detached face-only portrait during explicit cyclic action. Keep a recognizable shoulder line, partner body edge, support point, or pelvis/torso context in frame.
 
