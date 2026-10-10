@@ -66,7 +66,17 @@ When visible emotional or performance reactions are requested, put a concrete re
 
 When the woman is the visual anchor, or when an adult two-person AV-style scene has no contrary framing instruction, default to **seeing the woman's face first** across kissing, intercourse, oral/manual action, position transitions, and other intimate performance. Preserve a readable frontal-to-three-quarter view of her face whenever physically possible. The male performer does not need a frontal face unless the user explicitly requests it.
 
-This is a **framing priority, not a fixed camera position**. Do not force every shot into the same male-over-shoulder composition. Choose the camera angle that best preserves the woman's face while keeping the active body geometry readable. Suitable solutions may include male-over-shoulder, side-front three-quarter, low front three-quarter, female-facing POV-like framing, offset bed-end framing, controlled side orbit, or other physically coherent angles.
+This is a **scene-adaptive framing rule, not a fixed camera position**. Do not force every shot into the same male-over-shoulder composition, but also do **not** leave the camera choice as an unresolved menu of options for the renderer. The author must inspect the current body geometry and explicitly choose one concrete camera position for every identity-critical Shot.
+
+Scene-adaptive decision rule:
+- **face-to-face kissing / wall pin / close frontal intercourse where the man's head would naturally block the woman**: prefer a camera just behind and slightly above the man's right or left shoulder, whichever keeps the woman's face frontal-to-three-quarter; the man becomes a limited foreground frame element;
+- **supine woman already facing upward toward camera**: prefer offset bed-end, low front three-quarter, or side-front three-quarter; do not insert over-shoulder merely by habit;
+- **woman-on-top / seated straddle**: prefer lower-partner POV-like, low front three-quarter, or side-front medium-close framing, whichever keeps her face naturally frontal;
+- **rear-entry / prone**: prefer side-front or front-three-quarter toward the woman, with her head/eyes turned enough to keep the face readable while preserving rear-body action context;
+- **oral action with the woman as giver**: prefer front or front-three-quarter toward her face while retaining the recipient's pelvis/body attachment context;
+- **standing or hybrid positions**: choose the side/height that reveals the woman's frontal or three-quarter face without breaking support geometry.
+
+Do not write several alternative angles inside one execution Shot such as “over-shoulder or side-front or low-front.” Resolve the choice during authoring and write the single selected angle explicitly. The selected camera must satisfy the woman's face-priority goal before delivery.
 
 Default priority:
 - preserve the woman's eyes, nose bridge, cheeks, jawline, and overall facial readability before preserving the man's frontal face;
