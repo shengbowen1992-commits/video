@@ -206,7 +206,11 @@ When <Subject 1> (the woman) is the visual anchor, apply a stronger default face
 - in face-to-face intercourse, seated straddle, wall sex, or kissing, manage camera placement and head angle so <Subject 1> does not remain in a full side profile for the whole shot;
 - in rear-entry, prone, woman-on-top, oral, standing, or other non-face-to-face geometry, choose a side-front, front-three-quarter, POV-like, offset, or controlled orbit angle that reveals her face without breaking the anatomical action path;
 - prefer the woman's face around frontal to roughly 20–35 degrees three-quarter whenever the action geometry allows it;
-- over-shoulder is one available solution, not the default for every shot; vary camera solutions while preserving the same face-priority goal.
+- over-shoulder is one available solution, not the default for every shot; vary camera solutions while preserving the same face-priority goal;
+- **the author must resolve the camera per Shot before delivery**: do not pass a list of alternative camera angles to H3 and expect the renderer to choose correctly;
+- when face-to-face mouth contact would make a side-front two-shot turn <Subject 1> into a profile, prefer male-rear/over-shoulder and offset <Subject 2>'s head;
+- when <Subject 1> is already naturally facing camera in supine, woman-on-top, seated, or similar geometry, use the direct front/front-three-quarter solution instead of unnecessary over-shoulder;
+- for rear-entry or prone action, place the camera on <Subject 1>'s front-side and require a readable head turn, rather than choosing a pure rear composition.
 
 Reusable occlusion wording when needed:
 
