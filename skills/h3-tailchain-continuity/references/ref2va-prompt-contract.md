@@ -136,7 +136,9 @@ For tail-lineart continuation, the ledger has distinct authorities: identity pic
 
 In the default tail-lineart profile, every segment must place exactly one `Reference Priority:`, one `Character Identity Lock:`, and one `Continuity State Lock:` inside `detailed_description` before `[Shot 1]`. Do not add a separate initial-state heading or prose profile.
 
-`Reference Priority:` makes Pictures 1/2 authoritative for female/male identity and, from Segment 2 onward, Picture 3 authoritative only for inherited opening geometry and visible motion phase. `Character Identity Lock:` preserves face shape, eye shape, hairstyle, hair color, skin tone, body proportion, apparent adult age, and character identity. It forbids face swaps, hairstyle replacement, age shifts, body-ratio changes, identity swaps, and generation of a different character while still allowing expression, pose, clothing state, and requested story changes.
+`Reference Priority:` makes Pictures 1/2 the only authority for female/male identity and, from Segment 2 onward, Picture 3 authoritative only for inherited opening geometry and visible motion phase. `Character Identity Lock:` preserves face shape and facial proportions; eye shape, eye spacing, and characteristic gaze; nose shape, lips, jaw contour, skin tone, distinctive facial features, height ratio, shoulder width, build silhouette, apparent adult age, and character identity. It forbids face swaps, feature redesign, age shifts, height/build/body-ratio changes, identity swaps, generation of a different character, and unintended stylization while still allowing expression, pose, clothing state, and changes explicitly requested by the user.
+
+Treat hairstyle geometry as part of the identity lock. Preserve hair color, length, parting location, bangs/forehead fringe, tied-versus-loose state, overall silhouette, main volume distribution, and the principal face-framing locks. Permit natural end swing, limited loose-strand movement, and gravity-driven settling; do not redesign the style, move the part, alter length or bangs, switch tied/loose state, or redistribute the main volume unless the user explicitly requests that transition.
 
 Write it as concise execution prose, not a seventh top-level field. It has three responsibilities:
 
@@ -152,7 +154,9 @@ Maintain the working continuity record in three groups: Character State (`identi
 
 Default camera behavior is cinematic live action with controlled realistic handheld movement when motion is appropriate, a stable axis, and smooth motivated transitions. Preserve camera position, height, direction, axis, focal-scale/lens character, and movement direction at the seam. Avoid random jumps, impossible perspective changes, sudden unmotivated zooms, inconsistent lens character, and accidental screen-side reversal.
 
-Unless the user explicitly requests stylization or CGI, use this positive realism target in the execution text: `photorealistic, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`. Preserve natural skin microtexture, coherent body weight/contact, stable facial detail, consistent hair, realistic fabric response, and continuous light direction; exclude CGI rendering, plastic or waxy skin, over-smoothed faces, game-engine sheen, and mannequin-like motion.
+Unless the user explicitly requests stylization or CGI, use this positive realism target in the execution text: `photorealistic, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`. Preserve one photographic language across segments: stable exposure, white balance, lens perspective, depth-of-field behavior, contrast response, motion-blur character, and color rendering. Preserve natural skin microtexture, coherent body weight/contact, stable facial detail, consistent hair, realistic fabric response, and continuous light direction; exclude illustration-like rendering, CGI appearance, plastic or waxy skin, over-smoothed faces, game-engine sheen, and mannequin-like motion.
+
+Keep highlight roll-off natural and shadow layers readable. Skin retains fine tonal variation and restrained micro-specular response. Materials already present in the scene must remain optically distinct: silk uses soft directional sheen, cotton is comparatively diffuse, leather has broader controlled highlights, metal has sharper reflections, and stone is dense and mostly matte with restrained specularity. Do not introduce a listed material merely to demonstrate this rule.
 
 ## Anatomical Ownership and Attachment
 
@@ -235,7 +239,7 @@ The video is photorealistic live action with real human skin texture, natural fa
 Reference Priority:
 Priority 1: <Picture 1> is the female identity authority and <Picture 2> is the male identity authority.
 Character Identity Lock:
-Preserve each referenced character's face shape, eye shape, hairstyle, hair color, skin tone, body proportion, adult age appearance and identity; do not replace, swap, or redesign either person.
+Preserve each referenced character's facial proportions, eye shape/spacing/gaze traits, nose, lips, jaw, skin tone, distinctive features, height ratio, shoulder width, build silhouette, adult age appearance and identity. Preserve hair color, length, part, bangs/fringe, tied/loose state, silhouette, main volume and face-framing locks while allowing only natural secondary hair motion; do not replace, swap, stylize or redesign either person.
 Continuity State Lock:
 Wardrobe/Body State: <Subject 1> wears the established yellow jacket and <Subject 2> wears the established blue jacket.
 Color/Material State: retain the established hair, skin, jacket, cream-card, light-gray-wall and white-table colors and materials.
@@ -271,8 +275,9 @@ Perform this review in addition to the repository's JSON validator. Do not claim
 9. Mutable state is tracked separately for all persistent subjects and relevant props that change. Completed one-time state transitions remain complete unless explicitly reversed; partial transitions continue from their inherited phase. A Shot completing a transition establishes the resulting end state before the next Shot/segment.
 10. Segment 1 contains no Picture 3 reference anywhere; Segment 2+ assign it only structural opening geometry/action phase. `Continuity State Lock:` carries relevant colors and mutable non-geometric state. Planned prior end states are not represented as observed tails; accepted raw-tail evidence overrides a conflicting plan.
 11. Every segment contains one `Reference Priority:` and one `Character Identity Lock:` before `[Shot 1]`, and no separate initial-state heading or prose profile remains.
-12. Identity traits remain stable across angles and segments; Picture 3 never overrides Pictures 1/2 or becomes a third identity.
-13. Camera axis, lens character, movement direction, environment, and lighting remain continuous unless a motivated requested change is explicit.
-14. The requested style is honored; absent a contrary style, the text targets photorealistic live action and excludes plastic/CGI appearance.
-15. Close interactions preserve correct body-part ownership and physical attachment; no instruction treats attached anatomy as an independent handheld prop.
-16. Requested expressions and vocal reactions are grounded in each affected Shot's trigger and response, rather than only a global adjective or soundscape sentence. A designated visual anchor retains camera priority; brief camera gaze does not pause the ongoing action.
+12. Facial proportions, eye/nose/lip/jaw traits, skin/distinctive features, height/shoulder/build proportions, adult age appearance and identity remain stable across angles and segments; Picture 3 never overrides Pictures 1/2 or becomes a third identity.
+13. Hairstyle geometry retains color, length, part, bangs/fringe, tied/loose state, silhouette, volume distribution and face-framing locks while permitting only natural secondary hair motion unless a hairstyle change is explicit.
+14. Camera axis, lens character, movement direction, environment, and lighting remain continuous unless a motivated requested change is explicit.
+15. The requested style is honored; absent a contrary style, the text targets one coherent photorealistic live-action language with realistic depth of field, motion blur, highlight roll-off, shadow detail and material-specific reflection, excluding illustration/plastic/CGI appearance.
+16. Close interactions preserve correct body-part ownership and physical attachment; no instruction treats attached anatomy as an independent handheld prop.
+17. Requested expressions and vocal reactions are grounded in each affected Shot's trigger and response, rather than only a global adjective or soundscape sentence. A designated visual anchor retains camera priority; brief camera gaze does not pause the ongoing action.

@@ -51,6 +51,12 @@ The permanent identity reference should show an unobstructed, in-focus, naturall
 
 For continuation clips, the actual tail carries geometry and lighting. Preserve it only if the handoff face remains readable and the intended scene exposure has not drifted. Never claim an earlier nearby frame is the exact tail. If literal-tail continuity is required and the tail fails, rerender the preceding clip.
 
+## Visual Identity and Hairstyle Geometry Gate
+
+Pictures 1/2 are the only identity authority; Picture 3 contributes prior-tail geometry and motion phase but cannot replace or redesign the people. Compare rendered identity against face shape and facial proportions; eye shape, spacing and characteristic gaze; nose shape, lips and jaw contour; skin tone and distinctive features; height ratio, shoulder width, build silhouette and apparent adult age. Reject a continuation that swaps, averages, stylizes or redesigns those traits even when pose continuity is acceptable.
+
+Treat hairstyle geometry as part of identity. Preserve hair color, length, parting location, bangs/forehead fringe, tied-versus-loose state, overall silhouette, main volume distribution and principal face-framing locks. Natural movement may affect hair ends, a few loose strands and gravity-driven settling, but must not move the part, change length/bangs, switch tied/loose state or redistribute the main volume unless the user explicitly requested that hairstyle transition.
+
 ## Prompt Placement
 
 Put the clarity and exposure target where H3 uses it:
@@ -64,6 +70,22 @@ For the complete section-placement rules, read [ref2va-prompt-contract.md](ref2v
 Repeat the essential clarity/exposure sentence in every clip. Do not assume the first clip's lighting instruction will survive a long chain.
 
 Within the default production style, preserve the requested mood through artificial-light color and fixture choice while keeping the room and face bright; never introduce daylight to imply time of day. When the user explicitly overrides the bright minimal-interior style for a night or dim interior, retain that environment but add a motivated soft key or practical light on the face rather than silently turning it into daylight. Prefer `cleanly and evenly exposed face with retained highlight and shadow detail` over vague words such as `cinematic`, which can encourage crushed shadows.
+
+## Visual Quality and Material Realism Gate
+
+Unless the user requests a stylized or CGI look, keep one coherent photographic language through the chain: stable exposure, white balance, lens perspective, depth-of-field behavior, contrast response, natural motion-blur character and color rendering. Depth of field must behave like a real lens, and motion blur must follow subject/camera movement without erasing identity-critical face structure. Reject a segment that drifts into a different visual style, illustration-like rendering, game-engine sheen, waxy/plastic skin or heavy smoothing.
+
+Preserve one lighting system across seams: source direction, softness, color-temperature tendency, exposure, white balance, contrast, natural highlight roll-off and readable shadow layers. Skin retains natural microtexture, fine tonal variation and restrained micro-specular response.
+
+Keep materials already present in the scene optically distinct rather than applying one generic reflection model:
+
+- silk: soft directional sheen;
+- cotton: comparatively diffuse response;
+- leather: broader controlled highlights;
+- metal: sharper reflections;
+- stone: dense, mostly matte response with restrained specularity.
+
+These examples guide rendering of materials already present; they do not authorize adding wardrobe, props or surfaces.
 
 ## Bright Windowless Minimal-Interior Gate
 
@@ -120,6 +142,8 @@ When rendering or QC is authorized, inspect each clip at minimum at the opening,
 - a final tail that is worse than the clip midpoint and unsuitable to seed the next clip.
 - an unrequested standalone face or portrait that reproduces the permanent reference's crop, pose, background, or lighting instead of the active scene.
 - a visible window, daylight or sunlight contribution, dark/heavy wall or furniture treatment, or ornate/busy decor when the bright minimal-interior contract is active.
+- facial proportion, eye/nose/lip/jaw, height/shoulder/build or hairstyle-geometry drift from Pictures 1/2.
+- visual-style drift, physically implausible depth of field or motion blur, clipped highlight roll-off, crushed shadow layers, plastic skin, or one generic shine applied across different materials.
 
 Use face-region measurements when available. Compare luminance and sharpness against the identity reference and the first accepted clip rather than relying on one universal threshold. Automated scores are triage signals; accept only after visual inspection of the decoded face and the seam interval.
 
