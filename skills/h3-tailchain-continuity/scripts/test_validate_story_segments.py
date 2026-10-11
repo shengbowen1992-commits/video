@@ -78,7 +78,7 @@ class EnvelopeTests(unittest.TestCase):
         del data["segments"][0]["prompt"]
         with self.assertRaises(ValueError):
             validate_data(data)
-        for field in ("prompt_en", "duration_seconds", "subject_definitions"):
+        for field in ("version", "duration_seconds", "subject_definitions"):
             data = story()
             data["segments"][0][field] = "not a supported outer field"
             with self.subTest(field=field), self.assertRaises(ValueError):
