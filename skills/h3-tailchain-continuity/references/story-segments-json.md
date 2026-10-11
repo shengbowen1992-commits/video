@@ -36,7 +36,7 @@
 | `prompt` | 必填非空字符串，包含本段完整六节提示词。 |
 | `seed` | 可选，仅在原有种子规则适用时添加；整数范围为 `0 <= seed < 2^63`。不要因打包格式新增种子要求。 |
 
-固定结构不加入 `version`、`sets`、`clips`、`prompt_en`、`prompt_cn`、`prompt_i2v_en`、`scene_style`、时长或分辨率等额外字段。需要中文审阅稿时，按用户要求另行交付；不要用审阅翻译替换执行提示词。
+固定结构不加入 `version`、`sets`、`clips`、时长、分辨率或其他未定义外层字段。需要中文审阅稿时，按用户要求另行交付；不要用审阅翻译替换执行提示词。
 
 机器可读定义见 [story-segments.schema.json](story-segments.schema.json)。JSON Schema 负责基础字段形状；严格整数写法，以及数组中 `id` 必须依次为 `1..N` 的跨元素规则，以下面的校验器为准。
 
