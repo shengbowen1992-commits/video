@@ -42,7 +42,6 @@
 
 - Ref2VA：在每段 `detailed_description:` 的 `[Shot 1]` 之前放一次 Motion Intensity Contract，保留原有六节结构。随后每个 Shot 只描述自身强度、路径和承接状态，不重复整段合同。
 - `story_segments.json` 的 `raw_prompt: true` 模式：每段 `prompt` 都必须自带适用规则；外层 `global_prompt` 保持空字符串，因为完整模式不会拼接它。只写在外层会导致规则不生效。
-- I2V／I2VA：放在该模式实际执行的动作描述中。旧三字段契约保留规定的起始句和字段顺序，在 `integrated_multimodal_description` 中的 `[Shot 1]` 后、具体动作之前放合同；不新增字段，不切换到 Ref2VA。
 - 独立渲染的段各放一次；同段内多 Shot 不重复完整合同。仅后半段适用时，在合同中明确适用 Shot／时间范围，其余镜头保持原计划。
 
 ## 全局 Motion Intensity Contract
