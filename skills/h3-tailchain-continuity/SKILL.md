@@ -183,11 +183,11 @@ Avoid random camera jumps, impossible perspective changes, sudden unmotivated zo
 
 Unless the user explicitly requests a stylized or CGI look, place this positive target in the execution prompt: `photorealistic, cinematic clarity, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`.
 
-Keep one coherent photographic language across all segments: stable exposure, white balance, lens perspective, depth-of-field behavior, contrast response, motion-blur character, and color rendering. Use physically plausible depth of field and natural motion blur that follows subject/camera movement without erasing identity-critical facial structure.
+Apply the **Live Action Quality Standard** across every segment: keep the eyes sharp, facial proportions stable, skin detail clear, lens perspective realistic, depth of field natural, and focus changes optically credible. Keep one coherent photographic language across all segments: stable exposure, white balance, lens perspective, depth-of-field behavior, contrast response, motion-blur character, sharpness response, focus behavior, and color rendering. Use physically plausible depth of field and natural motion blur that follows subject/camera movement without erasing identity-critical facial structure.
 
-Keep the result grounded in live-action photography: natural skin microtexture, coherent anatomy and body weight, physically plausible contact and motion, stable facial detail, consistent hair, realistic fabric response, and continuous light direction. Exclude illustration-like rendering, CGI appearance, plastic or waxy skin, over-smoothed faces, game-engine sheen, and synthetic mannequin-like motion. Do not let the realism wording override an explicit user style.
+Keep the result grounded in live-action photography: natural skin microtexture, coherent anatomy and body weight, physically plausible contact and motion, stable facial detail, consistent hair, realistic fabric response, and continuous light direction. Reject AI face drift, inconsistent sharpness, artificial skin smoothing, unmotivated lens-style changes, illustration-like rendering, CGI appearance, plastic or waxy skin, blurred facial detail, game-engine sheen, and synthetic mannequin-like motion. Do not let the realism wording override an explicit user style.
 
-### Lighting and Material Realism
+### Lighting and Material Realism Contract
 
 Preserve one coherent lighting system through the chain: source direction, softness, color-temperature tendency, exposure, white balance, contrast, highlight roll-off, and layered shadow detail remain stable unless the story explicitly changes them. Retain facial information in highlights and shadows instead of producing clipped specular patches or crushed dark areas.
 

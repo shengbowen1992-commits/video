@@ -71,9 +71,11 @@ Repeat the essential clarity/exposure sentence in every clip. Do not assume the 
 
 Within the default production style, preserve the requested mood through artificial-light color and fixture choice while keeping the room and face bright; never introduce daylight to imply time of day. When the user explicitly overrides the bright minimal-interior style for a night or dim interior, retain that environment but add a motivated soft key or practical light on the face rather than silently turning it into daylight. Prefer `cleanly and evenly exposed face with retained highlight and shadow detail` over vague words such as `cinematic`, which can encourage crushed shadows.
 
-## Visual Quality and Material Realism Gate
+## Live Action Quality Standard
 
-Unless the user requests a stylized or CGI look, keep one coherent photographic language through the chain: cinematic clarity, stable exposure, white balance, lens perspective, depth-of-field behavior, contrast response, natural motion-blur character and color rendering. Depth of field must behave like a real lens, and motion blur must follow subject/camera movement without erasing identity-critical face structure. Reject a segment that drifts into a different visual style, illustration-like rendering, game-engine sheen, waxy/plastic skin, heavy smoothing or blurred facial detail.
+Unless the user requests a stylized or CGI look, require sharp eyes, stable facial proportions, clear skin detail, realistic lens perspective, natural depth of field, and optically credible focus changes. Keep one coherent photographic language through the chain: cinematic clarity, stable exposure, white balance, lens perspective, depth-of-field behavior, contrast response, natural motion-blur character, sharpness response, focus behavior and color rendering. Depth of field must behave like a real lens, and motion blur must follow subject/camera movement without erasing identity-critical face structure. Reject AI face drift, inconsistent sharpness, artificial skin smoothing, unmotivated lens-style changes, illustration-like rendering, game-engine sheen, waxy/plastic skin or blurred facial detail.
+
+### Visual Quality and Material Realism Gate
 
 Preserve one lighting system across seams: source direction, softness, color-temperature tendency, exposure, white balance, contrast, natural highlight roll-off and readable shadow layers. Skin retains natural microtexture, fine tonal variation and restrained micro-specular response.
 
