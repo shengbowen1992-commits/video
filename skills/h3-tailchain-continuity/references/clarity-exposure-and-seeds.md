@@ -51,11 +51,11 @@ The permanent identity reference should show an unobstructed, in-focus, naturall
 
 For continuation clips, the actual tail carries geometry and lighting. Preserve it only if the handoff face remains readable and the intended scene exposure has not drifted. Never claim an earlier nearby frame is the exact tail. If literal-tail continuity is required and the tail fails, rerender the preceding clip.
 
-## Visual Identity and Hairstyle Geometry Gate
+## Identity Preservation Contract and Hairstyle Geometry Gate
 
-Pictures 1/2 are the only identity authority; Picture 3 contributes prior-tail geometry and motion phase but cannot replace or redesign the people. Compare rendered identity against face shape and facial proportions; eye shape, spacing and characteristic gaze; nose shape, lips and jaw contour; skin tone and distinctive features; height ratio, shoulder width, build silhouette and apparent adult age. Reject a continuation that swaps, averages, stylizes or redesigns those traits even when pose continuity is acceptable.
+Pictures 1/2 are the only identity authority; Picture 3 contributes prior-tail geometry and motion phase but cannot replace or override facial traits, hairstyle geometry, skin tone, body proportions or other permanent appearance. Compare rendered identity against face shape and facial proportions; eye shape, spacing and characteristic gaze; nose shape, lips and jaw contour; skin tone and distinctive features; height ratio, shoulder width, build silhouette and apparent adult age. Reject a continuation that swaps, averages, beautifies, stylizes, redesigns or generates a similar-but-different person even when pose continuity is acceptable.
 
-Treat hairstyle geometry as part of identity. Preserve hair color, length, parting location, bangs/forehead fringe, tied-versus-loose state, overall silhouette, main volume distribution and principal face-framing locks. Natural movement may affect hair ends, a few loose strands and gravity-driven settling, but must not move the part, change length/bangs, switch tied/loose state or redistribute the main volume unless the user explicitly requested that hairstyle transition.
+Treat hairstyle geometry as part of identity. Preserve hair color, length, density, parting location, bangs/forehead fringe, tied-versus-loose state, overall silhouette, main volume distribution and principal face-framing locks. Natural movement may affect hair ends, a few loose strands and gravity-driven settling, but motion changes hair position rather than hairstyle structure; it must not move the part, change length/bangs, switch tied/loose state or redistribute the main volume unless the user explicitly requested that hairstyle transition.
 
 ## Prompt Placement
 
@@ -73,7 +73,7 @@ Within the default production style, preserve the requested mood through artific
 
 ## Visual Quality and Material Realism Gate
 
-Unless the user requests a stylized or CGI look, keep one coherent photographic language through the chain: stable exposure, white balance, lens perspective, depth-of-field behavior, contrast response, natural motion-blur character and color rendering. Depth of field must behave like a real lens, and motion blur must follow subject/camera movement without erasing identity-critical face structure. Reject a segment that drifts into a different visual style, illustration-like rendering, game-engine sheen, waxy/plastic skin or heavy smoothing.
+Unless the user requests a stylized or CGI look, keep one coherent photographic language through the chain: cinematic clarity, stable exposure, white balance, lens perspective, depth-of-field behavior, contrast response, natural motion-blur character and color rendering. Depth of field must behave like a real lens, and motion blur must follow subject/camera movement without erasing identity-critical face structure. Reject a segment that drifts into a different visual style, illustration-like rendering, game-engine sheen, waxy/plastic skin, heavy smoothing or blurred facial detail.
 
 Preserve one lighting system across seams: source direction, softness, color-temperature tendency, exposure, white balance, contrast, natural highlight roll-off and readable shadow layers. Skin retains natural microtexture, fine tonal variation and restrained micro-specular response.
 
@@ -83,7 +83,8 @@ Keep materials already present in the scene optically distinct rather than apply
 - cotton: comparatively diffuse response;
 - leather: broader controlled highlights;
 - metal: sharper reflections;
-- stone: dense, mostly matte response with restrained specularity.
+- stone: dense, mostly matte response with restrained specularity;
+- glass: coherent transparency, refraction and controlled reflections.
 
 These examples guide rendering of materials already present; they do not authorize adding wardrobe, props or surfaces.
 

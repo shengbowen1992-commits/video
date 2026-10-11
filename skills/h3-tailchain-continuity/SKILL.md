@@ -111,24 +111,24 @@ In each continuation's six-section prompt, keep identity attached to Pictures 1/
 
 The current runner passes the actual lineart but does not automatically recognize mutable state or rewrite the JSON prompt. This is the only continuation route supported by this skill: Ref2VA with Picture 3 tail-lineart preprocessing. It does not guarantee pixel-exact first-frame equality. Apply the following state-authority rules.
 
-### Reference Priority
+### Ref2VA Reference Authority and Priority
 
 Place exactly one concise `Reference Priority:` block inside `detailed_description` before `[Shot 1]`.
 
 1. **Priority 1 — identity:** `<Picture 1>` is the permanent female identity reference and `<Picture 2>` is the permanent male identity reference. They are authoritative for who the people are.
 2. **Priority 2 — continuity:** from Segment 2 onward, `<Picture 3>` is the immediately preceding accepted final-frame lineart. It is authoritative only for opening action phase, composition, spatial layout, pose, support/contact points, prop placement, camera axis, and movement direction.
 
-Picture 3 never overrides the identities in Pictures 1/2 and never becomes a third person or a drawing-style target. Segment 1 must not mention Picture 3, including inside this block.
+Picture 3 never overrides the identities in Pictures 1/2 and never becomes a third person or a drawing-style target. It cannot override facial traits, hairstyle geometry, skin tone, body proportions, or any other permanent appearance feature. Segment 1 must not mention Picture 3, including inside this block.
 
-### Character Identity Lock
+### Identity Preservation Contract
 
 Place exactly one `Character Identity Lock:` block inside `detailed_description` before `[Shot 1]`. For every persistent referenced character, require continuity of face shape and facial proportions; eye shape, eye spacing, and characteristic gaze; nose shape, lips, and jaw contour; skin tone and distinctive facial features; height ratio, shoulder width, build silhouette, apparent adult age, and character identity. Pictures 1/2 remain the only identity authority across every camera angle, background appearance, reflection, profile, partial occlusion, and continuation segment.
 
-Do not permit face replacement, facial-feature redesign, age change, height/build/body-proportion change, identity swapping, generation of a different character, or a shift from real human appearance into a stylized redesign. Identity locking does not freeze expression, pose, clothing state, or an appearance change explicitly requested by the user. Write this as a compact identity constraint rather than repeating a long physical description that can compete with the reference images.
+Do not permit face replacement, facial-feature redesign, automatic beautification, age change, height/build/body-proportion change, identity swapping, generation of a similar-but-different character, or a shift from real human appearance into a stylized redesign. Identity locking does not freeze expression, pose, clothing state, or an appearance change explicitly requested by the user. Write this as a compact `Character Identity Lock:` constraint rather than repeating a long physical description that can compete with the reference images.
 
 ### Hairstyle Geometry Lock
 
-Treat hairstyle geometry as part of identity, not as an ordinary freely changing dynamic object. Preserve hair color, length, parting location, bangs or forehead-fringe structure, tied-versus-loose state, overall silhouette, volume distribution, and the principal locks framing each side of the face.
+Treat hairstyle geometry as part of identity, not as an ordinary freely changing dynamic object. Preserve hair color, length, density, parting location, bangs or forehead-fringe structure, tied-versus-loose state, overall silhouette, volume distribution, and the principal locks framing each side of the face.
 
 Allow only physically natural secondary motion: hair ends may swing, a small number of loose strands may respond to movement, and the style may settle or shift slightly under gravity. Do not redesign the hairstyle, move the part, change length or bangs, switch tied/loose state, or redistribute the main hair volume unless the user explicitly requests that hairstyle change. When an explicit change is requested, show a continuous story action and then lock the resulting geometry for later segments.
 
@@ -181,7 +181,7 @@ Avoid random camera jumps, impossible perspective changes, sudden unmotivated zo
 
 ### Visual Quality Contract
 
-Unless the user explicitly requests a stylized or CGI look, place this positive target in the execution prompt: `photorealistic, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`.
+Unless the user explicitly requests a stylized or CGI look, place this positive target in the execution prompt: `photorealistic, cinematic clarity, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`.
 
 Keep one coherent photographic language across all segments: stable exposure, white balance, lens perspective, depth-of-field behavior, contrast response, motion-blur character, and color rendering. Use physically plausible depth of field and natural motion blur that follows subject/camera movement without erasing identity-critical facial structure.
 
@@ -191,7 +191,7 @@ Keep the result grounded in live-action photography: natural skin microtexture, 
 
 Preserve one coherent lighting system through the chain: source direction, softness, color-temperature tendency, exposure, white balance, contrast, highlight roll-off, and layered shadow detail remain stable unless the story explicitly changes them. Retain facial information in highlights and shadows instead of producing clipped specular patches or crushed dark areas.
 
-Skin keeps natural texture, fine tonal variation, and restrained micro-specular response rather than a plastic surface. Distinguish material response instead of applying one generic shine: silk has soft directional sheen, cotton remains comparatively diffuse, leather carries broader controlled highlights, metal produces sharper reflections, and stone stays dense and mostly matte with restrained specularity. Apply only materials actually present in the scene; these examples do not authorize new props or wardrobe.
+Skin keeps natural texture, fine tonal variation, and restrained micro-specular response rather than a plastic surface. Distinguish material response instead of applying one generic shine: silk has soft directional sheen, cotton remains comparatively diffuse, leather carries broader controlled highlights, metal produces sharper reflections, stone stays dense and mostly matte with restrained specularity, and glass preserves coherent transparency, refraction, and controlled reflections. Apply only materials actually present in the scene; these examples do not authorize new props or wardrobe.
 
 ### Story JSON Packaging
 
@@ -409,7 +409,7 @@ Before delivery, verify:
 - every default tail-lineart segment contains exactly one `Reference Priority:`, one `Character Identity Lock:`, and one `Continuity State Lock:` before `[Shot 1]`, and no separate initial-state prose profile remains;
 - Pictures 1/2 remain Priority 1 for identity; Picture 3 is Priority 2 and controls only the inherited opening action, spatial, pose, contact, camera-axis, and movement state;
 - every referenced character retains facial proportions, eye shape/spacing/gaze traits, nose/lips/jaw, skin tone/distinctive features, height ratio, shoulder width, build silhouette, apparent adult age, and identity across angles and segments;
-- hairstyle color, length, part, bangs/fringe, tied/loose state, silhouette, volume distribution, and face-framing locks remain stable while only natural end/strand/gravity motion varies;
+- hairstyle color, length, density, part, bangs/fringe, tied/loose state, silhouette, volume distribution, and face-framing locks remain stable while only natural end/strand/gravity motion varies;
 - the working continuity record tracks Character State, Environment State, and Motion State without copying the full ledger into every Shot;
 - each seam preserves camera position/axis/lens character and movement direction unless a motivated requested change is explicit; no random jump, impossible perspective, sudden unmotivated zoom, inconsistent lens character, or accidental screen-side reversal appears;
 - absent a contrary style request, each execution prompt carries one coherent photorealistic live-action language with real skin texture, natural expression/body motion, realistic depth of field and motion blur, stable exposure/white balance/lens perspective, and no illustration/CGI/plastic-skin appearance;
