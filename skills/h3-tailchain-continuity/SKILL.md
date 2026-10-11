@@ -119,13 +119,19 @@ Place exactly one concise `Reference Priority:` block inside `detailed_descripti
 2. **Priority 2 — continuity:** from Segment 2 onward, `<Picture 3>` is the immediately preceding accepted final-frame lineart. It is authoritative only for opening action phase, composition, spatial layout, pose, support/contact points, prop placement, camera axis, and movement direction.
 3. **Priority 3 — supplementary state:** prompt text may carry only relevant state that the assigned images cannot encode reliably, such as established colors, materials, mutable clothing/body state, and lighting/exposure state. It cannot replace, reinterpret, or override identity supplied by Pictures 1/2.
 
-Picture 3 never overrides the identities in Pictures 1/2 and never becomes a third person or a drawing-style target. It cannot override facial traits, hairstyle geometry, skin tone, body proportions, or any other permanent appearance feature. If identity evidence conflicts with Picture 3 geometry or supplementary text, identity authority wins; preserve the person and adapt only the continuation geometry or text-carried state needed to resolve the handoff. Segment 1 must not mention Picture 3, including inside this block.
+Picture 3 never overrides the identities in Pictures 1/2 and never becomes a third person or a drawing-style target. It cannot override facial traits, hairstyle geometry, skin tone, body proportions, or any other permanent appearance feature. Resolve conflicts in this order: **identity > geometry > supplementary text**. Preserve the person first, then the feasible continuation geometry, and adapt only lower-priority geometry or text-carried state needed to resolve the handoff. Segment 1 must not mention Picture 3, including inside this block.
 
 ### Identity Preservation Contract
 
 Place exactly one `Character Identity Lock:` block inside `detailed_description` before `[Shot 1]`. For every persistent referenced character, require continuity of face shape and facial proportions; eye shape, eye spacing, and characteristic gaze; nose shape, lips, and jaw contour; skin tone and distinctive facial features; height ratio, shoulder width, build silhouette, apparent adult age, and character identity. Pictures 1/2 remain the only identity authority across every camera angle, background appearance, reflection, profile, partial occlusion, and continuation segment.
 
 Do not permit face replacement, facial-feature redesign, automatic beautification, age change, height/build/body-proportion change, identity swapping, generation of a similar-but-different character, or a shift from real human appearance into a stylized redesign. Identity locking does not freeze expression, pose, clothing state, or an appearance change explicitly requested by the user. Write this as a compact `Character Identity Lock:` constraint rather than repeating a long physical description that can compete with the reference images.
+
+### Reference Detail Preservation Contract
+
+Preserve the identity-specific detail visible in Pictures 1/2 rather than averaging the subject into a generic attractive person. Retain visible facial asymmetry, distinctive feature shape and spacing, characteristic skin features, natural proportions, hairstyle texture, and other personal appearance traits that materially distinguish the referenced individual.
+
+Do not normalize the face toward a generic beauty template, influencer-style face, idealized symmetry, standardized eye/nose/jaw proportions, or uniformly perfected skin. Preserve only details supported by the actual identity reference; do not invent freckles, scars, moles, texture, or asymmetry that the image does not establish clearly.
 
 ### Hairstyle Geometry Lock
 
@@ -416,6 +422,7 @@ Before delivery, verify:
 - every default tail-lineart segment contains exactly one `Reference Priority:`, one `Character Identity Lock:`, and one `Continuity State Lock:` before `[Shot 1]`, and no separate initial-state prose profile remains;
 - Pictures 1/2 remain Priority 1 for identity; Picture 3 is Priority 2 and controls only the inherited opening action, spatial, pose, contact, camera-axis, and movement state;
 - every referenced character retains facial proportions, eye shape/spacing/gaze traits, nose/lips/jaw, skin tone/distinctive features, height ratio, shoulder width, build silhouette, apparent adult age, and identity across angles and segments;
+- every visible identity-specific detail from Pictures 1/2, including natural asymmetry, characteristic skin features, distinctive feature geometry, natural proportions and hairstyle texture, remains recognizable without generic beautification or influencer-face normalization;
 - hairstyle color, length, density, part, bangs/fringe, tied/loose state, silhouette, volume distribution, and face-framing locks remain stable while only natural end/strand/gravity motion varies;
 - the working continuity record tracks Character State, Environment State, and Motion State without copying the full ledger into every Shot;
 - each seam preserves camera position/axis/lens character and movement direction unless a motivated requested change is explicit; no random jump, impossible perspective, sudden unmotivated zoom, inconsistent lens character, or accidental screen-side reversal appears;
