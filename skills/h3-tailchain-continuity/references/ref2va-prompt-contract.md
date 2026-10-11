@@ -1,6 +1,6 @@
 # Ref2VA Prompt Contract
 
-Read this before authoring or revising a Ref2VA prompt. Use it for a standalone prompt, each `prompt` in `story_segments.json`, or each `prompt_en` in a legacy chain. The outer file format does not change the six-field requirements below. This guide governs prompt text; it does not enable unsupported image, video, audio, or duration inputs in a renderer.
+Read this before authoring or revising a Ref2VA prompt. Use it for a standalone prompt or each `prompt` in the lineart-only `story_segments.json` chain. The outer file format does not change the six-field requirements below. This guide governs prompt text; it does not enable unsupported image, audio, or duration inputs in a renderer.
 
 ## Sources and Rule Strength
 
@@ -31,8 +31,7 @@ Execution prose is English; preserve the original language of dialogue, lyrics, 
 
 - `<Subject N>` identifies reusable visible content, such as a person, animal, prop, environment, clothing, style, or motion. It is not the source file. One source can supply several subjects; one subject can use several sources.
 - `<Picture N>` identifies an input image. Give it a standalone definition when the image is a concrete first/key/last frame or storyboard/composition anchor. If it only supplies a subject's identity, cite it within that subject's definition without a redundant picture entry.
-- `<Video N>` identifies a source for editing, continuation, or whole-video timing/camera structure. Visible content extracted from it still uses `<Subject N>`.
-- `<Audio N>` identifies an actually enabled audio source. A video file containing sound does not by itself require an audio definition. Video and audio numbering are independent; explain shared provenance when needed.
+- `<Audio N>` identifies an actually enabled audio source. Define it only when the workflow actually binds an audio reference.
 - Use labels consistently in definitions, summary, retention, shots, and sound fields. All used assets must resolve to supplied inputs or the explicitly declared runtime contract. Never invent an available reference.
 
 Example of identity-only provenance:
@@ -41,7 +40,7 @@ Example of identity-only provenance:
 <Subject 1> is the person in <Picture 1>; this source supplies facial identity only, not the source portrait's composition or background.
 ```
 
-Use these fixed visual relationship markers for `<Subject N>`, standalone `<Picture N>`, and `<Video N>`:
+Use these fixed visual relationship markers for `<Subject N>` and standalone `<Picture N>`:
 
 | Marker | Meaning |
 | --- | --- |
@@ -77,12 +76,10 @@ Start with one bracketed prefix; combine applicable types with ` + ` without rep
 | --- | --- |
 | `reference generation` | Guidance for appearance, motion, style, camera, or structure |
 | `keyframe completion` | A concrete target frame or composition anchor |
-| `video editing` | Direct modification of an existing source video |
-| `video continuation` | New video continuing an existing source video |
 | `audio reuse` | Direct copying of all or part of an audio signal |
 | `audio reference` | Audio guidance without copying the signal |
 
-Choose types from actual inputs and usage. A still previous-tail image does not automatically make a task `video continuation`; image-anchored tailchains typically combine `reference generation + keyframe completion`. Referencing only a video's camera motion is `reference generation`. For an edit, begin the summary after its prefix with `The target video is an edited version of <Video 1>.`
+Choose types from actual inputs and usage. For this skill's continuation chain, Segment 1 normally uses `reference generation`, while Segment 2+ normally combine `reference generation + keyframe completion` because Picture 3 is a still tail-lineart composition anchor.
 
 Summary establishes the overall task; it does not override other sections or enforce compliance by itself.
 
@@ -193,22 +190,21 @@ Apply [H3 sound authoring](h3-sound-prompt-standard.md) by default: global style
 - Dialogue, singing, scene-audible music, and precisely synchronized sound events belong in `detailed_description`. Ambient/physical/nonverbal sound is summarized in `overall_soundscape`. Audience-only score belongs in `non_diegetic_music`.
 - `overall_soundscape: N/A` is for an explicit completely silent video, not merely a video without dialogue. `non_diegetic_music: N/A` removes only the score. With reference audio, name the copy/reference relationship in the field for the audible layer; do not duplicate dialogue text there.
 
-## Tailchains and Multiple Independent Identities
+## Tail-Lineart Binding and Multiple Identities
 
-The parent skill's legacy map uses one permanent identity image plus a previous-tail image. The current dynamic-series default is Plan 5 tail-lineart: Pictures 1/2 retain female/male identities in every segment, and Picture 3 supplies the preceding final frame's lineart from segment 2 onward. Opening State text supplements that structural reference. The original dynamic workflow instead uses tail video as `<Video 1>`; Plan 6 uses it only on selected segments; explicitly selected original Plan 5 uses only two identities and text. Keep these roles explicit; never promise exact first-frame equality from Ref2VA conditioning. I2VA is a separate mode and is not required to use a tail as Picture 3.
+This skill supports one chain binding only:
 
-| Situation | Explicit picture mapping |
-| --- | --- |
-| Legacy clip 01 | `<Subject 1>` gets identity from `<Picture 1>`; no fictitious previous tail |
-| Legacy clip 02+ | `<Subject 1>` keeps identity from `<Picture 1>`; standalone `<Picture 2>` anchors the opening from the previous accepted tail |
-| Two independent identity images, first clip | `<Subject 1>` gets identity from `<Picture 1>`; `<Subject 2>` gets identity from `<Picture 2>` |
-| Two independent identities plus previous tail | Keep those two identity mappings; use a separate `<Picture 3>` for the previous-tail opening |
-| Current default: Plan 5 tail-lineart | Female identity stays in `<Picture 1>`, male identity in `<Picture 2>`. Segment 1 has no Picture 3; each continuation follows the immediately preceding actual tail-lineart `<Picture 3>` for visible opening geometry, pose, contacts and action phase. Opening State primarily supplements established colors and current clothing state, without overriding the image or asserting unobserved changes. Describe subsequent action separately. Keep the requested output style; do not imitate the line drawing. No video input. |
-| Dynamic series with two identity images and tail video | Keep `<Picture 1>` and `<Picture 2>` assigned to their identities; segment 1 has no preceding video, and segment 2 onward always use `<Video 1>` for the immediately preceding tail video |
-| Plan 6 (hybrid two-image series) | Keep the same two identity images. Use `<Video 1>` only in segments where the workflow actually binds the previous tail video; omit it in other segments. |
-| Plan 5 (No Video / Opening State) | `<Picture 1>` is the single female-lead reference; `<Picture 2>` is the single male-lead reference. All segments use these two still images, none has `<Video 1>`. Describe the previous ending state in the next complete prompt; the text does not enforce an exact matching first frame. |
+- `<Picture 1>` supplies the permanent female identity.
+- `<Picture 2>` supplies the permanent male identity.
+- Segment 1 has no `<Picture 3>`.
+- Segment 2 onward use the immediately preceding accepted final-frame lineart as `<Picture 3>`.
+- Picture 3 controls opening composition, body positions, pose, support/contact points, prop placement, camera axis, and visible action phase.
+- Text in `Continuity State Lock:` carries colors, garment/body state, materials, lighting/exposure, hairstyle state, and other non-geometric mutable state that lineart cannot reliably preserve.
+- No video-reference binding is permitted.
+- Do not relabel Picture 2 as a tail, and do not treat Picture 3 as a third identity or target drawing style.
+- Ref2VA conditioning does not guarantee pixel-exact first-frame equality.
 
-This table describes workflow-specific contracts, not universal picture numbering. If generation is requested, verify input support and binding; do not overwrite an identity image with a tail. For text-only authoring, state the required mapping without demanding local file paths. Apply the parent skill's identity-versus-geometry authority and instance-continuity rules to the resolved labels. For `prompt_i2v_en`, `<Picture 1>` is still the actual previous tail; do not copy Ref2VA numbering into I2VA blindly. The [dynamic-series profile mappings](story-segments-json.md) distinguish the current tail-lineart default from explicitly selected alternatives.
+For multiple visible subjects, keep stable `<Subject N>` IDs and map each subject to the correct permanent identity source. The previous tail-lineart changes only opening geometry/action phase, never identity ownership.
 
 ## Complete Original Example
 
@@ -254,9 +250,9 @@ Perform this review in addition to the repository's JSON validator. Do not claim
 4. The detailed description establishes style and global invariants before the opening shot, grounded composition/action/camera/sound for every shot, and the actual effect of each reference. Later shots inherit concrete prior states before new action; stable appearance does not freeze poses, undo completed actions, or contradict requested clothing changes. Avoid repeating the full global block in each shot. Do not add unrequested plot to meet a length target.
 5. The first shot has no heading time; later cuts use exact cut-in notation, consecutive numbering, and increasing in-range times. Action durations, dialogue, clip duration, and the final state agree; there is no cut at the endpoint.
 6. Speaker IDs, lip activity, original dialogue, language tags, and any cross-cut audio are consistent. Shot-specific sound identifies its source, trigger and relevant dynamics/spacing; natural vocal reactions do not mechanically repeat once per movement. Soundscape and score do not contradict the shot audio or duplicate dialogue. Respect deliberate rhythmic sounds, silence and actual audio bindings.
-7. In a chain, stable identity labels, previous-tail geometry, subject count, and forward motion survive the seam. Separate identity inputs never silently become tail inputs. Runtime support is distinguished from prompt intent.
+7. In a chain, stable identity labels, Picture 3 tail-lineart geometry, subject count, and forward motion survive the seam. Pictures 1/2 remain identities and never become tail inputs.
 8. Explicit user requirements take precedence over local defaults. For a limited format-only edit, report remaining authoring deviations rather than claiming full compliance. Prompt validation does not prove rendered identity, lip sync, or continuity.
 9. Mutable state is tracked separately for all persistent subjects and relevant props that change. Completed one-time state transitions remain complete unless explicitly reversed; partial transitions continue from their inherited phase. A Shot completing a transition establishes the resulting end state before the next Shot/segment.
-10. In the default lineart profile, segment 1 contains no Picture 3 reference anywhere; segment 2+ assigns it only structural opening geometry/action phase. Text carries relevant colors and mutable non-geometric state. Planned prior end states are not represented as observed tails; accepted raw-tail evidence overrides a conflicting plan.
+10. Segment 1 contains no Picture 3 reference anywhere; Segment 2+ assign it only structural opening geometry/action phase. `Continuity State Lock:` carries relevant colors and mutable non-geometric state. Planned prior end states are not represented as observed tails; accepted raw-tail evidence overrides a conflicting plan.
 11. Close interactions preserve correct body-part ownership and physical attachment; no instruction treats attached anatomy as an independent handheld prop.
 12. Requested expressions and vocal reactions are grounded in each affected Shot's trigger and response, rather than only a global adjective or soundscape sentence. A designated visual anchor retains camera priority; brief camera gaze does not pause the ongoing action.
