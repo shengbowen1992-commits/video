@@ -11,7 +11,7 @@
 | 精确对白、歌词、场景内可听见的音乐、与动作同步的物理音效 | 对应 `[Shot N]` |
 | 观众听见而人物听不见的配乐 | `non_diegetic_music` |
 
-Ref2VA 的 Shot 写在 `detailed_description`；I2V／I2VA 等三字段模式的 Shot 写在 `integrated_multimodal_description`。保留该模式原来的开场引用句、字段顺序、标签和切点语法，不因声音规则切换工作流或新增字段。
+本 skill 只使用 Ref2VA 六节格式：Shot 写在 `detailed_description`，声音规则不得切换工作流或新增其他执行字段。
 
 `overall_soundscape` 按现有格式用 1–4 句简洁英文概括，不堆逐秒事件、精确发声次数或第二份镜头脚本。先写每个 Shot 的具体声音，再总结整段，避免两处矛盾。每个独立生成的段都自带适用声音规则；`story_segments.json` 的 `raw_prompt: true` 模式不能只把规则放在不会拼接的外层 `global_prompt`，该字段仍为空字符串。
 
