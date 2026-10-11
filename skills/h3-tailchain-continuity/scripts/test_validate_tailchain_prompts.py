@@ -30,6 +30,10 @@ def prompt(index: int) -> str:
         "summary:\n[reference generation] Synthetic test prompt.\n\n"
         "retention_analysis:\nSynthetic retention.\n\n"
         "detailed_description:\n"
+        "Reference Priority:\n"
+        "Priority 1: Pictures 1 and 2 control identity.\n"
+        "Character Identity Lock:\n"
+        "Preserve face, eyes, hair, skin, body proportion, adult age, and identity.\n"
         "Continuity State Lock:\n"
         "Wardrobe/Body State: synthetic known state.\n"
         "Color/Material State: synthetic stable palette.\n"
@@ -102,6 +106,19 @@ class TailchainPromptContractTests(unittest.TestCase):
         prompt_text = prompt_text.replace("Continuity State Lock:\n", "", 1)
         prompt_text += "\nContinuity State Lock:"
         data["segments"][1]["prompt"] = prompt_text
+        with self.assertRaises(ValueError):
+            validate_tailchain_data(data)
+
+    def test_requires_reference_priority_and_character_identity_lock(self):
+        for marker in ("Reference Priority:\n", "Character Identity Lock:\n"):
+            data = story()
+            data["segments"][1]["prompt"] = data["segments"][1]["prompt"].replace(marker, "", 1)
+            with self.subTest(marker=marker), self.assertRaises(ValueError):
+                validate_tailchain_data(data)
+
+    def test_rejects_removed_initial_state_profile(self):
+        data = story()
+        data["segments"][1]["prompt"] += "\n" + "Opening" + " State: synthetic"
         with self.assertRaises(ValueError):
             validate_tailchain_data(data)
 

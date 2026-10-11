@@ -134,7 +134,9 @@ For tail-lineart continuation, the ledger has distinct authorities: identity pic
 
 ### Mandatory Continuity State Lock for Tail-Lineart Segments
 
-In the default tail-lineart profile, every segment must place exactly one `Continuity State Lock:` inside `detailed_description` before `[Shot 1]`.
+In the default tail-lineart profile, every segment must place exactly one `Reference Priority:`, one `Character Identity Lock:`, and one `Continuity State Lock:` inside `detailed_description` before `[Shot 1]`. Do not add a separate initial-state heading or prose profile.
+
+`Reference Priority:` makes Pictures 1/2 authoritative for female/male identity and, from Segment 2 onward, Picture 3 authoritative only for inherited opening geometry and visible motion phase. `Character Identity Lock:` preserves face shape, eye shape, hairstyle, hair color, skin tone, body proportion, apparent adult age, and character identity. It forbids face swaps, hairstyle replacement, age shifts, body-ratio changes, identity swaps, and generation of a different character while still allowing expression, pose, clothing state, and requested story changes.
 
 Write it as concise execution prose, not a seventh top-level field. It has three responsibilities:
 
@@ -145,6 +147,12 @@ Write it as concise execution prose, not a seventh top-level field. It has three
 If a Shot changes one of these states, end that Shot with a concise resulting-state sentence. The next Shot inherits it verbatim in meaning before introducing another change. A camera cut alone never alters the state.
 
 Do not invent a precise Kelvin value, RGB value, fabric type, or hidden garment detail unless it is user-supplied or visibly established. Preserve the established qualitative state instead.
+
+Maintain the working continuity record in three groups: Character State (`identity`, `appearance`, `clothing_state`, `pose_state`, `emotion_state`), Environment State (`location`, `lighting`, `color_temperature`, `camera_position`, `background_objects`), and Motion State (`previous_pose`, `body_direction`, `camera_axis`, `movement_direction`). This record supports authoring and review; it is not pasted wholesale into every Shot or added as unsupported outer JSON fields.
+
+Default camera behavior is cinematic live action with controlled realistic handheld movement when motion is appropriate, a stable axis, and smooth motivated transitions. Preserve camera position, height, direction, axis, focal-scale/lens character, and movement direction at the seam. Avoid random jumps, impossible perspective changes, sudden unmotivated zooms, inconsistent lens character, and accidental screen-side reversal.
+
+Unless the user explicitly requests stylization or CGI, use this positive realism target in the execution text: `photorealistic, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`. Preserve natural skin microtexture, coherent body weight/contact, stable facial detail, consistent hair, realistic fabric response, and continuous light direction; exclude CGI rendering, plastic or waxy skin, over-smoothed faces, game-engine sheen, and mannequin-like motion.
 
 ## Anatomical Ownership and Attachment
 
@@ -223,7 +231,15 @@ retention_analysis:
 <Subject 2> (appears in [Shot 1], [Shot 2]): fully_preserved - retain the defined facial identity, short brown hair, and blue jacket; the new hand movement does not change this appearance reference.
 
 detailed_description:
-The video is live-action with natural skin color and sharply resolved fabric texture. The setting is an enclosed windowless interior with no visible windows and no natural light. It is illuminated only by bright, soft, even artificial lighting. Doors, walls, and furniture are light-colored, plain, and minimalist. Exactly two people remain visible, and only the current speaker moves their lips. Neither subtitles nor graphic overlays appear. Both shots use fixed cameras, with one cut and no zoom or reframing within either shot.
+The video is photorealistic live action with real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail, natural skin color and sharply resolved fabric texture. The setting is an enclosed windowless interior with no visible windows and no natural light. It is illuminated only by bright, soft, even artificial lighting. Doors, walls, and furniture are light-colored, plain, and minimalist. Exactly two people remain visible, and only the current speaker moves their lips. Neither subtitles nor graphic overlays appear. Both shots use fixed cameras, with one cut and no zoom or reframing within either shot.
+Reference Priority:
+Priority 1: <Picture 1> is the female identity authority and <Picture 2> is the male identity authority.
+Character Identity Lock:
+Preserve each referenced character's face shape, eye shape, hairstyle, hair color, skin tone, body proportion, adult age appearance and identity; do not replace, swap, or redesign either person.
+Continuity State Lock:
+Wardrobe/Body State: <Subject 1> wears the established yellow jacket and <Subject 2> wears the established blue jacket.
+Color/Material State: retain the established hair, skin, jacket, cream-card, light-gray-wall and white-table colors and materials.
+Lighting/Exposure State: retain the bright, soft, even artificial ceiling light and frontal fill, neutral white balance and clean exposure.
 [Shot 1] A medium two-shot places <Subject 1>, the short-haired woman in the yellow jacket, on the left and <Subject 2>, the brown-haired man in the blue jacket, on the right. They face each other across a small white table. A blank cream card rests between the woman's right thumb and index finger, held just above the tabletop. A plain light-gray wall stays softly out of focus behind them. Diffused ceiling fixtures and a soft frontal fill illuminate both faces evenly, retaining detail around their eyes and in the jacket folds. <Subject 1> (S1) extends the card toward the center at a controlled speed and says in a clear, gentle female voice: <d>[Chinese] 给你。</d> <Subject 2> watches the card with his lips closed, then raises his left hand toward its free edge. A faint sleeve rustle accompanies their hand movement. The card stays level and continuously visible; neither person changes screen side.
 [Shot 2] At 00:03.000, the camera cuts to a slightly closer two-shot from the same side of the table, retaining both faces, their hands, and the recognizable wall behind them. The card and fingertips occupy the same relative positions across the cut. <Subject 2> closes his left thumb and index finger around the free edge before <Subject 1> releases her grip. The paper makes a soft contact sound. <Subject 2> (S2) looks toward her and replies in a relaxed male voice: <d>[Chinese] 谢谢。</d> <Subject 1> listens with her lips closed and lowers her empty hand to the table. During the final second, the man holds the card still at table height while both people settle into relaxed expressions. Facial focus, exposure, clothing, and the artificial-light direction remain stable through the six-second ending.
 
@@ -254,5 +270,9 @@ Perform this review in addition to the repository's JSON validator. Do not claim
 8. Explicit user requirements take precedence over local defaults. For a limited format-only edit, report remaining authoring deviations rather than claiming full compliance. Prompt validation does not prove rendered identity, lip sync, or continuity.
 9. Mutable state is tracked separately for all persistent subjects and relevant props that change. Completed one-time state transitions remain complete unless explicitly reversed; partial transitions continue from their inherited phase. A Shot completing a transition establishes the resulting end state before the next Shot/segment.
 10. Segment 1 contains no Picture 3 reference anywhere; Segment 2+ assign it only structural opening geometry/action phase. `Continuity State Lock:` carries relevant colors and mutable non-geometric state. Planned prior end states are not represented as observed tails; accepted raw-tail evidence overrides a conflicting plan.
-11. Close interactions preserve correct body-part ownership and physical attachment; no instruction treats attached anatomy as an independent handheld prop.
-12. Requested expressions and vocal reactions are grounded in each affected Shot's trigger and response, rather than only a global adjective or soundscape sentence. A designated visual anchor retains camera priority; brief camera gaze does not pause the ongoing action.
+11. Every segment contains one `Reference Priority:` and one `Character Identity Lock:` before `[Shot 1]`, and no separate initial-state heading or prose profile remains.
+12. Identity traits remain stable across angles and segments; Picture 3 never overrides Pictures 1/2 or becomes a third identity.
+13. Camera axis, lens character, movement direction, environment, and lighting remain continuous unless a motivated requested change is explicit.
+14. The requested style is honored; absent a contrary style, the text targets photorealistic live action and excludes plastic/CGI appearance.
+15. Close interactions preserve correct body-part ownership and physical attachment; no instruction treats attached anatomy as an independent handheld prop.
+16. Requested expressions and vocal reactions are grounded in each affected Shot's trigger and response, rather than only a global adjective or soundscape sentence. A designated visual anchor retains camera priority; brief camera gaze does not pause the ongoing action.

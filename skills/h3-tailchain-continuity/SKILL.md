@@ -1,6 +1,6 @@
 ---
 name: h3-tailchain-continuity
-description: Write and revise MiniMax H3 Ref2VA prompts and multi-segment story_segments.json files using one fixed tail-lineart continuation profile. Use for V18 motion-intensity requests (大幅度, 激情, 激烈, 高频, 更猛), six-section prompt formatting, reference retention, global constraints, two-layer sound design, audiovisual shot timing, and Picture 3 tail-lineart continuity. The only supported chain profile keeps permanent female Picture 1 and male Picture 2, plus the preceding segment's final-frame lineart as Picture 3 from segment 2 onward; retain clear faces and reproducible per-clip seeds when quality consistency is requested.
+description: Write and revise MiniMax H3 Ref2VA prompts and multi-segment story_segments.json files using one fixed tail-lineart continuation profile. Use for V18 motion-intensity requests (大幅度, 激情, 激烈, 高频, 更猛), six-section prompt formatting, reference retention, identity locking, live-action realism, camera continuity, two-layer sound design, audiovisual shot timing, and Picture 3 tail-lineart continuity. The only supported chain profile keeps permanent female Picture 1 and male Picture 2, plus the preceding segment's final-frame lineart as Picture 3 from segment 2 onward; retain clear faces and reproducible per-clip seeds when quality consistency is requested.
 ---
 
 # H3 Tailchain Continuity Prompt Writer
@@ -111,6 +111,21 @@ In each continuation's six-section prompt, keep identity attached to Pictures 1/
 
 The current runner passes the actual lineart but does not automatically recognize mutable state or rewrite the JSON prompt. This is the only continuation route supported by this skill: Ref2VA with Picture 3 tail-lineart preprocessing. It does not guarantee pixel-exact first-frame equality. Apply the following state-authority rules.
 
+### Reference Priority
+
+Place exactly one concise `Reference Priority:` block inside `detailed_description` before `[Shot 1]`.
+
+1. **Priority 1 — identity:** `<Picture 1>` is the permanent female identity reference and `<Picture 2>` is the permanent male identity reference. They are authoritative for who the people are.
+2. **Priority 2 — continuity:** from Segment 2 onward, `<Picture 3>` is the immediately preceding accepted final-frame lineart. It is authoritative only for opening action phase, composition, spatial layout, pose, support/contact points, prop placement, camera axis, and movement direction.
+
+Picture 3 never overrides the identities in Pictures 1/2 and never becomes a third person or a drawing-style target. Segment 1 must not mention Picture 3, including inside this block.
+
+### Character Identity Lock
+
+Place exactly one `Character Identity Lock:` block inside `detailed_description` before `[Shot 1]`. For every persistent referenced character, require continuity of face shape, eye shape, hairstyle, hair color, skin tone, body proportion, apparent adult age, and character identity. Pictures 1/2 remain the identity authority across every camera angle, background appearance, reflection, profile, partial occlusion, and continuation segment.
+
+Do not permit face replacement, hairstyle replacement, age change, body-proportion change, identity swapping, or generation of a different character. Identity locking does not freeze expression, pose, clothing state, or story-authorized appearance changes. Write this as a compact identity constraint rather than repeating a long physical description that can compete with the reference images.
+
 ### Tail-Lineart State Continuity
 
 Split continuity authority into three layers:
@@ -118,6 +133,16 @@ Split continuity authority into three layers:
 1. Permanent identity references control facial identity and stable identity-critical appearance.
 2. `<Picture 3>` controls opening geometry: composition, body positions, pose, contact points, prop placement, camera axis, and visible action phase.
 3. Prompt text carries relevant non-geometric mutable state that lineart cannot reliably preserve: colors, garment identity/layers, wearing or fastening state, footwear state, changed prop state, established material/color palette, and lighting/exposure state.
+
+### State Continuity Tracking
+
+Maintain one compact working state record per segment and update it from the accepted result before authoring the next continuation:
+
+- **Character State:** `identity`, `appearance`, `clothing_state`, `pose_state`, `emotion_state`.
+- **Environment State:** `location`, `lighting`, `color_temperature`, `camera_position`, `background_objects`.
+- **Motion State:** `previous_pose`, `body_direction`, `camera_axis`, `movement_direction`.
+
+Identity and opening geometry come from their assigned images; the record exists to reconcile the references, the accepted tail, and the next requested action. Do not paste the whole record into every Shot. Serialize only relevant non-geometric state in `Continuity State Lock:` and let Picture 3 carry visible geometry. If the accepted tail conflicts with the record, correct the record and the next prompt before continuing.
 
 ### Mandatory Per-Segment Continuity State Lock
 
@@ -142,13 +167,25 @@ Before future tails exist, derive the next prompt's text-carried state from the 
 
 Once an accepted raw tail exists, it is authoritative for mutable state, while its derived Picture 3 is authoritative for opening geometry. Actual accepted evidence overrides a merely planned state. If they disagree, revise the next prompt or regenerate the preceding segment within the authorized scope; do not conceal the mismatch with contradictory text. Preserve confirmed unchanged details that the current view does not reveal, and never infer colors from black-and-white lines.
 
+### Camera Continuity Enhancement
+
+Default to cinematic live-action coverage with controlled, realistic handheld movement when movement is appropriate, a stable camera axis, and a smooth motivated transition from the inherited tail. Track camera position, height, viewing direction, axis, focal-scale/lens character, and movement direction across the seam.
+
+Avoid random camera jumps, impossible perspective changes, sudden unmotivated zooms, inconsistent lens character, accidental screen-side reversal, or a camera move that competes with identity-critical subject motion. A deliberate cut or axis change is allowed only when the requested shot design motivates it; preserve world-space character and object relationships through the change.
+
+### Video Realism Enhancement
+
+Unless the user explicitly requests a stylized or CGI look, place this positive target in the execution prompt: `photorealistic, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`.
+
+Keep the result grounded in live-action photography: natural skin microtexture, coherent anatomy and body weight, physically plausible contact and motion, stable facial detail, consistent hair, realistic fabric response, and continuous light direction. Exclude CGI rendering, plastic or waxy skin, over-smoothed faces, game-engine sheen, and synthetic mannequin-like motion. Do not let the realism wording override an explicit user style.
+
 ### Story JSON Packaging
 
 For every multi-segment chain, read [references/story-segments-json.md](references/story-segments-json.md) and use the single supported envelope: `global_prompt` plus `segments`, with consecutive integer `id`, `title`, `raw_prompt: true`, and one complete six-section `prompt` string per segment. Support the requested positive segment count, including 4, 6, 12, and more; this envelope has no fixed segment-count maximum.
 
 The reference binding is fixed: `<Picture 1>` is the permanent female identity, `<Picture 2>` is the permanent male identity, Segment 1 has no `<Picture 3>`, and Segment 2+ use the immediately preceding accepted final-frame lineart as `<Picture 3>`. No `<Video 1>` binding is permitted. Do not relabel an identity image as a tail or introduce an alternate workflow profile.
 
-This changes the delivered file format, not the prompt-writing standard. Apply the six-section Ref2VA contract, style, speech, shot timing, retention, state lock, and continuity requirements to every `prompt`. Do not flatten the six sections into separate JSON properties, substitute a plot summary, or introduce extra outer fields.
+This changes the delivered file format, not the prompt-writing standard. Apply the six-section Ref2VA contract, style, speech, shot timing, reference priority, identity lock, realism, state lock, camera, and continuity requirements to every `prompt`. Do not flatten the six sections into separate JSON properties, substitute a plot summary, or introduce extra outer fields. The suggested per-Shot structure in [references/story-segments-json.md](references/story-segments-json.md#shot-authoring-model) is an authoring model only; the current Runner still consumes the existing envelope and prompt string.
 
 ## Ref2VA Authoring Route
 
@@ -349,12 +386,18 @@ When the user separately requests rendering or QC, inspect every clip at its ope
 
 ## Delivery
 
-Write the finished JSON to the user-specified directory. If no directory is supplied, create a clearly named project folder under the active video workspace. Always save `story_segments.json` and run `python scripts/validate_story_segments.py PATH_TO_JSON`; this checks only the envelope. Also run `python scripts/validate_tailchain_prompts.py PATH_TO_JSON`; this statically checks the six-section heading order, the fixed Picture 1/2/3 lineart binding contract, the absence of video references, and the required per-segment `Continuity State Lock:` marker only. It does not validate semantic continuity, mutable-state correctness, sound/expression quality, or render quality. Return the clickable file path, segment count, planned ordered durations and total, and the accurately scoped validation result. Runtime timing must be supplied separately. Do not ask the user to choose LoRA/native or a launcher, and do not paste the full JSON into chat unless the user asks to preview it.
+Write the finished JSON to the user-specified directory. If no directory is supplied, create a clearly named project folder under the active video workspace. Always save `story_segments.json` and run `python scripts/validate_story_segments.py PATH_TO_JSON`; this checks only the envelope. Also run `python scripts/validate_tailchain_prompts.py PATH_TO_JSON`; this statically checks the six-section heading order, the fixed Picture 1/2/3 lineart binding contract, the absence of video references and the removed initial-state prose profile, plus the required per-segment `Reference Priority:`, `Character Identity Lock:`, and `Continuity State Lock:` markers. It does not validate semantic continuity, mutable-state correctness, sound/expression quality, or render quality. Return the clickable file path, segment count, planned ordered durations and total, and the accurately scoped validation result. Runtime timing must be supplied separately. Do not ask the user to choose LoRA/native or a launcher, and do not paste the full JSON into chat unless the user asks to preview it.
 
 Before delivery, verify:
 
 - each requested emotion or intensity in the affected execution Shots is grounded in concrete observable actions, with relevant direction, range, rhythm, and physical reactions; adjectives alone do not satisfy this check;
 - a revision prompt begins from the accepted actual tail when available; initial tail-lineart JSON defers opening geometry to Picture 3 and derives text-carried state only from an explicitly completed planned prior end state, without presenting that plan as observed evidence;
+- every default tail-lineart segment contains exactly one `Reference Priority:`, one `Character Identity Lock:`, and one `Continuity State Lock:` before `[Shot 1]`, and no separate initial-state prose profile remains;
+- Pictures 1/2 remain Priority 1 for identity; Picture 3 is Priority 2 and controls only the inherited opening action, spatial, pose, contact, camera-axis, and movement state;
+- every referenced character retains face shape, eye shape, hairstyle/color, skin tone, body proportion, apparent adult age, and identity across angles and segments; no face swap, hairstyle replacement, age shift, body-ratio drift, or different character appears;
+- the working continuity record tracks Character State, Environment State, and Motion State without copying the full ledger into every Shot;
+- each seam preserves camera position/axis/lens character and movement direction unless a motivated requested change is explicit; no random jump, impossible perspective, sudden unmotivated zoom, inconsistent lens character, or accidental screen-side reversal appears;
+- absent a contrary style request, each execution prompt carries the photorealistic live-action target with real skin texture, natural expression/body motion, cinematic lighting, natural motion blur, and no CGI/plastic-skin appearance;
 - every default tail-lineart segment contains one `Continuity State Lock:` before `[Shot 1]`, covering the known per-subject wardrobe/body state plus stable color/material and lighting/exposure state; continuation segments restate these because Picture 3 is lineart;
 - mutable state is tracked independently for every persistent subject and relevant prop that changes; each Shot completing a one-time transition makes the resulting end state unambiguous, while partial transitions retain their exact remaining attachment points/fabric location and continue from that inherited phase;
 - completed garment, footwear, color/lighting and prop transitions do not replay or silently revert; an actual accepted raw tail overrides a conflicting planned state;

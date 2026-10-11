@@ -77,6 +77,8 @@ non_diegetic_music:
 
 每个后续段的完整六节 `prompt` 必须保留 Pictures 1/2 的身份分工，并明确：**开场构图、人物位置、姿态、接触关系、道具位置及可见动作阶段以 Picture 3 为准；颜色、材质、衣服/身体状态和灯光由 `Continuity State Lock:` 承接。** 不再使用另一套纯文字开场状态方案，也不要用文字重复写死 Picture 3 已经表达的姿态或空间关系。下一步具体动作单独描述，从参考图状态继续。
 
+每段在 `[Shot 1]` 前还必须写一次 `Reference Priority:` 和一次 `Character Identity Lock:`。前者明确 Pictures 1/2 的身份优先级高于 Picture 3；后者锁定脸型、眼型、发型、发色、肤色、身材比例、成年年龄观感和角色身份，禁止换脸、换发型、改年龄、改身材比例或生成成另一个角色。身份锁只锁身份，不冻结表情、姿态或剧情明确改变的服装状态。
+
 默认尾帧线稿方案中，**每一段（包括第一段）**都必须在 `detailed_description` 的 `[Shot 1]` 前写一个 `Continuity State Lock:`。它负责线稿无法可靠表达的跨段状态，不是第二份姿态/构图描述。
 
 `Continuity State Lock:` 至少按当前任务中已有且相关的信息覆盖：
@@ -97,6 +99,15 @@ non_diegetic_music:
 续接段可用以下结构；方括号内容只填相关且有依据的状态，不把模板原样交付，也不用于第一段：
 
 ```text
+Reference Priority:
+Priority 1: <Picture 1> is the female identity authority and <Picture 2> is
+the male identity authority. Priority 2: <Picture 3> carries only the
+immediately preceding accepted tail-lineart geometry and motion phase.
+
+Character Identity Lock:
+Preserve each referenced character's face shape, eye shape, hairstyle,
+hair color, skin tone, body proportion, adult age appearance and identity.
+
 Continuity State Lock:
 Wardrobe/Body State: [per-subject current garment/body state; include exact
 remaining attachment points and fabric location for any partial removal].
@@ -111,6 +122,41 @@ Continue forward without replaying completed transitions.
 ```
 
 不要让线稿成为目标画风，不把其中的人物当成第三个角色，也不从黑白线条臆测颜色或光照。第一段的整个 prompt 不得定义或提及 Picture 3，包括“没有 Picture 3”之类的否定句。多人物状态账本是创作过程中的工作记录，不添加到固定 JSON 外层字段。
+
+## Shot Authoring Model
+
+创作期可用下面的 Shot 对象整理信息，但它不是当前 Runner 的可执行外层 schema，不要直接把这些字段添加到交付的 `story_segments.json`。最终仍把有效内容写入现有六节 `prompt`；`references` 与 `continuity` 用于校对，不要把参考图已表达的身份、姿态和空间关系重复写成长篇文本。
+
+```json
+{
+  "shot_id": "",
+  "duration": "15s",
+  "references": {
+    "picture1": "female_identity_reference",
+    "picture2": "male_identity_reference",
+    "picture3": "previous_tailframe_lineart"
+  },
+  "continuity": {
+    "previous_state": true,
+    "maintain_identity": true,
+    "maintain_environment": true,
+    "maintain_pose_transition": true
+  },
+  "camera": {
+    "movement": "",
+    "angle": "",
+    "lens_style": ""
+  },
+  "prompt": {
+    "en": "",
+    "zh": ""
+  }
+}
+```
+
+同时维护三类创作期状态：Character State（`identity`, `appearance`, `clothing_state`, `pose_state`, `emotion_state`）、Environment State（`location`, `lighting`, `color_temperature`, `camera_position`, `background_objects`）和 Motion State（`previous_pose`, `body_direction`, `camera_axis`, `movement_direction`）。实际交付文本只写剧情、镜头、动作、光影、声音，以及线稿无法表达但确需延续的非几何状态；不要用文字重新解释 Picture 3 已经给出的开场几何。
+
+摄影机默认采用电影感真人实拍、受控且真实的手持运动、稳定轴线和顺滑有动机的转接。避免随机跳机位、不可能的透视变化、突然无动机变焦和镜头感不一致。除非用户明确要求风格化或 CGI，执行提示词加入 `photorealistic, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`，并排除 CGI 感、塑料/蜡像皮肤、过度磨皮和假人式动作。
 
 使用 `raw_prompt: true` 时，把这些规则写进每段 `prompt`，不要指望外层 `global_prompt` 或 Runner 自动补写。JSON 外层结构不变，不添加尾帧路径、图像预处理或分辨率字段。Ref2VA 用第三张图约束开场，不承诺逐像素首帧一致，也不因此自动改用 I2V。
 
@@ -136,7 +182,7 @@ python scripts/validate_story_segments.py /path/to/story_segments.json
 python scripts/validate_tailchain_prompts.py /path/to/story_segments.json
 ```
 
-这个静态校验器只检查可机械确认的正文契约：六节标题恰好各一次且顺序正确、每段包含 Pictures 1/2、每段包含一次 `Continuity State Lock:` 标记、第一段完全不提 Picture 3、第二段起必须引用 Picture 3、任何一段都不得引用 Video 1。它不会判断可变状态是否真的连续、表情/声音是否自然、动作是否重演或成片是否合格；这些仍按本 skill 的人工交付前检查和渲染 QC 处理。
+这个静态校验器只检查可机械确认的正文契约：六节标题恰好各一次且顺序正确、每段包含 Pictures 1/2、每段各包含一次 `Reference Priority:`、`Character Identity Lock:` 和 `Continuity State Lock:` 标记、正文不包含已移除的独立文字开场状态模块、第一段完全不提 Picture 3、第二段起必须引用 Picture 3、任何一段都不得引用 Video 1。它不会判断可变状态是否真的连续、表情/声音是否自然、动作是否重演或成片是否合格；这些仍按本 skill 的人工交付前检查和渲染 QC 处理。
 
 正常创作仍执行原有提示词规范的交付前检查。用户限制正文检查时遵守限制，只报告已完成的结构检查，不能把它说成提示词内容审核通过。
 

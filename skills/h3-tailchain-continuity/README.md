@@ -8,16 +8,19 @@
 | 固定身份 | 每段均传 `<Picture 1>` 女主、`<Picture 2>` 男主 |
 | 第一段 | 只有两张身份图，不引用不存在的 Picture 3 |
 | 第二段及以后 | 追加上一段实际最后一帧转换的线稿，始终编号 `<Picture 3>` |
-| 跨段承接 | Picture 3 只管几何/动作相位；每段必须写 `Continuity State Lock`，逐人物锁定服装/部分脱衣状态，并锁定颜色、材质、灯光、白平衡和曝光 |
+| 参考优先级 | Priority 1：Picture 1 女主身份 + Picture 2 男主身份；Priority 2：Picture 3 仅承接动作、空间、姿态和摄影机状态 |
+| 跨段承接 | Picture 3 只管几何/动作相位；每段必须写 `Reference Priority`、`Character Identity Lock` 和 `Continuity State Lock`，不再使用独立文字开场状态模块 |
 | 故事文件 | `story_segments.json`，每段 `raw_prompt: true`，完整六节 `prompt` |
-| 静态校验 | `validate_story_segments.py` 校验外壳；默认尾帧线稿方案再用 `validate_tailchain_prompts.py` 校验六节标题与 Picture/Video 绑定 |
+| 静态校验 | `validate_story_segments.py` 校验外壳；`validate_tailchain_prompts.py` 校验六节标题、三块前置约束及 Picture/Video 绑定 |
 | 运行参数 | 分辨率、4/8 步、LoRA 开关与强度、单段时长在工作流设置，不写进故事 JSON |
 
 运行链路：单段视频 → 提取实际最后一帧 → 转线稿 → 下一段 Picture 3。不执行尾帧 2 倍超分或调色，不绑定参考视频。第三张图表达结构，人物身份仍由前两张图提供；输出保留用户要求的画风及当前颜色/服装状态，不照着线稿生成黑白画面。Ref2VA 参考图不保证逐像素首帧一致。
 
 写初始 JSON 无需提供未来尾帧路径。每个后续段必须在实际 `prompt` 中说明 Picture 3 的用途，不能只写文字状态而漏掉 Picture 3 图像引用，也不能声称已看过尚未生成的尾帧。
 
-文字不预先写死“已经坐下”等可见开场几何状态。每段在 [Shot 1] 前写 `Continuity State Lock:`：逐人物记录当前服装/鞋履/裸露状态；衣服只脱到一半时记录仍挂在哪只袖子/肩带/裤腿、布料堆在哪个位置；同时重复锁定已建立的头发/肤色外观、服装与场景颜色/材质、灯光方向/软硬/色温倾向、白平衡、曝光和整体调色。初始规划只承接上一段明确计划完成的结尾；有已接受的实际原始尾帧后，以其可变状态为准，派生线稿只控制几何。已完成的一次性变化不重演、不从身份图重置，部分变化从继承阶段继续。
+文字不预先写死“已经坐下”等可见开场几何状态。每段在 [Shot 1] 前写 `Reference Priority:`、`Character Identity Lock:` 和 `Continuity State Lock:`：Pictures 1/2 锁定脸型、眼型、发型/发色、肤色、身材比例、成年年龄观感和角色身份；Picture 3 只锁定上一段尾帧的动作、空间、姿态、接触点、镜头轴线和运动方向。文字仅补充剧情、镜头、动作、光影、声音及线稿不能表达的非几何状态，避免重复解释参考图造成漂移。
+
+默认真人质感为 photorealistic、真实皮肤纹理、自然表情与身体运动、电影照明、自然运动模糊和高细节；排除 CGI 感、塑料/蜡像皮肤、过度磨皮和假人式动作。摄影机采用电影感真人实拍、受控真实手持、稳定轴线与顺滑有动机的转接，避免随机跳机位、不可能透视、突然无动机变焦和镜头感不一致。
 
 唯一支持的链路为：每段固定 Picture 1 女主身份 + Picture 2 男主身份；Segment 2 起追加上一段实际尾帧转换的 Picture 3 线稿。不要切换到纯文字、彩色尾帧、视频参考或其他兼容模式。
 

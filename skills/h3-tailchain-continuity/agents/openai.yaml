@@ -1,7 +1,7 @@
 interface:
   display_name: "H3 连续分段 JSON"
-  short_description: "生成多段 H3 JSON，并应用尾帧线稿状态锁、服装/色彩/灯光继承、V18 与分层声音规范"
-  default_prompt: "Use $h3-tailchain-continuity to write story_segments.json with six-section Ref2VA prompts: fixed female Picture 1 and male Picture 2; segment 1 contains no Picture 3; segment 2 onward uses the immediately preceding accepted tail-lineart as Picture 3 for opening geometry and visible action phase only. Every segment must include one Continuity State Lock before Shot 1 that explicitly carries per-subject wardrobe/body state (including exact remaining attachment points for partial garment removal), established color/material state, and lighting/exposure state. Preserve completed one-time transitions without replay, keep color and lighting stable unless explicitly changed, and put requested visible/vocal reactions inside each affected Shot."
+  short_description: "生成多段 H3 JSON，并应用身份优先级、尾帧线稿承接、真人摄影质感、V18 与分层声音规范"
+  default_prompt: "Use $h3-tailchain-continuity to write photorealistic story_segments.json prompts with Picture 1/2 identity lock, Picture 3 tail-lineart continuity, stable camera/environment state, and no redundant state restatement."
 
 policy:
   allow_implicit_invocation: true
