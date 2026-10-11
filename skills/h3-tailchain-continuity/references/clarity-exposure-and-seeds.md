@@ -53,9 +53,9 @@ For continuation clips, the actual tail carries geometry and lighting. Preserve 
 
 ## Identity Preservation Contract and Hairstyle Geometry Gate
 
-Pictures 1/2 are the only identity authority; Picture 3 contributes prior-tail geometry and motion phase but cannot replace or override facial traits, hairstyle geometry, skin tone, body proportions or other permanent appearance. Compare rendered identity against face shape and facial proportions; eye shape, spacing and characteristic gaze; nose shape, lips and jaw contour; skin tone and distinctive features; height ratio, shoulder width, build silhouette and apparent adult age. Reject a continuation that swaps, averages, beautifies, stylizes, redesigns or generates a similar-but-different person even when pose continuity is acceptable.
+Pictures 1/2 are the only identity authority; Picture 3 contributes prior-tail geometry and motion phase but cannot replace or override facial traits, hairstyle geometry, skin tone, body proportions or other permanent appearance. Prompt text is supplementary state only and cannot override reference-image identity. If identity conflicts with geometry or text, identity wins and the handoff geometry or mutable-state wording must be corrected. Compare rendered identity against face shape and facial proportions; eye shape, spacing and characteristic gaze; nose shape, lips and jaw contour; skin tone and distinctive features; height ratio, shoulder width, build silhouette and apparent adult age. Reject a continuation that swaps, averages, beautifies, stylizes, redesigns or generates a similar-but-different person even when pose continuity is acceptable.
 
-Treat hairstyle geometry as part of identity. Preserve hair color, length, density, parting location, bangs/forehead fringe, tied-versus-loose state, overall silhouette, main volume distribution and principal face-framing locks. Natural movement may affect hair ends, a few loose strands and gravity-driven settling, but motion changes hair position rather than hairstyle structure; it must not move the part, change length/bangs, switch tied/loose state or redistribute the main volume unless the user explicitly requested that hairstyle transition.
+Treat hairstyle geometry as part of identity. Preserve hair color, length, density, root placement, crown contour, parting line and location, bangs/forehead fringe, tied-versus-loose state, overall silhouette, main volume distribution and principal face-framing locks. Natural movement may affect hair ends, a few loose strands and gravity-driven settling, but motion changes hair position rather than hairstyle structure; it must not move the roots or parting line, alter the crown contour, change length/bangs, switch tied/loose state or redistribute the main volume unless the user explicitly requested that hairstyle transition.
 
 ## Prompt Placement
 
@@ -77,7 +77,7 @@ Unless the user requests a stylized or CGI look, require sharp eyes, stable faci
 
 ### Visual Quality and Material Realism Gate
 
-Preserve one lighting system across seams: source direction, softness, color-temperature tendency, exposure, white balance, contrast, natural highlight roll-off and readable shadow layers. Skin retains natural microtexture, fine tonal variation and restrained micro-specular response.
+Preserve one lighting and color-science system across seams: source direction, softness, color-temperature tendency, exposure, white balance, contrast, color response, natural highlight roll-off and readable shadow layers. Skin retains natural pores and microtexture, fine tonal variation, restrained micro-specular response and a subtle natural subsurface response.
 
 Keep materials already present in the scene optically distinct rather than applying one generic reflection model:
 
@@ -89,6 +89,12 @@ Keep materials already present in the scene optically distinct rather than apply
 - glass: coherent transparency, refraction and controlled reflections.
 
 These examples guide rendering of materials already present; they do not authorize adding wardrobe, props or surfaces.
+
+## Temporal Consistency Contract
+
+Review every accepted Segment in motion and across its full seam interval. Preserve the same lens character, color science, skin-rendering behavior, identity appearance, facial-detail response, hairstyle structure, and material response unless the user explicitly requested a visible transition.
+
+Reject face morphing, identity drift, inconsistent skin texture, unmotivated lens-style changes, temporal flicker, frame-to-frame detail instability, or gradual rendering-style drift. A stable selected frame does not pass this gate when the moving face, hair, skin detail, lens response, or material appearance fluctuates before or after it.
 
 ## Bright Windowless Minimal-Interior Gate
 

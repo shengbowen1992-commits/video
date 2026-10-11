@@ -117,8 +117,9 @@ Place exactly one concise `Reference Priority:` block inside `detailed_descripti
 
 1. **Priority 1 — identity:** `<Picture 1>` is the permanent female identity reference and `<Picture 2>` is the permanent male identity reference. They are authoritative for who the people are.
 2. **Priority 2 — continuity:** from Segment 2 onward, `<Picture 3>` is the immediately preceding accepted final-frame lineart. It is authoritative only for opening action phase, composition, spatial layout, pose, support/contact points, prop placement, camera axis, and movement direction.
+3. **Priority 3 — supplementary state:** prompt text may carry only relevant state that the assigned images cannot encode reliably, such as established colors, materials, mutable clothing/body state, and lighting/exposure state. It cannot replace, reinterpret, or override identity supplied by Pictures 1/2.
 
-Picture 3 never overrides the identities in Pictures 1/2 and never becomes a third person or a drawing-style target. It cannot override facial traits, hairstyle geometry, skin tone, body proportions, or any other permanent appearance feature. Segment 1 must not mention Picture 3, including inside this block.
+Picture 3 never overrides the identities in Pictures 1/2 and never becomes a third person or a drawing-style target. It cannot override facial traits, hairstyle geometry, skin tone, body proportions, or any other permanent appearance feature. If identity evidence conflicts with Picture 3 geometry or supplementary text, identity authority wins; preserve the person and adapt only the continuation geometry or text-carried state needed to resolve the handoff. Segment 1 must not mention Picture 3, including inside this block.
 
 ### Identity Preservation Contract
 
@@ -128,7 +129,7 @@ Do not permit face replacement, facial-feature redesign, automatic beautificatio
 
 ### Hairstyle Geometry Lock
 
-Treat hairstyle geometry as part of identity, not as an ordinary freely changing dynamic object. Preserve hair color, length, density, parting location, bangs or forehead-fringe structure, tied-versus-loose state, overall silhouette, volume distribution, and the principal locks framing each side of the face.
+Treat hairstyle geometry as part of identity, not as an ordinary freely changing dynamic object. Preserve hair color, length, density, root placement, crown contour, parting line and location, bangs or forehead-fringe structure, tied-versus-loose state, overall silhouette, volume distribution, and the principal locks framing each side of the face.
 
 Allow only physically natural secondary motion: hair ends may swing, a small number of loose strands may respond to movement, and the style may settle or shift slightly under gravity. Do not redesign the hairstyle, move the part, change length or bangs, switch tied/loose state, or redistribute the main hair volume unless the user explicitly requests that hairstyle change. When an explicit change is requested, show a continuous story action and then lock the resulting geometry for later segments.
 
@@ -189,9 +190,15 @@ Keep the result grounded in live-action photography: natural skin microtexture, 
 
 ### Lighting and Material Realism Contract
 
-Preserve one coherent lighting system through the chain: source direction, softness, color-temperature tendency, exposure, white balance, contrast, highlight roll-off, and layered shadow detail remain stable unless the story explicitly changes them. Retain facial information in highlights and shadows instead of producing clipped specular patches or crushed dark areas.
+Preserve one coherent lighting and color-science system through the chain: source direction, softness, color-temperature tendency, exposure, white balance, contrast, color response, highlight roll-off, and layered shadow detail remain stable unless the story explicitly changes them. Retain facial information in highlights and shadows instead of producing clipped specular patches or crushed dark areas.
 
-Skin keeps natural texture, fine tonal variation, and restrained micro-specular response rather than a plastic surface. Distinguish material response instead of applying one generic shine: silk has soft directional sheen, cotton remains comparatively diffuse, leather carries broader controlled highlights, metal produces sharper reflections, stone stays dense and mostly matte with restrained specularity, and glass preserves coherent transparency, refraction, and controlled reflections. Apply only materials actually present in the scene; these examples do not authorize new props or wardrobe.
+Skin keeps natural pores and texture, fine tonal variation, restrained micro-specular response, and a subtle natural subsurface response rather than a plastic surface. Distinguish material response instead of applying one generic shine: silk has soft directional sheen, cotton remains comparatively diffuse, leather carries broader controlled highlights, metal produces sharper reflections, stone stays dense and mostly matte with restrained specularity, and glass preserves coherent transparency, refraction, and controlled reflections. Apply only materials actually present in the scene; these examples do not authorize new props or wardrobe.
+
+### Temporal Consistency Contract
+
+Across every Segment boundary, preserve one temporal photographic system: the same lens character, color science, skin-rendering behavior, identity appearance, facial-detail response, hair structure, and material response continue unless the user explicitly requests a visible transition. The accepted preceding tail remains the timing and geometry anchor, while Pictures 1/2 remain the identity anchor.
+
+Reject face morphing, identity drift, skin-texture inconsistency, unmotivated lens-style changes, temporal flicker, frame-to-frame detail instability, or a gradual shift toward a different rendering style. Evaluate these qualities through motion and across the seam, not from one selected still frame.
 
 ### Story JSON Packaging
 
