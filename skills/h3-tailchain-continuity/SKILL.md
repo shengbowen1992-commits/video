@@ -116,10 +116,10 @@ The current runner passes the actual lineart but does not automatically recogniz
 Place exactly one concise `Reference Priority:` block inside `detailed_description` before `[Shot 1]`.
 
 1. **Priority 1 — identity:** `<Picture 1>` is the permanent female identity reference and `<Picture 2>` is the permanent male identity reference. They are authoritative for who the people are.
-2. **Priority 2 — continuity:** from Segment 2 onward, `<Picture 3>` is the immediately preceding accepted final-frame lineart. It is authoritative only for opening action phase, composition, spatial layout, pose, support/contact points, prop placement, camera axis, and movement direction.
+2. **Priority 2 — continuity:** from Segment 2 onward, `<Picture 3>` is the immediately preceding accepted final-frame lineart. It is authoritative only for opening action phase, temporary facial expression and its soft-tissue deformation, current pose/body deformation, local motion state, composition, spatial layout, support/contact points, prop placement, camera axis, and movement direction.
 3. **Priority 3 — supplementary state:** prompt text may carry only relevant state that the assigned images cannot encode reliably, such as established colors, materials, mutable clothing/body state, and lighting/exposure state. It cannot replace, reinterpret, or override identity supplied by Pictures 1/2.
 
-Picture 3 never overrides the identities in Pictures 1/2 and never becomes a third person or a drawing-style target. It cannot override facial traits, hairstyle geometry, skin tone, body proportions, or any other permanent appearance feature. Resolve conflicts in this order: **identity > geometry > supplementary text**. Preserve the person first, then the feasible continuation geometry, and adapt only lower-priority geometry or text-carried state needed to resolve the handoff. Segment 1 must not mention Picture 3, including inside this block.
+Picture 3 never overrides the identities in Pictures 1/2 and never becomes a third person or a drawing-style target. It may influence temporary expression, pose deformation, and local motion state, but it cannot redefine permanent facial identity, identity-specific facial structure, hairstyle geometry, skin tone, body proportions, or any other permanent appearance feature. Resolve conflicts in this order: **identity > geometry > supplementary text**. Preserve the person first, then the feasible continuation geometry, and adapt only lower-priority geometry or text-carried state needed to resolve the handoff. Segment 1 must not mention Picture 3, including inside this block.
 
 ### Identity Preservation Contract
 
@@ -143,8 +143,8 @@ Allow only physically natural secondary motion: hair ends may swing, a small num
 
 Split continuity authority into three layers:
 
-1. Permanent identity references control facial identity and stable identity-critical appearance.
-2. `<Picture 3>` controls opening geometry: composition, body positions, pose, contact points, prop placement, camera axis, and visible action phase.
+1. Permanent identity references control facial identity, hairstyle geometry, and stable identity-critical appearance.
+2. `<Picture 3>` controls transient opening state: composition, body positions, temporary expression/soft-tissue deformation, pose/body deformation, contact points, prop placement, camera axis, local motion state, and visible action phase.
 3. Prompt text carries relevant non-geometric mutable state that lineart cannot reliably preserve: colors, garment identity/layers, wearing or fastening state, footwear state, changed prop state, established material/color palette, and lighting/exposure state.
 
 ### State Continuity Tracking
@@ -420,7 +420,7 @@ Before delivery, verify:
 - each requested emotion or intensity in the affected execution Shots is grounded in concrete observable actions, with relevant direction, range, rhythm, and physical reactions; adjectives alone do not satisfy this check;
 - a revision prompt begins from the accepted actual tail when available; initial tail-lineart JSON defers opening geometry to Picture 3 and derives text-carried state only from an explicitly completed planned prior end state, without presenting that plan as observed evidence;
 - every default tail-lineart segment contains exactly one `Reference Priority:`, one `Character Identity Lock:`, and one `Continuity State Lock:` before `[Shot 1]`, and no separate initial-state prose profile remains;
-- Pictures 1/2 remain Priority 1 for identity; Picture 3 is Priority 2 and controls only the inherited opening action, spatial, pose, contact, camera-axis, and movement state;
+- Pictures 1/2 remain Priority 1 for permanent identity and hairstyle; Picture 3 is Priority 2 and controls only inherited temporary expression/soft-tissue deformation, opening pose/body deformation, local motion, spatial, contact, camera-axis, and movement state;
 - every referenced character retains facial proportions, eye shape/spacing/gaze traits, nose/lips/jaw, skin tone/distinctive features, height ratio, shoulder width, build silhouette, apparent adult age, and identity across angles and segments;
 - every visible identity-specific detail from Pictures 1/2, including natural asymmetry, characteristic skin features, distinctive feature geometry, natural proportions and hairstyle texture, remains recognizable without generic beautification or influencer-face normalization;
 - hairstyle color, length, density, part, bangs/fringe, tied/loose state, silhouette, volume distribution, and face-framing locks remain stable while only natural end/strand/gravity motion varies;
