@@ -72,7 +72,7 @@ If his trousers are still on, remove them now.
 Prefer a planned prior transition and a definite inherited state:
 
 ```text
-Opening State: both subjects remain in the clothing/nudity state established
+Current inherited state: both subjects remain in the clothing/nudity state established
 at the preceding accepted end state. The required garment removal is already
 complete; the removed garment does not return.
 ```
