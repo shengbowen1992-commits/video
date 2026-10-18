@@ -20,8 +20,19 @@ HEADINGS = (
     "non_diegetic_music:",
 )
 
+PREMIUM_BLURAY_SENTENCE = (
+    "The image has a premium high-definition feature-film Blu-ray master appearance "
+    "with balanced cinematic exposure, natural skin tone, deep clean blacks, readable "
+    "layered shadows, smooth highlight roll-off, refined real-lens detail, restrained "
+    "fine film grain, and stable color rendering."
+)
 
-def validate_tailchain_data(data: object) -> int:
+
+def validate_tailchain_data(
+    data: object,
+    *,
+    require_premium_bluray_master: bool = False,
+) -> int:
     count = validate_data(data)
     assert isinstance(data, dict)
     segments = data["segments"]
@@ -66,25 +77,39 @@ def validate_tailchain_data(data: object) -> int:
         if "<Video 1>" in prompt:
             raise ValueError(prefix + "must not reference Video 1 in the default Plan 5 tail-lineart profile")
 
+        if require_premium_bluray_master and PREMIUM_BLURAY_SENTENCE not in prompt:
+            raise ValueError(prefix + "missing premium Blu-ray master canonical sentence")
+
     return count
 
 
-def validate(path: Path) -> int:
+def validate(path: Path, *, require_premium_bluray_master: bool = False) -> int:
     with path.open(encoding="utf-8-sig") as handle:
         data = json.load(
             handle,
             object_pairs_hook=unique_object,
             parse_constant=reject_constant,
         )
-    return validate_tailchain_data(data)
+    return validate_tailchain_data(
+        data,
+        require_premium_bluray_master=require_premium_bluray_master,
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--require-premium-bluray-master",
+        action="store_true",
+        help="require the exact default premium feature-film Blu-ray master sentence in every segment",
+    )
     parser.add_argument("path", type=Path)
     args = parser.parse_args(argv)
     try:
-        count = validate(args.path)
+        count = validate(
+            args.path,
+            require_premium_bluray_master=args.require_premium_bluray_master,
+        )
     except json.JSONDecodeError as exc:
         print(f"INVALID: JSON syntax at line {exc.lineno}, column {exc.colno}", file=sys.stderr)
         return 1
@@ -97,6 +122,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(
         f"VALID: segments={count}, static_prompt_contract=true, "
+        f"premium_bluray_master_required={str(args.require_premium_bluray_master).lower()}, "
         "semantic_continuity_validated=false, render_quality_validated=false"
     )
     return 0

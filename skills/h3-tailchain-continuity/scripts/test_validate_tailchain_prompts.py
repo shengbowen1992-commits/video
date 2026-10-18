@@ -8,7 +8,11 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from validate_tailchain_prompts import main, validate_tailchain_data
+from validate_tailchain_prompts import (
+    PREMIUM_BLURAY_SENTENCE,
+    main,
+    validate_tailchain_data,
+)
 
 
 HEADINGS = (
@@ -30,6 +34,7 @@ def prompt(index: int) -> str:
         "summary:\n[reference generation] Synthetic test prompt.\n\n"
         "retention_analysis:\nSynthetic retention.\n\n"
         "detailed_description:\n"
+        f"{PREMIUM_BLURAY_SENTENCE}\n"
         "Reference Priority:\n"
         "Priority 1: Pictures 1 and 2 control identity.\n"
         "Character Identity Lock:\n"
@@ -60,6 +65,20 @@ class TailchainPromptContractTests(unittest.TestCase):
         before = copy.deepcopy(data)
         self.assertEqual(validate_tailchain_data(data), 4)
         self.assertEqual(data, before)
+
+    def test_optional_premium_bluray_master_gate(self):
+        data = story()
+        self.assertEqual(
+            validate_tailchain_data(data, require_premium_bluray_master=True),
+            3,
+        )
+
+        data["segments"][1]["prompt"] = data["segments"][1]["prompt"].replace(
+            PREMIUM_BLURAY_SENTENCE,
+            "Synthetic alternate visual style.",
+        )
+        with self.assertRaisesRegex(ValueError, "premium Blu-ray master"):
+            validate_tailchain_data(data, require_premium_bluray_master=True)
 
     def test_segment_one_must_not_mention_picture3(self):
         data = story()
@@ -140,14 +159,14 @@ class TailchainPromptContractTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_tailchain_data(data)
 
-    def run_cli(self, text: str):
+    def run_cli(self, text: str, *extra_args: str):
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", suffix=".json", delete=False) as f:
             f.write(text)
             path = Path(f.name)
         try:
             out, err = io.StringIO(), io.StringIO()
             with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-                code = main([str(path)])
+                code = main([*extra_args, str(path)])
             self.assertEqual(path.read_bytes(), text.encode("utf-8"))
             return code, out.getvalue() + err.getvalue()
         finally:
@@ -163,7 +182,15 @@ class TailchainPromptContractTests(unittest.TestCase):
         code, output = self.run_cli(json.dumps(story(), ensure_ascii=False))
         self.assertEqual(code, 0)
         self.assertIn("static_prompt_contract=true", output)
+        self.assertIn("premium_bluray_master_required=false", output)
         self.assertIn("semantic_continuity_validated=false", output)
+
+        code, output = self.run_cli(
+            json.dumps(story(), ensure_ascii=False),
+            "--require-premium-bluray-master",
+        )
+        self.assertEqual(code, 0)
+        self.assertIn("premium_bluray_master_required=true", output)
 
 
 if __name__ == "__main__":

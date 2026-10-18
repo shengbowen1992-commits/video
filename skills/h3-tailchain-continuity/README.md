@@ -10,8 +10,9 @@
 | 第二段及以后 | 追加上一段实际最后一帧转换的线稿，始终编号 `<Picture 3>` |
 | 参考优先级 | Priority 1：Picture 1 女主身份 + Picture 2 男主身份；Priority 2：Picture 3 仅承接动作、空间、姿态和摄影机状态 |
 | 跨段承接 | Picture 3 只管几何/动作相位；每段必须写 `Reference Priority`、`Character Identity Lock` 和 `Continuity State Lock`，不再使用独立文字开场状态模块 |
+| 默认视觉 | 高清电影蓝光母版观感：场景自适应的有动机灯光、平衡电影曝光、自然肤色、干净黑位、可读暗部、柔和高光滚降、真实镜头细节、克制细颗粒和稳定色彩 |
 | 故事文件 | `story_segments.json`，每段 `raw_prompt: true`，完整六节 `prompt` |
-| 静态校验 | `validate_story_segments.py` 校验外壳；`validate_tailchain_prompts.py` 校验六节标题、三块前置约束及 Picture/Video 绑定 |
+| 静态校验 | `validate_story_segments.py` 校验外壳；`validate_tailchain_prompts.py --require-premium-bluray-master` 校验六节标题、三块前置约束、Picture/Video 绑定及默认母版标准句 |
 | 运行参数 | 分辨率、4/8 步、LoRA 开关与强度、单段时长在工作流设置，不写进故事 JSON |
 
 运行链路：单段视频 → 提取实际最后一帧 → 转线稿 → 下一段 Picture 3。不执行尾帧 2 倍超分或调色，不绑定参考视频。第三张图表达结构，人物身份仍由前两张图提供；输出保留用户要求的画风及当前颜色/服装状态，不照着线稿生成黑白画面。Ref2VA 参考图不保证逐像素首帧一致。
@@ -20,13 +21,16 @@
 
 文字不预先写死“已经坐下”等可见开场几何状态。每段在 [Shot 1] 前写 `Reference Priority:`、`Character Identity Lock:` 和 `Continuity State Lock:`：Pictures 1/2 锁定脸型、眼型、发型/发色、肤色、身材比例、成年年龄观感和角色身份；Picture 3 只锁定上一段尾帧的动作、空间、姿态、接触点、镜头轴线和运动方向。文字仅补充剧情、镜头、动作、光影、声音及线稿不能表达的非几何状态，避免重复解释参考图造成漂移。
 
-默认真人质感为 photorealistic、真实皮肤纹理、自然表情与身体运动、电影照明、自然运动模糊和高细节；排除 CGI 感、塑料/蜡像皮肤、过度磨皮和假人式动作。摄影机采用电影感真人实拍、受控真实手持、稳定轴线与顺滑有动机的转接，避免随机跳机位、不可能透视、突然无动机变焦和镜头感不一致。
+默认真人质感为 photorealistic、真实皮肤纹理、自然表情与身体运动、电影照明、自然运动模糊和高细节。默认升级为高清电影蓝光母版观感，但不强制无窗室内、白色家具或固定亮度：保留故事本身的地点、昼夜、天气、陈设、实景光源和情绪，用有动机的灯光形成平衡电影曝光、自然肤色、干净黑位、可读暗部、柔和高光滚降、真实镜头细节、克制稳定细颗粒和跨段一致色彩。排除 CGI 感、手机 HDR 感、数码锐化边、塑料/蜡像皮肤、死黑、爆高光、过度青橙/霓虹饱和及闪烁颗粒。摄影机采用电影感真人实拍、受控真实手持、稳定轴线与顺滑有动机的转接，避免随机跳机位、不可能透视、突然无动机变焦和镜头感不一致。
+
+这里的“蓝光母版”是提示词中的画面观感目标，不等于已经生成真实蓝光碟、4K、HDR、特定码率、编码或位深；这些必须在实际工作流和导出文件中另外验证。用户明确指定其他画风时，以用户风格为准并关闭默认母版句校验。
 
 唯一支持的链路为：每段固定 Picture 1 女主身份 + Picture 2 男主身份；Segment 2 起追加上一段实际尾帧转换的 Picture 3 线稿。不要切换到纯文字、彩色尾帧、视频参考或其他兼容模式。
 
 - [完整提示词规则](SKILL.md)
 - [六节 Ref2VA 正文规范](references/ref2va-prompt-contract.md)
 - [故事 JSON 结构与各方案绑定](references/story-segments-json.md)
+- [清晰度、曝光、蓝光母版观感与种子规范](references/clarity-exposure-and-seeds.md)
 - [V18 动作要求](references/v18-motion-intensity.md)
 - [分层声音规范](references/h3-sound-prompt-standard.md)
 - [成人露骨动作连续性（仅虚构成年人露骨场景启用）](references/adult-action-continuity.md)

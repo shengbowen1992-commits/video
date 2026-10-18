@@ -75,7 +75,7 @@ For the complete section-placement rules, read [ref2va-prompt-contract.md](ref2v
 
 Repeat the essential clarity/exposure sentence in every clip. Do not assume the first clip's lighting instruction will survive a long chain.
 
-Within the default production style, preserve the requested mood through artificial-light color and fixture choice while keeping the room and face bright; never introduce daylight to imply time of day. When the user explicitly overrides the bright minimal-interior style for a night or dim interior, retain that environment but add a motivated soft key or practical light on the face rather than silently turning it into daylight. Prefer `cleanly and evenly exposed face with retained highlight and shadow detail` over vague words such as `cinematic`, which can encourage crushed shadows.
+Within the default production style, preserve the requested mood, time of day and environment through motivated scene-appropriate sources. Daylight, moonlight, practicals and artificial fixtures are all valid when the scene supports them. For a night or dim interior, retain the darkness while using motivated local contrast, bounce or practical light to keep identity-critical facial structure readable rather than globally lifting the room. Prefer `readable face with retained highlight and layered shadow detail` over vague words such as `cinematic`, which can encourage crushed shadows.
 
 ## Live Action Quality Standard
 
@@ -102,21 +102,22 @@ Review every accepted Segment in motion and across its full seam interval. Prese
 
 Reject face morphing, identity drift, inconsistent skin texture, unmotivated lens-style changes, temporal flicker, frame-to-frame detail instability, or gradual rendering-style drift. A stable selected frame does not pass this gate when the moving face, hair, skin detail, lens response, or material appearance fluctuates before or after it.
 
-## Bright Windowless Minimal-Interior Gate
+## Premium Feature-Film Blu-ray Master Gate
 
 Unless the user explicitly overrides the production style, treat the following as a package-level invariant rather than an optional mood suggestion:
 
-- every scene is an enclosed interior with no visible windows, skylights, glass exterior walls, or daylight openings;
-- lighting comes only from bright, soft, even artificial fixtures and face-oriented key/fill sources, never sunlight, daylight, moonlight, or window light;
-- doors, walls, trim, cabinets, and furniture use warm white, off-white, light beige, or light neutral gray, with plain surfaces, simple lines, sparse decoration, and an uncluttered layout;
-- dark wood dominance, ornate doors, heavy furniture, saturated walls, deep shadowy corners, and busy decorative patterns are excluded unless explicitly requested;
-- the artificial-light direction, color temperature, exposure, light neutral palette, and minimalist furnishing style remain stable across every seam.
+- preserve the requested location, time of day, weather, architecture, furnishings, practical sources and mood instead of forcing one type of room or one lighting key;
+- use motivated scene-appropriate key, fill, rim and practical sources, with balanced cinematic exposure by default and readable identity-critical facial structure even in an intentional low-key scene;
+- retain natural skin tone and microtexture, rich tonal separation, deep clean blacks, readable layered shadows, smooth highlight roll-off, controlled saturation and stable white balance;
+- retain refined real-lens detail, natural microcontrast, credible depth of field and motion blur, clean edges, restrained stable fine film grain and only physically motivated subtle halation;
+- preserve light direction, contrast response, black level, highlight behavior, grain character, lens response and color rendering across every seam;
+- reject unrequested phone-HDR contrast, glossy-AI rendering, clarity halos, ringing/crunchy edges, waxy skin, crushed blacks, clipped highlights, excessive teal-orange/neon saturation, unstable grain, global bloom, haze and ghost trails.
 
-Every English execution prompt must contain this exact canonical sentence:
+Every non-overridden English execution prompt must contain this exact canonical sentence:
 
-`The setting is an enclosed windowless interior with no visible windows and no natural light. It is illuminated only by bright, soft, even artificial lighting. Doors, walls, and furniture are light-colored, plain, and minimalist.`
+`The image has a premium high-definition feature-film Blu-ray master appearance with balanced cinematic exposure, natural skin tone, deep clean blacks, readable layered shadows, smooth highlight roll-off, refined real-lens detail, restrained fine film grain, and stable color rendering.`
 
-Record the policy in the root `scene_style` object and validate it with `--require-bright-minimal-interior`. During visual QC, reject a clip before continuation when a window, daylight spill, dark heavy decor, or ornate furniture appears. Do not hide a violating literal tail by describing a sudden replacement background in the next prompt; rerender the first bad clip or obtain an explicit user override.
+Repeat the policy in every raw execution prompt and validate a default-style package with `--require-premium-bluray-master`. During visual QC, reject a clip before continuation when its exposure, black level, highlight roll-off, skin rendering, grain character or color response breaks the accepted look. Do not hide a violating literal tail with contradictory text in the next prompt; rerender the first bad clip or obtain an explicit user override. The phrase “Blu-ray master” describes a visual target only and does not prove resolution, bitrate, codec, bit depth, HDR mastering or disc authoring.
 
 ## Motion and Framing
 
@@ -156,7 +157,7 @@ When rendering or QC is authorized, inspect each clip at minimum at the opening,
 - strong haze, bloom, ghost trails, double edges, or frame-to-frame exposure pumping;
 - a final tail that is worse than the clip midpoint and unsuitable to seed the next clip.
 - an unrequested standalone face or portrait that reproduces the permanent reference's crop, pose, background, or lighting instead of the active scene.
-- a visible window, daylight or sunlight contribution, dark/heavy wall or furniture treatment, or ornate/busy decor when the bright minimal-interior contract is active.
+- an unrequested phone-HDR/glossy-AI look, oversharpening halo, waxy skin, clipped highlight, crushed unreadable black, unstable grain, excessive color cast, or other violation of the premium Blu-ray-master contract when it is active.
 - facial proportion, eye/nose/lip/jaw, height/shoulder/build or hairstyle-geometry drift from Pictures 1/2.
 - visual-style drift, physically implausible depth of field or motion blur, clipped highlight roll-off, crushed shadow layers, plastic skin, or one generic shine applied across different materials.
 

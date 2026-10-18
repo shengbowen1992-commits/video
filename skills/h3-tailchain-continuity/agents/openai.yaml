@@ -1,7 +1,7 @@
 interface:
   display_name: "H3 连续分段 JSON"
-  short_description: "生成多段 H3 JSON，并应用身份优先级、尾帧线稿承接、真人摄影质感、V18 与分层声音规范"
-  default_prompt: "Use $h3-tailchain-continuity to write photorealistic story_segments.json prompts with Picture 1/2 identity lock, Picture 3 tail-lineart continuity, stable camera/environment state, and no redundant state restatement."
+  short_description: "生成高清电影蓝光母版观感的多段 H3 JSON，并应用身份锁、尾帧线稿承接、V18 与分层声音规范"
+  default_prompt: "Use $h3-tailchain-continuity to write premium high-definition feature-film Blu-ray-master story_segments.json prompts with Picture 1/2 identity lock, Picture 3 tail-lineart continuity, motivated lighting, stable camera/environment/color state, and no redundant state restatement."
 
 policy:
   allow_implicit_invocation: true

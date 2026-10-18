@@ -90,6 +90,12 @@ non_diegetic_music:
 - 终态之后只写**正向当前状态**。例如人物已进入稳定全裸状态时，后续段直接写当前身体状态持续不变，不再逐件回顾此前脱掉的衣物。若已移除物仍真实留在当前画面中，例如衣服落在椅子或地面上，则把它作为独立场景道具记录当前位置、颜色和材质，而不是继续当作人物穿着状态。
 - `Lighting/Exposure State:` 明确已建立的光源类型、方向、软硬、色温倾向、白平衡、曝光/对比度和整体色彩风格；剧情没有明确改变时，每段都重复要求保持一致。
 
+除非用户明确指定另一种画面风格，每段英文执行提示词还必须重复下面这句默认母版观感；Picture 3 是线稿，不能替代色彩、黑位、高光、颗粒和镜头响应的文字承接：
+
+`The image has a premium high-definition feature-film Blu-ray master appearance with balanced cinematic exposure, natural skin tone, deep clean blacks, readable layered shadows, smooth highlight roll-off, refined real-lens detail, restrained fine film grain, and stable color rendering.`
+
+这句描述的是生成画面的视觉目标，不证明真实分辨率、码率、编码、位深、HDR 母版或蓝光碟制作。用户明确选择其他风格时，保留其风格，不使用该句，也不启用对应的可选校验开关。
+
 第一段用用户提供的信息和真实参考建立基线，不猜看不见的细节。第二段及以后：姿态、人物位置、接触点、相机轴线、道具位置和可见动作阶段交给 Picture 3；文字状态锁负责颜色、材质、衣服/鞋履、道具可变状态和灯光/曝光。身份图不能把剧情已改变的状态重置。
 
 已完成的一次性状态转换不因新段或切镜而再演一次；部分完成的转换必须从继承阶段继续。任何 Shot 真正改变衣服、道具、色彩或灯光状态时，在该 Shot 末尾写清** resulting state **，下一 Shot/段直接继承结果。
@@ -114,7 +120,8 @@ remaining attachment points and fabric location for any partial removal].
 Color/Material State: [established subject, garment, bedding, wall, furniture
 and important prop colors/materials that remain unchanged].
 Lighting/Exposure State: [established light type/direction/softness,
-color-temperature tendency, white balance, exposure/contrast and overall grade].
+color-temperature tendency, white balance, exposure/contrast, black level,
+highlight roll-off, grain character and overall grade].
 
 Opening Geometry: follow <Picture 3> for composition, positions, pose,
 contacts, camera axis, prop placement and visible action phase.
@@ -156,7 +163,7 @@ Continue forward without replaying completed transitions.
 
 同时维护三类创作期状态：Character State（`identity`, `appearance`, `clothing_state`, `pose_state`, `emotion_state`）、Environment State（`location`, `lighting`, `color_temperature`, `camera_position`, `background_objects`）和 Motion State（`previous_pose`, `body_direction`, `camera_axis`, `movement_direction`）。实际交付文本只写剧情、镜头、动作、光影、声音，以及线稿无法表达但确需延续的非几何状态；不要用文字重新解释 Picture 3 已经给出的开场几何。
 
-摄影机默认采用电影感真人实拍、受控且真实的手持运动、稳定轴线和顺滑有动机的转接。避免随机跳机位、不可能的透视变化、突然无动机变焦和镜头感不一致。除非用户明确要求风格化或 CGI，执行提示词加入 `photorealistic, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`，并排除 CGI 感、塑料/蜡像皮肤、过度磨皮和假人式动作。
+摄影机默认采用电影感真人实拍、受控且真实的手持运动、稳定轴线和顺滑有动机的转接。避免随机跳机位、不可能的透视变化、突然无动机变焦和镜头感不一致。除非用户明确要求风格化或 CGI，执行提示词加入 `photorealistic, real human skin texture, natural facial expression, realistic body movement, cinematic lighting, natural motion blur, high detail`；未覆盖默认风格时，再加入上面的高清电影蓝光母版标准句。排除 CGI 感、塑料/蜡像皮肤、过度磨皮、假人式动作、手机 HDR 感、锐化光晕、死黑、爆高光和不稳定颗粒。
 
 使用 `raw_prompt: true` 时，把这些规则写进每段 `prompt`，不要指望外层 `global_prompt` 或 Runner 自动补写。JSON 外层结构不变，不添加尾帧路径、图像预处理或分辨率字段。Ref2VA 用第三张图约束开场，不承诺逐像素首帧一致，也不因此自动改用 I2V。
 
@@ -179,10 +186,10 @@ python scripts/validate_story_segments.py /path/to/story_segments.json
 当前默认的方案五衍生·尾帧线稿续接还应额外运行：
 
 ```text
-python scripts/validate_tailchain_prompts.py /path/to/story_segments.json
+python scripts/validate_tailchain_prompts.py --require-premium-bluray-master /path/to/story_segments.json
 ```
 
-这个静态校验器只检查可机械确认的正文契约：六节标题恰好各一次且顺序正确、每段包含 Pictures 1/2、每段各包含一次 `Reference Priority:`、`Character Identity Lock:` 和 `Continuity State Lock:` 标记、正文不包含已移除的独立文字开场状态模块、第一段完全不提 Picture 3、第二段起必须引用 Picture 3、任何一段都不得引用 Video 1。它不会判断可变状态是否真的连续、表情/声音是否自然、动作是否重演或成片是否合格；这些仍按本 skill 的人工交付前检查和渲染 QC 处理。
+这个静态校验器只检查可机械确认的正文契约：六节标题恰好各一次且顺序正确、每段包含 Pictures 1/2、每段各包含一次 `Reference Priority:`、`Character Identity Lock:` 和 `Continuity State Lock:` 标记、正文不包含已移除的独立文字开场状态模块、第一段完全不提 Picture 3、第二段起必须引用 Picture 3、任何一段都不得引用 Video 1。加上 `--require-premium-bluray-master` 时，还会检查每段是否包含完全一致的高清电影蓝光母版标准句；只有用户明确选择其他风格时才省略该开关。它不会判断可变状态是否真的连续、表情/声音是否自然、动作是否重演、实际分辨率/编码或成片是否合格；这些仍按本 skill 的人工交付前检查、导出验证和渲染 QC 处理。
 
 正常创作仍执行原有提示词规范的交付前检查。用户限制正文检查时遵守限制，只报告已完成的结构检查，不能把它说成提示词内容审核通过。
 

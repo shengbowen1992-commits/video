@@ -1,6 +1,6 @@
 ---
 name: h3-tailchain-continuity
-description: Write and revise MiniMax H3 Ref2VA prompts and multi-segment story_segments.json files using one fixed tail-lineart continuation profile. Use for V18 motion-intensity requests (大幅度, 激情, 激烈, 高频, 更猛), six-section prompt formatting, reference retention, identity and hairstyle-geometry locking, live-action visual realism, camera continuity, two-layer sound design, audiovisual shot timing, and Picture 3 tail-lineart continuity. The only supported chain profile keeps permanent female Picture 1 and male Picture 2, plus the preceding segment's final-frame lineart as Picture 3 from segment 2 onward; retain clear faces and reproducible per-clip seeds when quality consistency is requested.
+description: Write and revise MiniMax H3 Ref2VA prompts and multi-segment story_segments.json files using one fixed tail-lineart continuation profile and a scene-flexible premium high-definition feature-film Blu-ray master visual default. Use for V18 motion-intensity requests (大幅度, 激情, 激烈, 高频, 更猛), six-section prompt formatting, reference retention, identity and hairstyle-geometry locking, live-action visual realism, camera continuity, two-layer sound design, audiovisual shot timing, and Picture 3 tail-lineart continuity. The only supported chain profile keeps permanent female Picture 1 and male Picture 2, plus the preceding segment's final-frame lineart as Picture 3 from segment 2 onward; retain clear faces and reproducible per-clip seeds when quality consistency is requested.
 ---
 
 # H3 Tailchain Continuity Prompt Writer
@@ -100,7 +100,7 @@ Face priority does not mean a detached portrait crop. Preserve enough torso, pel
 - Do not render, queue, upload, or alter a workflow unless the user separately asks.
 - Use only Plan 5 tail-lineart continuation: two permanent identity pictures in every segment, plus the preceding segment's final-frame lineart as `<Picture 3>` from segment 2 onward. The workflow extracts and converts the tail automatically. No other continuation profile is supported by this skill.
 - Unless the user explicitly requests a silhouette, obscured face, or deliberately dim treatment, default identity-critical faces to clean, bright, even exposure and clearly resolved detail without changing the requested time of day or mood.
-- Unless the user explicitly overrides this production style, place every generated scene in a bright enclosed interior with no visible windows and no natural light. Use only bright, soft, even artificial lighting, and keep doors, walls, trim, and furniture light-colored, plain, uncluttered, and minimalist.
+- Unless the user explicitly overrides the production style, give every generated scene a premium high-definition feature-film Blu-ray master appearance while preserving the requested location, time of day, weather, practical sources, production design and mood. Use motivated scene-appropriate lighting, balanced cinematic exposure, natural skin tone, deep clean blacks with readable layered shadows, smooth highlight roll-off, refined real-lens detail, restrained fine film grain and stable color rendering.
 - Default to writing a UTF-8 `story_segments.json` file, not a prose-only answer. A prompt-only response is allowed only when the user explicitly asks for one.
 
 ## Single Output Profile
@@ -221,7 +221,7 @@ Before writing or revising any Ref2VA execution prompt, read [references/ref2va-
 - For an explicit single-prompt request, output the six-section prompt without requiring a segment chain or JSON wrapper. For a chain, apply the same contract independently to every `prompt` in `story_segments.json`.
 - For shot-to-shot character continuity, use the reference's three-layer method: define identities, retain referenced appearance, then put global invariants before `[Shot 1]` and concrete state handoffs inside subsequent shots. Stable build/hair/wardrobe identity does not freeze acting poses or reverse clothing changes explicitly required by the story.
 - For a format-only edit, preserve the user's text, language, meaning, reference mapping, and timing. Normalize only authorized syntax; report missing semantic material instead of inventing it. Follow the reference's format-only procedure, including restricted-content inspection when requested.
-- Official format requirements, upstream writing recommendations, and this repository's production defaults are different. The 5–15-second sequence limit, windowless-interior policy, and identity/tail layout are repository contracts, not universal H3 syntax. Explicit user scene/style choices override the corresponding defaults.
+- Official format requirements, upstream writing recommendations, and this repository's production defaults are different. The 5–15-second sequence limit, premium Blu-ray-master visual default, and identity/tail layout are repository contracts, not universal H3 syntax. Explicit user scene/style choices override the corresponding defaults.
 - The binding is fixed: Pictures 1/2 are permanent female/male identities, and Picture 3 is reserved only for the immediately preceding accepted tail-lineart from Segment 2 onward. Do not assign two incompatible roles to any picture label.
 
 ## Minimal Input Contract
@@ -288,22 +288,24 @@ Apply this contract to every clip unless it conflicts with an explicit artistic 
 
 For a non-cyclic 10-second transition clip, use one dominant transition and reserve the final 0.75-1.0 seconds for a low-velocity continuation or stable hold with the face visible, exposure settled, and motion edges clean. This is the handoff-quality interval for the next clip, not dead time.
 
-## Bright Windowless Minimal-Interior Contract
+## Premium Feature-Film Blu-ray Master Contract
 
-Apply this scene contract to every clip unless the user explicitly overrides it:
+Apply this visual contract to every clip unless the user explicitly overrides it:
 
-- Use an enclosed interior with no visible windows, glass curtain walls, skylights, exterior openings, or daylight views. Do not introduce a window as background decoration.
-- Do not use sunlight, daylight, moonlight, window light, or any other natural-light motivation. Illuminate the scene only with bright, soft, even artificial sources such as diffused ceiling fixtures plus a soft frontal key/fill on identity-critical faces.
-- Keep the overall exposure bright and clean without clipped skin or flat overexposure. Avoid dark corners, heavy backlight, strong chiaroscuro, muddy brown grading, and deep crushed shadows.
-- Make doors, walls, trim, cabinets, tables, seating, and other visible furniture light-colored and restrained: warm white, off-white, light beige, or light neutral gray. Prefer plain surfaces, simple lines, sparse decoration, and an uncluttered minimalist layout.
-- Exclude dark wood dominance, ornate carved doors, visually heavy furniture, saturated feature walls, luxurious decorative clutter, and busy patterns unless the user explicitly requests one of them.
-- Preserve the same artificial-light direction, color temperature, palette, wall/door treatment, and furniture style across clip boundaries. A tail with a window, daylight spill, or dark heavy decor fails the handoff gate and must not be propagated.
+- Preserve the requested location, time of day, weather, architecture, furnishings, practical sources and mood. This contract does not force an interior, a bright-key scene, or one fixed palette.
+- Motivate the key, fill, rim and practical light from the scene. Default to balanced cinematic mid-key exposure while allowing story-appropriate low-key or high-key lighting; keep identity-critical faces readable without flattening the intended contrast.
+- Render natural skin tone and microtexture, rich tonal separation, deep clean blacks with readable layered shadows, smooth highlight roll-off, controlled saturation and stable white balance. Protect bright practicals and skin highlights from hard clipping.
+- Use refined real-lens detail, natural microcontrast, credible depth of field and motion blur, clean edges without digital oversharpening, restrained stable fine film grain, and only subtle controlled halation around the brightest practicals when physically motivated.
+- Preserve lighting direction, contrast response, black level, highlight behavior, grain character, lens response and color rendering across clip boundaries unless the story explicitly changes them.
+- Reject an unrequested phone-HDR or glossy-AI look, clarity halos, ringing or crunchy edges, waxy/plastic skin, crushed blacks, clipped highlights, excessive teal-orange or neon saturation, unstable/flickering grain, global bloom, haze and ghost trails.
 
-Repeat this exact sentence in every English execution prompt so the package can be validated deterministically:
+Repeat this exact sentence in every non-overridden English execution prompt so the package can be validated deterministically:
 
-`The setting is an enclosed windowless interior with no visible windows and no natural light. It is illuminated only by bright, soft, even artificial lighting. Doors, walls, and furniture are light-colored, plain, and minimalist.`
+`The image has a premium high-definition feature-film Blu-ray master appearance with balanced cinematic exposure, natural skin tone, deep clean blacks, readable layered shadows, smooth highlight roll-off, refined real-lens detail, restrained fine film grain, and stable color rendering.`
 
-Put the global environment and lighting description, including the canonical sentence, at the opening of `detailed_description` or inside `integrated_multimodal_description`, then show the visible fixture/key-light behavior in the shot. Use `retention_analysis` only for the actual environment or lighting preserved from a defined reference/tail, with its reference label and relationship marker; do not use it as a bucket for newly requested scene rules. Short exclusions such as `no windows, no daylight, no sunlight, no dark heavy furniture` may supplement the positive contract. If an actual previous tail violates this contract, do not make the window or light source disappear at frame 1; stop and rerender the first violating clip or request an explicit style override.
+Put the global mastering target, including the canonical sentence, at the opening of `detailed_description` or inside `integrated_multimodal_description`, then describe the shot's motivated visible light sources and scene-specific contrast. Use `retention_analysis` only for actual lighting, exposure or color behavior preserved from a defined reference/tail, with its reference label and relationship marker; do not use it as a bucket for a newly requested grade. Because Picture 3 is lineart, repeat the current lighting/exposure/color state and the canonical sentence in every applicable segment. If an accepted tail visibly departs from the intended master look, do not hide the mismatch with contradictory text in the next prompt; rerender the first violating clip or obtain an explicit style override.
+
+This is a generation-time visual target, not proof of actual Blu-ray authoring, 4K resolution, bitrate, codec, bit depth, HDR mastering or disc delivery. Those remain workflow/export properties and must be verified separately when rendering is requested.
 
 ## Seed Policy
 
@@ -413,7 +415,7 @@ When the user separately requests rendering or QC, inspect every clip at its ope
 
 ## Delivery
 
-Write the finished JSON to the user-specified directory. If no directory is supplied, create a clearly named project folder under the active video workspace. Always save `story_segments.json` and run `python scripts/validate_story_segments.py PATH_TO_JSON`; this checks only the envelope. Also run `python scripts/validate_tailchain_prompts.py PATH_TO_JSON`; this statically checks the six-section heading order, the fixed Picture 1/2/3 lineart binding contract, the absence of video references and the removed initial-state prose profile, plus the required per-segment `Reference Priority:`, `Character Identity Lock:`, and `Continuity State Lock:` markers. It does not validate semantic continuity, mutable-state correctness, sound/expression quality, or render quality. Return the clickable file path, segment count, planned ordered durations and total, and the accurately scoped validation result. Runtime timing must be supplied separately. Do not ask the user to choose LoRA/native or a launcher, and do not paste the full JSON into chat unless the user asks to preview it.
+Write the finished JSON to the user-specified directory. If no directory is supplied, create a clearly named project folder under the active video workspace. Always save `story_segments.json` and run `python scripts/validate_story_segments.py PATH_TO_JSON`; this checks only the envelope. Also run `python scripts/validate_tailchain_prompts.py --require-premium-bluray-master PATH_TO_JSON` for a non-overridden default-style package; this statically checks the six-section heading order, the fixed Picture 1/2/3 lineart binding contract, the absence of video references and the removed initial-state prose profile, the required per-segment `Reference Priority:`, `Character Identity Lock:`, and `Continuity State Lock:` markers, plus the exact canonical Blu-ray-master sentence. Omit the optional style flag only when the user explicitly chose a different visual treatment. The validator does not validate semantic continuity, mutable-state correctness, sound/expression quality, actual resolution/encoding, or render quality. Return the clickable file path, segment count, planned ordered durations and total, and the accurately scoped validation result. Runtime timing must be supplied separately. Do not ask the user to choose LoRA/native or a launcher, and do not paste the full JSON into chat unless the user asks to preview it.
 
 Before delivery, verify:
 
@@ -447,8 +449,8 @@ Before delivery, verify:
 - the permanent identity reference is explicitly identity-only and cannot take over pose, crop, background, lighting, or standalone framing.
 - no unrequested `face-only`, isolated portrait, or other-subject-fully-out-of-frame instruction can cause a reference-like face insert.
 - every identity-critical clip carries the clear-face exposure contract unless the user explicitly requested a conflicting visual treatment.
-- every non-overridden segment carries the canonical windowless, artificial-light-only, light-colored minimalist-interior contract.
-- no actual or planned handoff tail contains a visible window, natural-light spill, dark wall/door treatment, or heavy ornate furniture that would be propagated into the next clip.
+- every non-overridden segment carries the canonical premium high-definition feature-film Blu-ray master sentence and a scene-motivated lighting description.
+- no actual or planned handoff tail contains unrequested phone-HDR contrast, clipped highlights, crushed unreadable blacks, oversharpening halos, waxy skin, unstable grain, excessive color cast, or a mastering/look discontinuity that would be propagated into the next clip.
 - when deterministic seeds are active, every clip has one recorded valid seed and the resolved ordered seed list is reported.
 - Ref2VA prompts keep permanent face identity and previous-tail geometry on separate, correctly typed references; Segment 1 contains no Picture 3 reference anywhere, while every continuation uses Picture 3 only for structural opening geometry/action phase and keeps Pictures 1/2 as identities. `Continuity State Lock:` carries relevant colors and mutable non-geometric state. No video reference is permitted.
 - every persistent subject already visible in the previous tail keeps the same stable ID, instance count, and screen-side assignment; no existing subject is reintroduced as a new arrival.
